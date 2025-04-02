@@ -8,6 +8,8 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
+    --color-alpha: #2750a4;
+    --color-beta: #fd5f90;
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 
@@ -24,10 +26,10 @@
     --color-popover: var(--popover);
     --color-popover-foreground: var(--popover-foreground);
 
-    --color-primary: var(--primary);
+    --color-primary: #2750a4;
     --color-primary-foreground: var(--primary-foreground);
 
-    --color-secondary: var(--secondary);
+    --color-secondary: #fd5f90;
     --color-secondary-foreground: var(--secondary-foreground);
 
     --color-muted: var(--muted);
