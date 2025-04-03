@@ -6,7 +6,7 @@ export default function UserLayout({ children }) {
 
     return (
 
-        <div>
+        <div >
             <Navbar />
             {children}
         </div>
