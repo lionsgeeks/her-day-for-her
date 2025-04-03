@@ -3,7 +3,7 @@
 import { Calendar, MapPin, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-// import { RegistrationModal } from "@/components/registration-modal"
+import { RegistrationModal } from "@/components/registration-modal"
 import { motion } from "framer-motion"
 
 export default function HeroSection() {
@@ -11,7 +11,7 @@ export default function HeroSection() {
     <section className="relative lg:px-24 px-12 text-center lg:text-start min-h-screen flex items-center">
       <div className="absolute inset-0 z-0">
         <img src="https://cdn.discordapp.com/attachments/1234855161869111406/1357301919378313407/image.png?ex=67efb56b&is=67ee63eb&hm=4edf76c0c0ea87526e5447f0e4c4c2dcb6c8c28a3b4d0bf24d3ed1406d60532f&"  alt="Conference" fill className="object-cover w-full h-full" priority />
-        <div className="absolute inset-0 bg-gradient-to-tr from-alpha/90 to-[#fd5f90]/70"></div>
+        <div className="absolute inset-0 bg-gradient-to-tl from-alpha/90 to-[#fd5f90]/70"></div>
       </div>
 
       <div className=" relative z-10 py-24 md:py-0">
@@ -45,7 +45,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 pt-2 md:pt-4"
           >
-            {/* <RegistrationModal /> */}
+            <RegistrationModal />
             <Button size="lg" variant="outline" className="border-none text-white bg-alpha hover:bg-white/10">
               Explore Program
             </Button>
