@@ -13,6 +13,15 @@ return new class extends Migration
     {
         Schema::create('editions', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('year');
+            $table->text('description');
+            $table->date('date');
+            $table->string('google_map_url');
+            $table->string('city');
+            $table->string('country');
+            $table->string('venue');
+            $table->boolean('is_active');
             $table->timestamps();
         });
     }

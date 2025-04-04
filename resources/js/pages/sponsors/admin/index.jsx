@@ -240,7 +240,7 @@ export default function SponsorsPage() {
                 isOpen={deleteModalOpen}
                 onClose={() => setDeleteModalOpen(false)}
                 onConfirm={confirmDelete}
-                title="Delete Speaker"
+                title="Delete Sponsor"
                 message="Are you sure you want to delete this speaker? This action cannot be undone."
                 confirmText="Delete"
                 type="danger"

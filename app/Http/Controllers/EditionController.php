@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Edition;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class EditionController extends Controller
 {
@@ -12,7 +13,9 @@ class EditionController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('editions/admin/index', [
+            'editions' => Edition::all(),
+        ]);
     }
 
     /**
@@ -20,7 +23,8 @@ class EditionController extends Controller
      */
     public function create()
     {
-        //
+
+        return Inertia::render('editions/admin/create');
     }
 
     /**
@@ -28,7 +32,30 @@ class EditionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'year' => 'required',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'google_map_url' => 'required|string',
+            'city' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'venue' => 'required|string|max:255',
+            'is_active' => 'boolean',
+        ]);
+        // dd($request);
+
+        Edition::create([
+            'name' => $validated['name'],
+            'year' => $validated['year'],
+            'description' => $validated['description'],
+            'date' => $validated['date'],
+            'google_map_url' => $validated['google_map_url'],
+            'city' => $validated['city'],
+            'country' => $validated['country'],
+            'venue' => $validated['venue'],
+            'is_active' => $request->has('is_active'),
+        ]);
     }
 
     /**
