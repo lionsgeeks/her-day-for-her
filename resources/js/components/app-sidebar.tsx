@@ -11,13 +11,13 @@ import Dashboard from '@/pages/dashboard';
 
 const MaindItem: NavItem[] = [
     { title: 'Dashboard', url: '/admin/dashboard', icon: LayoutGrid, },
-    { title: 'Editions', url: '/editions', icon: Calendar },
+    { title: 'Editions', url: '/admin/editions', icon: Calendar },
     { title: 'Messages', url: '/messages', icon: MessageSquare },
     { title: 'Registration', url: '/registration', icon: Users },
 ];
 const EventElement: NavItem[] = [
     { title: 'Speakers', url: '/admin/speakers', icon: Megaphone },
-    { title: 'Sponsors', url: '/sponsors', icon: ClipboardList },
+    { title: 'Sponsors', url: '/admin/sponsors', icon: ClipboardList },
     { title: 'Gallery', url: '/gallery', icon: Image },
     { title: 'Timeline', url: '/admin/timeline', icon: Calendar },
 

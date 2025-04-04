@@ -7,12 +7,13 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
-import { Link, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import { Building, Calendar, Edit, Eye, Image, MapPin, Plus, Trash2, Users } from 'lucide-react';
 import { useState } from 'react';
 
 export default function EditionsPage() {
     const { editions } = usePage().props;
+    const {delete: destroy} = useForm();
     console.log(editions)
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [selectedEdition, setSelectedEdition] = useState(null);
@@ -92,8 +93,9 @@ export default function EditionsPage() {
     };
 
     const confirmDelete = () => {
-        // In a real app, you would call your API to delete the edition
+        
         console.log(`Deleting edition ${selectedEdition}`);
+        destroy(route('editions.destroy', { edition: selectedEdition }));
         // Then update your local state or refetch data
     };
 

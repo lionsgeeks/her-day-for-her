@@ -30,50 +30,6 @@ export default function SponsorsPage() {
     // Mock data - in a real app, this would come from your API
     const editions = ['all', '2025', '2024', '2023', '2022'];
 
-    // const sponsors = [
-    //     {
-    //         id: 1,
-    //         name: 'TechCorp Global',
-    //         logo: '/placeholder.svg?height=200&width=200',
-    //         editions: ['2025', '2024', '2023'],
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'InnovateTech',
-    //         logo: '/placeholder.svg?height=200&width=200',
-    //         editions: ['2025', '2024'],
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'Future Systems',
-    //         logo: '/placeholder.svg?height=200&width=200',
-    //         editions: ['2025'],
-    //     },
-    //     {
-    //         id: 4,
-    //         name: 'Digital Innovations',
-    //         logo: '/placeholder.svg?height=200&width=200',
-    //         editions: ['2025', '2023'],
-    //     },
-    //     {
-    //         id: 5,
-    //         name: 'Tech Solutions Inc.',
-    //         logo: '/placeholder.svg?height=200&width=200',
-    //         editions: ['2025'],
-    //     },
-    //     {
-    //         id: 6,
-    //         name: 'CloudTech Partners',
-    //         logo: '/placeholder.svg?height=200&width=200',
-    //         editions: ['2025', '2024'],
-    //     },
-    //     {
-    //         id: 7,
-    //         name: 'DataSphere',
-    //         logo: '/placeholder.svg?height=200&width=200',
-    //         editions: ['2025'],
-    //     },
-    // ];
 
     const filteredSponsors = sponsors
         // .filter((sponsor) => selectedEdition === 'all' || sponsor.editions.includes(selectedEdition))
@@ -90,7 +46,9 @@ export default function SponsorsPage() {
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('sponsors.store'));
+        post(route('sponsors.store'),{
+            onFinish: () => setFormModal(false),
+        });
     };
     return (
         <AppLayout>

@@ -23,7 +23,6 @@ class EditionController extends Controller
      */
     public function create()
     {
-
         return Inertia::render('editions/admin/create');
     }
 
@@ -63,7 +62,9 @@ class EditionController extends Controller
      */
     public function show(Edition $edition)
     {
-        //
+        return Inertia::render('editions/admin/[id]/index', [
+            'edition' => $edition,
+        ]);
     }
 
     /**
@@ -71,7 +72,9 @@ class EditionController extends Controller
      */
     public function edit(Edition $edition)
     {
-        //
+        return Inertia::render('editions/admin/[id]/edit',[
+            'edition' => $edition,
+        ]);
     }
 
     /**
@@ -79,7 +82,29 @@ class EditionController extends Controller
      */
     public function update(Request $request, Edition $edition)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'year' => 'required',
+            'description' => 'required|string',
+            'date' => 'required|date',
+            'google_map_url' => 'required|string',
+            'city' => 'required|string|max:255',
+            'country' => 'required|string|max:255',
+            'venue' => 'required|string|max:255',
+            'is_active' => 'boolean',
+        ]);
+        $edition->update([
+            'name' => $validated['name'],
+            'year' => $validated['year'],
+            'description' => $validated['description'],
+            'date' => $validated['date'],
+            'google_map_url' => $validated['google_map_url'],
+            'city' => $validated['city'],
+            'country' => $validated['country'],
+            'venue' => $validated['venue'],
+            'is_active' => $request->has('is_active'),
+        ]);
+
     }
 
     /**
@@ -87,6 +112,6 @@ class EditionController extends Controller
      */
     public function destroy(Edition $edition)
     {
-        //
+        $edition->delete();
     }
 }
