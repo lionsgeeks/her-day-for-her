@@ -6,10 +6,15 @@ import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
+import { usePage } from "@inertiajs/react"
 
 export default function AboutSection() {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, amount: 0.3 })
+  let { about } = usePage().props
+
+  console.log(about);
+  
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -41,9 +46,9 @@ export default function AboutSection() {
       >
         <motion.div variants={itemVariants}>
           <img
-            src="https://store.iipbooks.com/wp-content/uploads/2023/11/1223-front-cover-page-scaled.jpg"
+            src={about.content.image}
             alt="About Her Day for Her"
-  
+
             className="rounded-lg shadow-lg h-1/5 w-full"
           />
         </motion.div>
@@ -52,33 +57,29 @@ export default function AboutSection() {
             <Badge className="text-beta">About the Conference</Badge>
           </motion.div>
           <motion.h2 variants={itemVariants} className="text-3xl text-beta md:text-4xl font-bold mt-4">
-            Celebrating Women's Achievements in Technology
+            {about.content.title}
           </motion.h2>
           <motion.p variants={itemVariants} className="text-lg text-muted-foreground mt-6">
-            Her Day for Her is more than just a conference; it's a movement dedicated to recognizing and amplifying
-            women's voices in technology and leadership roles. Since our founding in 2022, we've created a platform
-            where women can share experiences, build connections, and inspire the next generation of leaders.
+            {about.content.mainText}
           </motion.p>
           <motion.p variants={itemVariants} className="text-lg text-muted-foreground mt-4">
-            Our 2025 conference brings together industry pioneers, emerging talents, and allies for three days of
-            inspiring talks, practical workshops, and meaningful networking opportunities. We're committed to creating
-            an inclusive environment where ideas flourish and collaborations begin.
+            {about.content.secondaryText}
           </motion.p>
           <motion.div variants={containerVariants} className="grid grid-cols-2 gap-6 mt-8">
             <motion.div variants={statsVariants} className="space-y-2">
-              <div className="text-3xl font-bold text-[#fd5f90]">500+</div>
+              <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.attendees}</div>
               <p className="text-sm text-muted-foreground">Attendees from around the world</p>
             </motion.div>
             <motion.div variants={statsVariants} className="space-y-2">
-              <div className="text-3xl font-bold text-[#fd5f90]">50+</div>
+              <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.speakers}</div>
               <p className="text-sm text-muted-foreground">Expert speakers and workshop leaders</p>
             </motion.div>
             <motion.div variants={statsVariants} className="space-y-2">
-              <div className="text-3xl font-bold text-[#fd5f90]">30+</div>
+              <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.sessions}</div>
               <p className="text-sm text-muted-foreground">Sessions across multiple tracks</p>
             </motion.div>
             <motion.div variants={statsVariants} className="space-y-2">
-              <div className="text-3xl font-bold text-[#fd5f90]">3</div>
+              <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.days}</div>
               <p className="text-sm text-muted-foreground">Days of inspiration and connection</p>
             </motion.div>
           </motion.div>

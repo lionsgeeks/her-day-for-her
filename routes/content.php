@@ -9,7 +9,8 @@ use Inertia\Inertia;
 Route::middleware('auth')->prefix("admin")->group(function () {
 
     Route::get("content/hero-panel" ,[ ContentController::class , "hero"]);
-    Route::post('/content/hero/store', [ContentController::class, 'heroStore'])->name('content.hero.store');
+    Route::get("content/about-panel" ,[ ContentController::class , "about"]);
+    Route::post('/content/store', [ContentController::class, 'store'])->name('content.store');
 
 
 });

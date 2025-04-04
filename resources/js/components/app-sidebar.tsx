@@ -29,7 +29,7 @@ const mainNavItems: NavItem[] = [
 
 const contentItems: NavItem[] = [
     { title: 'Hero ', url: '/admin/content/hero-panel', icon: Calendar },
-    { title: 'About', url: '/about', icon: Megaphone },
+    { title: 'About', url: '/admin/content/about-panel', icon: Megaphone },
 
 ];
 

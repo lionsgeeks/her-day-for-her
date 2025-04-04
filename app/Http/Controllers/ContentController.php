@@ -20,7 +20,12 @@ class ContentController extends Controller
     public function hero()
     {
         $hero = Content::where("section", "hero")->first();
-        return Inertia::render("content/hero/hero-panel", ["hero" => $hero]);
+        return Inertia::render("content/hero-panel", ["hero" => $hero]);
+    }
+    public function about()
+    {
+        $about = Content::where("section", "about")->first();
+        return Inertia::render("content/about-panel", ["about" => $about]);
     }
 
     /**
@@ -31,9 +36,9 @@ class ContentController extends Controller
         //
     }
 
-    public function heroStore(Request $request)
+    public function store(Request $request)
     {
-
+        // todo : remove  uncessery image store 
         $validated = $request->validate([
             'section' => 'required|string',
             'content' => 'required',
@@ -52,16 +57,13 @@ class ContentController extends Controller
             ['content' => $contentData]
         );
 
-        return response()->json(["message" => "Hero content saved successfully"]);
+        return back();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        //
-    }
+ 
 
     /**
      * Display the specified resource.

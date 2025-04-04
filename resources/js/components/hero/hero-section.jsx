@@ -13,7 +13,6 @@ export default function HeroSection() {
 
   let heroContent = hero.content
 
-  console.table(heroContent);
 
 
   return (
@@ -45,7 +44,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-l md:text-xl lg:w-3/4 opacity-90 lg:block "
           >
-            {heroContent.dadescription}
+            {heroContent.subtitle}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 30 }}

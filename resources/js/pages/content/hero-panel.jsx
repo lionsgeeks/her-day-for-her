@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import AppLayout from "@/layouts/app-layout";
 import { Head } from "@inertiajs/react";
 import { Button } from "@/components/ui/button";
@@ -12,22 +12,24 @@ import { Card } from "@/components/ui/card";
 import { SuccessModal } from "@/components/success-modal";
 import { ImageIcon, XCircle } from "lucide-react";
 
-const breadcrumbs = [
-  { title: "Dashboard", href: "/dashboard" },
-];
+const breadcrumbs = [{ title: "Dashboard", href: "/dashboard" },];
 
 export default function HeroContentPage() {
+  const { hero } = usePage().props
+
+  console.table(hero);
+  
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(hero.content.image);
   const { data, setData, post, processing } = useForm({
     section: "hero",
     content: {
-      title: "",
-      subtitle: "",
-      date: "",
-      location: "",
-      attendees: "",
-      image: null,
+      title: hero.content.title,
+      subtitle: hero.content.subtitle,
+      date: hero.content.date,
+      location: hero.content.location,
+      attendees: hero.content.attendees,
+      image: hero.content.attendees || null,
     },
   });
 
@@ -61,14 +63,14 @@ export default function HeroContentPage() {
     let content = JSON.stringify(data.content);
 
 
-    formData.append("content",content);
+    formData.append("content", content);
     if (data.content.image) {
       formData.append("image", data.content.image);
     }
 
-    
 
-    post(route("content.hero.store"), {
+
+    post(route("content.store"), {
       data: formData,
       onSuccess: () => {
         setShowSuccessModal(true);
