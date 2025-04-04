@@ -56,7 +56,7 @@ export default function SpeakersSection({ speakers }) {
                     animate={isInView ? "visible" : "hidden"}
                     className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
                 >
-                    {
+                    {/* {
                         [1, 2, 3, 4].map((speaker, index) => (
                             <motion.div key={index} variants={speakerVariants}>
                                 <SpeakerCard
@@ -68,10 +68,10 @@ export default function SpeakersSection({ speakers }) {
                                 />
                             </motion.div>
                         ))
-                    }
+                    } */}
 
                     {/* when speakers are added to database use this */}
-                    {/* {
+                    {
                         speakers.map((speaker, index) => (
                             <motion.div key={index} variants={speakerVariants}>
                                 <SpeakerCard
@@ -83,7 +83,7 @@ export default function SpeakersSection({ speakers }) {
                                 />
                             </motion.div>
                         ))
-                    } */}
+                    }
                 </motion.div>
                 {/*
                 <motion.div

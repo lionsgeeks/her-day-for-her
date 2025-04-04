@@ -7,6 +7,7 @@ import { useForm } from "@inertiajs/react";
 export default function FramerModal({
     isOpen,
     onClose,
+    onConfirm,
     children,
 }) {
 
@@ -56,15 +57,16 @@ export default function FramerModal({
                                 {/* If children are passed, render them inside the form */}
                                 {children || (
                                     <>
-                                        <p>This is an empty Modal Component</p>
+                                        <p>This is an empty dddModal Component</p>
                                     </>
                                 )}
-
                             </div>
                         </div>
                     </motion.div>
                 </motion.div>
             )}
+
+
         </AnimatePresence>
     );
 }

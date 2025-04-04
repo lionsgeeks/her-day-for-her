@@ -6,13 +6,13 @@ import TimelineSection from "@/components/timeline/timelineSection"
 import { usePage } from "@inertiajs/react";
 
 export default function Welcome() {
-    const { speakers } = usePage().props
+    const { speakers, timelineEvents } = usePage().props
     return (
         <UserLayout>
             <HeroSection />
             <AboutSection />
             <SpeakerSection speakers={speakers} />
-            <TimelineSection />
+            <TimelineSection timelineEvents={timelineEvents} />
         </UserLayout>
     );
 }

@@ -247,6 +247,7 @@ export default function SpeakersPage() {
                             Cancel
                         </button>
                         <Button
+                            type="submit"
                             className="bg-alpha"
                         >
                             Confirm

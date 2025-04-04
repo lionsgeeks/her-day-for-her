@@ -18,10 +18,10 @@ const DashboardItem: NavItem[] = [
 ];
 const mainNavItems: NavItem[] = [
     { title: 'Editions', url: '/editions', icon: Calendar },
-    { title: 'Speakers', url: '/speakers', icon: Megaphone },
+    { title: 'Speakers', url: '/admin/speakers', icon: Megaphone },
     { title: 'Sponsors', url: '/sponsors', icon: ClipboardList },
     { title: 'Gallery', url: '/gallery', icon: Image },
-    { title: 'Timeline', url: '/timeline', icon: Calendar },
+    { title: 'Timeline', url: '/admin/timeline', icon: Calendar },
     { title: 'Messages', url: '/messages', icon: MessageSquare },
     { title: 'Registration', url: '/registration', icon: Users },
 
