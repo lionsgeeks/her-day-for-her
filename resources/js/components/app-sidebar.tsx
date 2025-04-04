@@ -30,7 +30,6 @@ const contentItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
-    const [isContentOpen, setIsContentOpen] = useState(false);
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
