@@ -5,12 +5,21 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { RegistrationModal } from "@/components/registration-modal"
 import { motion } from "framer-motion"
+import { usePage } from "@inertiajs/react"
 
 export default function HeroSection() {
+
+  const { hero } = usePage().props
+
+  let heroContent = hero.content
+
+  console.table(heroContent);
+
+
   return (
     <section className="relative lg:px-24 px-12 text-center lg:text-start min-h-screen flex items-center">
       <div className="absolute inset-0 z-0">
-        <img src="https://cdn.discordapp.com/attachments/1234855161869111406/1357301919378313407/image.png?ex=67efb56b&is=67ee63eb&hm=4edf76c0c0ea87526e5447f0e4c4c2dcb6c8c28a3b4d0bf24d3ed1406d60532f&"  alt="Conference" fill className="object-cover w-full h-full" priority />
+        <img src={heroContent.image} alt="Conference" className="object-cover w-full h-full" />
         <div className="absolute inset-0 bg-gradient-to-tl from-alpha/90 to-[#fd5f90]/70"></div>
       </div>
 
@@ -21,14 +30,14 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="max-w-3xl text-white space-y-4 md:space-y-6  w-full"
         >
-          <Badge className="bg-white text-[#03329b]">June 15-17, 2025</Badge>
+          <Badge className="bg-white text-[#03329b]">{heroContent.date}</Badge>
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
           >
-            Empowering Women in Technology
+            {heroContent.title}
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 30 }}
@@ -36,8 +45,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.6 }}
             className="text-l md:text-xl lg:w-3/4 opacity-90 lg:block "
           >
-            Join us for the annual Her Day for Her Conference celebrating women in technology, leadership, and
-            innovation.
+            {heroContent.dadescription}
           </motion.p>
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -58,15 +66,15 @@ export default function HeroSection() {
           >
             <div className="flex items-center  gap-2">
               <Calendar className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
-              <span className="text-sm md:text-base">June 15-17, 2025</span>
+              <span className="text-sm md:text-base">{heroContent.date}</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
-              <span className="text-sm md:text-base">Grand Conference Center, Paris</span>
+              <span className="text-sm md:text-base">{heroContent.location}</span>
             </div>
             <div className="flex items-center gap-2">
               <Users className="h-4 w-4 md:h-5 md:w-5 flex-shrink-0" />
-              <span className="text-sm md:text-base">500+ Attendees</span>
+              <span className="text-sm md:text-base">+{heroContent.attendees} Attendees</span>
             </div>
           </motion.div>
         </motion.div>

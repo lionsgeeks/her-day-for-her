@@ -8,8 +8,6 @@ class Content extends Model
 {
     //
 
-    protected $fillable = [
-        "type",
-        "content"
-    ];
+    protected $fillable = ["section", "content"];
+    protected $casts = ["content" => "array"];
 }

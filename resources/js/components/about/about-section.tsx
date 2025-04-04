@@ -32,7 +32,7 @@ export default function AboutSection() {
   }
 
   return (
-    <section ref={ref} className="lg:p-24 container p-12">
+    <section ref={ref} className="lg:p-24 container bg-white p-12">
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -49,9 +49,9 @@ export default function AboutSection() {
         </motion.div>
         <div>
           <motion.div variants={itemVariants}>
-            <Badge>About the Conference</Badge>
+            <Badge className="text-beta">About the Conference</Badge>
           </motion.div>
-          <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold mt-4">
+          <motion.h2 variants={itemVariants} className="text-3xl text-beta md:text-4xl font-bold mt-4">
             Celebrating Women's Achievements in Technology
           </motion.h2>
           <motion.p variants={itemVariants} className="text-lg text-muted-foreground mt-6">
