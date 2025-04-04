@@ -27,10 +27,7 @@ class SpeakerController extends Controller
         ]);
 
         $file = $request->file('image');
-        $imageName = time() . '.' . $file->getClientOriginalExtension();
         $filaName = $file->store('images/speakers', 'public');
-
-
 
 
         Speaker::create([
@@ -39,5 +36,13 @@ class SpeakerController extends Controller
             'linkedin' => $request->linked,
             'image' => $filaName,
         ]);
+    }
+
+
+    public function destroy(Speaker $speaker)
+    {
+        Storage::disk('public')->delete($speaker->image);
+        $speaker->delete();
+
     }
 }

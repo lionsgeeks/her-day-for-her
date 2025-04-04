@@ -1,17 +1,18 @@
 import { useState } from "react"
-import ConfirmationModal from "./components/confirmationModal"
+import ConfirmationModal from "@/components/confirmationModal"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, Edit, Trash2, Eye } from "lucide-react"
+import { Plus, Edit, Trash2 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { Link, usePage } from "@inertiajs/react"
+import { useForm, usePage } from "@inertiajs/react"
 import AppLayout from '@/layouts/app-layout';
-import SpeakerModal from "./components/speakerModal"
+import AdminHeader from "@/components/admin-header"
+import FramerModal from "../../components/framer-modal"
 
 export default function SpeakersPage() {
     const { speakers } = usePage().props;
-    console.log(speakers);
+    const { delete: destory } = useForm();
 
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [formModal, setFormModal] = useState(false);
@@ -38,33 +39,22 @@ export default function SpeakersPage() {
         setDeleteModalOpen(true)
     }
 
-    const handleCreate = () => {
-        setFormModal(true);
-    }
-
     const confirmDelete = () => {
-        // In a real app, you would call your API to delete the speaker
-        console.log(`Deleting speaker ${selectedSpeaker}`)
-        // Then update your local state or refetch data
+        destory(route('speakers.destroy', { speaker: selectedSpeaker }))
     }
 
-    const AdminHeader = ({ title, description, action }) => {
-        return (
-            <div className="flex flex-col md:flex-row md:items-center justify-between my-3 pb-4 border-b">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
-                    {description && <p className="mt-1 text-sm text-gray-500">{description}</p>}
-                </div>
-                {action && (
-                    <div className="mt-4 md:mt-0">
-                        <Button onClick={action.onClick} className="bg-[#03329b] hover:bg-[#03329b]/90">
-                            {action.icon && <span className="mr-2">{action.icon}</span>}
-                            {action.label}
-                        </Button>
-                    </div>
-                )}
-            </div>
-        )
+    const { data, setData, post } = useForm({
+        name: '',
+        position: '',
+        linked: '',
+        image: '',
+    });
+
+
+    const handleForm = (e) => {
+        e.preventDefault();
+        post(route('speakers.store'))
+        setFormModal(false)
     }
 
     return (
@@ -74,7 +64,7 @@ export default function SpeakersPage() {
                 description="Manage your conference speakers"
                 action={{
                     label: "Add Speaker",
-                    onClick: () => (handleCreate()),
+                    onClick: () => (setFormModal(true)),
                     icon: <Plus className="h-4 w-4" />,
                 }}
             />
@@ -141,15 +131,16 @@ export default function SpeakersPage() {
                                     {speaker.position}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
-                                    {/* edit is going to open the creation modal but this time with speaker's info */}
-                                    <Button variant="outline" size="sm" className="flex items-center">
+                                    {/* TODO edit is going to open the creation modal but this time with speaker's info */}
+                                    <Button variant="outline" size="sm" className="flex items-center cursor-pointer">
                                         <Edit className="h-4 w-4 mr-1" />
                                         Edit
                                     </Button>
+
                                     <Button
                                         variant="outline"
                                         size="sm"
-                                        className="flex items-center text-red-600 border-red-200 hover:bg-red-50"
+                                        className="flex items-center text-red-600 border-red-200 hover:bg-red-50 cursor-pointer"
                                         onClick={() => handleDelete(speaker.id)}
                                     >
                                         <Trash2 className="h-4 w-4 mr-1" />
@@ -179,10 +170,90 @@ export default function SpeakersPage() {
                 type="danger"
             />
 
-            <SpeakerModal
+
+            <FramerModal
                 isOpen={formModal}
                 onClose={() => setFormModal(false)}
-            />
+            >
+                <form onSubmit={handleForm} >
+                    {/* Speaker Image */}
+                    <div className="flex flex-col md:flex-row gap-6 mb-6">
+                        <div className="w-32 h-32 relative rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
+                            <img src={data.image ?
+                                URL.createObjectURL(data.image) :
+                                "https://thumbs.dreamstime.com/b/young-politician-woman-speaking-behind-podium-public-speaker-character-vector-illustration-isolated-white-background-94666836.jpg"}
+                                className="aspect-square object-cover"
+                                alt="speaker_person" />
+                        </div>
+                        <div className="flex-1">
+                            <h3 className="text-lg font-semibold mb-2 invisible">Current Profile Photo</h3>
+                            <div className="space-y-2">
+                                <label htmlFor="photo" className=" p-2 rounded-l-lg bg-alpha text-white">Upload New Photo
+                                </label>
+                                <Input id="photo" name="photo" type="file" accept="image/*"
+                                    className="border-2 p-1 rounded-r-lg" onChange={e => setData('image', e.target.files[0])}
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="flex flex-col gap-3">
+                        {/* Speaker Name */}
+                        <div className="flex items-start flex-col gap-2">
+                            <label htmlFor="speakerName">Speaker Name:</label>
+                            <Input
+                                type="text"
+                                name="speakerName"
+                                id="speakerName"
+                                className="border-2 rounded w-full p-1"
+                                placeholder="Speaker Name"
+                                value={data.name}
+                                onChange={(e) => { setData('name', e.target.value) }}
+                            />
+                        </div>
+
+                        {/* Speaker Position */}
+                        <div className="flex items-start flex-col gap-2">
+                            <label htmlFor="speakerPosition">Speaker Position:</label>
+                            <Input
+                                type="text"
+                                name="speakerPosition"
+                                id="speakerPosition"
+                                className="border-2 rounded w-full p-1"
+                                placeholder="Speaker Role"
+                                value={data.position}
+                                onChange={(e) => { setData('position', e.target.value) }}
+                            />
+                        </div>
+
+                        {/* Speaker LinkedIn */}
+                        <div className="flex items-start flex-col gap-2">
+                            <label htmlFor="speakerLinked">Speaker LinkedIn:</label>
+                            <Input
+                                type="url"
+                                name="speakerLinked"
+                                id="speakerLinked"
+                                className="border-2 rounded w-full p-1"
+                                placeholder="Speaker LinkedIn URL"
+                                value={data.linked}
+                                onChange={(e) => { setData('linked', e.target.value) }}
+                            />
+                        </div>
+                    </div>
+
+
+                    <div className="flex justify-end gap-3 mt-6">
+                        <button type="button" variant="outline" onClick={() => { setFormModal(false) }}>
+                            Cancel
+                        </button>
+                        <Button
+                            className="bg-alpha"
+                        >
+                            Confirm
+                        </Button>
+                    </div>
+                </form>
+            </FramerModal>
         </AppLayout>
     )
 }
