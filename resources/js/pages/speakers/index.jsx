@@ -5,14 +5,20 @@ import { Button } from "@/components/ui/button"
 import { Plus, Edit, Trash2 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { useForm, usePage } from "@inertiajs/react"
+import { Head, useForm, usePage } from "@inertiajs/react"
 import AppLayout from '@/layouts/app-layout';
 import AdminHeader from "@/components/admin-header"
 import FramerModal from "../../components/framer-modal"
 
 export default function SpeakersPage() {
     const { speakers } = usePage().props;
-    const { delete: destory } = useForm();
+    const { data, setData, post, put, delete: destory } = useForm({
+        name: '',
+        position: '',
+        linked: '',
+        image: '',
+    });
+
 
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [formModal, setFormModal] = useState(false);
@@ -23,16 +29,27 @@ export default function SpeakersPage() {
     // Mock data - in a real app, this would come from your API
     const editions = ["2025", "2024", "2023", "2022"]
 
+    const handleCreate = () => {
+        setSelectedSpeaker(null);
+        setData({
+            name: '',
+            position: '',
+            linked: '',
+            image: '',
+        })
+        setFormModal(true);
+    }
 
-    // const filteredSpeakers = speakers
-    //     .filter((speaker) => speaker.editions.includes(selectedEdition))
-    //     .filter(
-    //         (speaker) =>
-    //             searchQuery === "" ||
-    //             speaker.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //             speaker.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    //             speaker.topic.toLowerCase().includes(searchQuery.toLowerCase()),
-    //     )
+    const handleEdit = (speaker) => {
+        setSelectedSpeaker(speaker.id);
+        setData('name', speaker.name);
+        setData('position', speaker.position);
+        setData('linked', speaker.linkedin);
+        setData('image', speaker.image);
+        setFormModal(true);
+
+    }
+
 
     const handleDelete = (id) => {
         setSelectedSpeaker(id)
@@ -43,17 +60,14 @@ export default function SpeakersPage() {
         destory(route('speakers.destroy', { speaker: selectedSpeaker }))
     }
 
-    const { data, setData, post } = useForm({
-        name: '',
-        position: '',
-        linked: '',
-        image: '',
-    });
-
 
     const handleForm = (e) => {
         e.preventDefault();
-        post(route('speakers.store'))
+        if (selectedSpeaker) {
+            put(route('speakers.update', { speaker: selectedSpeaker }))
+        } else {
+            post(route('speakers.store'))
+        }
         setFormModal(false)
     }
 
@@ -64,10 +78,11 @@ export default function SpeakersPage() {
                 description="Manage your conference speakers"
                 action={{
                     label: "Add Speaker",
-                    onClick: () => (setFormModal(true)),
+                    onClick: () => { handleCreate() },
                     icon: <Plus className="h-4 w-4" />,
                 }}
             />
+            <Head title="Speakers" />
 
             <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <Select value={selectedEdition} onValueChange={setSelectedEdition}>
@@ -96,7 +111,7 @@ export default function SpeakersPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {speakers.map((speaker) => (
                     <Card key={speaker.id} className="p-6">
-                        <div className="flex flex-col md:flex-row gap-6">
+                        <div className="flex flex-row gap-6">
                             <div className="w-24 h-24 md:w-32 md:h-32 relative rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
                                 <img src={'http://127.0.0.1:8000/storage/' + speaker.image}
                                     className="w-full h-full object-cover"
@@ -131,8 +146,9 @@ export default function SpeakersPage() {
                                     {speaker.position}
                                 </p>
                                 <div className="flex flex-wrap gap-2">
-                                    {/* TODO edit is going to open the creation modal but this time with speaker's info */}
-                                    <Button variant="outline" size="sm" className="flex items-center cursor-pointer">
+                                    <Button variant="outline" size="sm" className="flex items-center cursor-pointer"
+                                        onClick={() => handleEdit(speaker)}
+                                    >
                                         <Edit className="h-4 w-4 mr-1" />
                                         Edit
                                     </Button>
@@ -153,6 +169,7 @@ export default function SpeakersPage() {
                 ))}
             </div>
 
+            {/* If there are no speakers */}
             {speakers.length === 0 && (
                 <div className="text-center py-12">
                     <h3 className="text-lg font-medium text-gray-900 mb-2">No speakers found</h3>
@@ -160,6 +177,7 @@ export default function SpeakersPage() {
                 </div>
             )}
 
+            {/* Modal for confirm Delete */}
             <ConfirmationModal
                 isOpen={deleteModalOpen}
                 onClose={() => setDeleteModalOpen(false)}
@@ -171,29 +189,33 @@ export default function SpeakersPage() {
             />
 
 
+            {/* Create/Edit Modal Form */}
             <FramerModal
                 isOpen={formModal}
                 onClose={() => setFormModal(false)}
             >
-                <form onSubmit={handleForm} >
+                <form onSubmit={handleForm} className="p-2">
                     {/* Speaker Image */}
-                    <div className="flex flex-col md:flex-row gap-6 mb-6">
+                    <div className="flex items-center md:flex-row gap-6 mb-6">
                         <div className="w-32 h-32 relative rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
-                            <img src={data.image ?
-                                URL.createObjectURL(data.image) :
-                                "https://thumbs.dreamstime.com/b/young-politician-woman-speaking-behind-podium-public-speaker-character-vector-illustration-isolated-white-background-94666836.jpg"}
-                                className="aspect-square object-cover"
-                                alt="speaker_person" />
+                            {
+                                selectedSpeaker ?
+                                    <img src={typeof (data.image) == 'string' ? 'http://127.0.0.1:8000/storage/' + data.image : URL.createObjectURL(data.image)}
+                                        className="aspect-square object-cover"
+                                        alt={data.name}
+                                    />
+                                    :
+                                    <img src={data.image ?
+                                        URL.createObjectURL(data.image) :
+                                        "https://thumbs.dreamstime.com/b/young-politician-woman-speaking-behind-podium-public-speaker-character-vector-illustration-isolated-white-background-94666836.jpg"}
+                                        className="aspect-square object-cover"
+                                        alt="speaker_person" />
+                            }
                         </div>
-                        <div className="flex-1">
-                            <h3 className="text-lg font-semibold mb-2 invisible">Current Profile Photo</h3>
-                            <div className="space-y-2">
-                                <label htmlFor="photo" className=" p-2 rounded-l-lg bg-alpha text-white">Upload New Photo
-                                </label>
-                                <Input id="photo" name="photo" type="file" accept="image/*"
-                                    className="border-2 p-1 rounded-r-lg" onChange={e => setData('image', e.target.files[0])}
-                                />
-                            </div>
+                        <div className="space-y-2 flex items-center ">
+                            <input id="photo" name="photo" type="file" accept="image/*"
+                                className="border-2 rounded p-1" onChange={e => setData('image', e.target.files[0])}
+                            />
                         </div>
                     </div>
 
@@ -208,6 +230,7 @@ export default function SpeakersPage() {
                                 className="border-2 rounded w-full p-1"
                                 placeholder="Speaker Name"
                                 value={data.name}
+                                required
                                 onChange={(e) => { setData('name', e.target.value) }}
                             />
                         </div>
@@ -222,6 +245,7 @@ export default function SpeakersPage() {
                                 className="border-2 rounded w-full p-1"
                                 placeholder="Speaker Role"
                                 value={data.position}
+                                required
                                 onChange={(e) => { setData('position', e.target.value) }}
                             />
                         </div>
@@ -236,6 +260,7 @@ export default function SpeakersPage() {
                                 className="border-2 rounded w-full p-1"
                                 placeholder="Speaker LinkedIn URL"
                                 value={data.linked}
+                                required
                                 onChange={(e) => { setData('linked', e.target.value) }}
                             />
                         </div>
@@ -243,12 +268,12 @@ export default function SpeakersPage() {
 
 
                     <div className="flex justify-end gap-3 mt-6">
-                        <button type="button" variant="outline" onClick={() => { setFormModal(false) }}>
+                        <Button type="button" variant="outline" className="cursor-pointer" onClick={() => { setFormModal(false) }}>
                             Cancel
-                        </button>
+                        </Button>
                         <Button
                             type="submit"
-                            className="bg-alpha"
+                            className="bg-alpha cursor-pointer"
                         >
                             Confirm
                         </Button>

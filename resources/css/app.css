@@ -10,6 +10,15 @@
 @theme {
     --color-alpha: #050551;
     --color-beta: #ff48e5;
+    /* colors from v0 */
+    --color-fun-yellow: #FFD166;
+    --color-fun-orange: #FF9F1C;
+    --color-fun-pink: #FF70A6;
+    --color-fun-purple: #9B5DE5;
+    --color-fun-blue: #00BBF9;
+    --color-fun-green: #00F5D4;
+    --color-fun-red: #FF5C5C;
+
     --font-sans:
         'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 

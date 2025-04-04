@@ -10,7 +10,11 @@ Route::get('/', function () {
     $hero = Content::where("section", "hero")->first();
     $about = Content::where("section", "about")->first();
     $speakers = Speaker::all();
-    $timelineEvents = Timeline::all();
+    // Sort the events by their starting time..TODO take into consideration multiple days
+    $timelineEvents = Timeline::all()->sortBy(function($timeline) {
+        return \Carbon\Carbon::createFromFormat('H:i', $timeline->startTime);
+    })->values()->toArray();
+
     return Inertia::render('welcome', [
         'speakers' => $speakers,
         'timelineEvents' => $timelineEvents,

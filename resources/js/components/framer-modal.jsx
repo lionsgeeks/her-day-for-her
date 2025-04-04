@@ -1,13 +1,10 @@
 import { useEffect } from "react";
 import { X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Button } from "@/components/ui/button";
-import { useForm } from "@inertiajs/react";
 
 export default function FramerModal({
     isOpen,
     onClose,
-    onConfirm,
     children,
 }) {
 
@@ -34,7 +31,7 @@ export default function FramerModal({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center"
                     onClick={onClose}
                 >
                     <motion.div
@@ -45,7 +42,7 @@ export default function FramerModal({
                         className="bg-white rounded-lg shadow-xl overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="relative p-6">
+                        <div className="relative p-2">
                             <button
                                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
                                 onClick={onClose}
@@ -53,11 +50,11 @@ export default function FramerModal({
                                 <X className="h-5 w-5" />
                             </button>
 
-                            <div className="flex flex-col items-center text-center">
-                                {/* If children are passed, render them inside the form */}
+                            <div className="">
+
                                 {children || (
                                     <>
-                                        <p>This is an empty dddModal Component</p>
+                                        <p>This is an empty Modal Component</p>
                                     </>
                                 )}
                             </div>

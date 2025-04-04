@@ -1,6 +1,4 @@
-import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
@@ -40,9 +38,9 @@ export default function SpeakersSection({ speakers }) {
                     className="flex flex-col items-center text-center mb-12"
                 >
                     <motion.div variants={itemVariants}>
-                        <Badge className="mb-4">Featured Speakers</Badge>
+                        <Badge className="mb-4 text-white rounded-full bg-blue-800">Featured Speakers</Badge>
                     </motion.div>
-                    <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold mb-4">
+                    <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold mb-4 text-black">
                         Meet Our Speakers
                     </motion.h2>
                     <motion.p variants={itemVariants} className="text-muted-foreground max-w-2xl">

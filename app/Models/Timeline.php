@@ -13,8 +13,10 @@ class Timeline extends Model
         'date',
         'startTime',
         'endTime',
+        'description',
+        'icon',
         'edition'
     ];
 
-    
+
 }

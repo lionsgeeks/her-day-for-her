@@ -1,4 +1,3 @@
-// import Image from "next/image"
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
 import { Star, Heart, Sparkles } from "lucide-react"
@@ -8,21 +7,20 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
     // Generate a random color scheme for each speaker card
     const colorSchemes = [
         {
-            bg: "from-beta to-purple-600",
-            accent: "bg-yellow-600",
-            text: "text-yellow-600",
-            border: "border-yellow-600",
+            bg: "from-fun-pink to-fun-purple",
+            accent: "bg-fun-yellow",
+            text: "text-fun-yellow",
+            border: "border-fun-yellow",
         },
-        { bg: "from-purple-600 to-blue-600", accent: "bg-beta", text: "text-beta", border: "border-beta" },
-        { bg: "from-blue-600 to-green-600", accent: "bg-purple-600", text: "text-purple-600", border: "border-purple-600" },
-        { bg: "from-green-600 to-yellow-600", accent: "bg-blue-600", text: "text-blue-600", border: "border-blue-600" },
-        { bg: "from-yellow-600 to-orange-600", accent: "bg-green-600", text: "text-green-600", border: "border-green-600" },
-        { bg: "from-orange-600 to-red-600", accent: "bg-yellow-600", text: "text-yellow-600", border: "border-yellow-600" },
+        { bg: "from-fun-purple to-fun-blue", accent: "bg-fun-pink", text: "text-fun-pink", border: "border-fun-pink" },
+        { bg: "from-fun-blue to-fun-green", accent: "bg-fun-purple", text: "text-fun-purple", border: "border-fun-purple" },
+        { bg: "from-fun-green to-fun-yellow", accent: "bg-fun-blue", text: "text-fun-blue", border: "border-fun-blue" },
+        { bg: "from-fun-yellow to-fun-orange", accent: "bg-fun-green", text: "text-fun-green", border: "border-fun-green" },
+        { bg: "from-fun-orange to-fun-red", accent: "bg-fun-yellow", text: "text-fun-yellow", border: "border-fun-yellow" },
     ]
 
-    // Use a hash of the name to consistently get the same color for the same speaker
-    const colorIndex = name.split("").reduce((acc, char) => acc + char.charCodeAt(0), 0) % colorSchemes.length
-    const colorScheme = colorSchemes[colorIndex]
+    // get a random color based on index
+    const colorScheme = colorSchemes[index % 6]
 
     // Random icon for each speaker
     const icons = [
@@ -48,7 +46,7 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
 
                         {/* Colorful overlay on hover */}
                         <div
-                            className={`absolute inset-0 bg-gradient-to-t transition-opacity flex items-end p-6`}
+                            className={`absolute inset-0 bg-gradient-to-t  transition-opacity flex items-end p-6`}
                         >
                             <div className="text-white opacity-100">
                                 <p className="font-bold mb-2 flex items-center">

@@ -38,6 +38,29 @@ class SpeakerController extends Controller
         ]);
     }
 
+    public function update(Request $request, Speaker $speaker)
+    {
+        $request->validate([
+            'name' => 'required',
+            'position' => 'required',
+            'linked' => 'required',
+            'image' => 'required',
+        ]);
+
+        // TODO if image changed or same
+        // if ($request->image === $speaker->image) {
+        //     dd('same image');
+        // } else {
+        //     dd('changing image');
+        // }
+        $speaker->update([
+            'name' => $request->name,
+            'position' => $request->position,
+            'linkedin' => $request->linked,
+        ]);
+
+    }
+
 
     public function destroy(Speaker $speaker)
     {
