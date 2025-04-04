@@ -36,3 +36,5 @@ require __DIR__.'/speakers.php';
 require __DIR__.'/timeline.php';
 require __DIR__.'/sponsors.php';
 require __DIR__.'/editions.php';
+require __DIR__.'/contact.php';
+
