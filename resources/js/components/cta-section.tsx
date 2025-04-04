@@ -10,7 +10,7 @@ export function CtaSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 })
 
   return (
-    <section ref={ref} className="py-16 bg-alpha">
+    <section ref={ref} className="py-16 px-12 bg-alpha">
       <div className="container text-center text-white">
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
