@@ -5,6 +5,7 @@ import SpeakerSection from "@/components/speakers/speakerSection"
 import TimelineSection from "@/components/timeline/timelineSection"
 import { usePage } from "@inertiajs/react";
 import { Footer } from "@/components/footer";
+import { CtaSection } from "@/components/cta-section";
 
 export default function Welcome() {
     const { speakers, timelineEvents } = usePage().props
@@ -14,6 +15,8 @@ export default function Welcome() {
             <AboutSection />
             <SpeakerSection speakers={speakers} />
             <TimelineSection timelineEvents={timelineEvents} />
+
+            <CtaSection />
 
             <Footer />
         </UserLayout>
