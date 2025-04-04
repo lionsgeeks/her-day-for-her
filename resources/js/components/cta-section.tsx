@@ -1,6 +1,6 @@
 "use client"
 
-import { RegistrationModal } from "@/components/registration-modal"
+import { RegistrationModal } from "@/components/registrations/registration-modal"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
