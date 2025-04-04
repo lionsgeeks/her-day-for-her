@@ -41,7 +41,7 @@ export default function Navbar() {
                 >
                     <Link href="/" className="flex items-center gap-2">
                         <AppLogoIcon className="w-5" />
-                        <span className={`text-xl font-bold ${scrolled ? "text-[#03329b]" : "text-white"}`}>Her Day for Her</span>
+                        <span className={`text-xl font-bold lg:block hidden ${scrolled ? "text-[#03329b]" : "text-white"}`}>Her Day for Her</span>
                     </Link>
                 </motion.div>
 
