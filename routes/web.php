@@ -34,3 +34,4 @@ require __DIR__.'/content.php';
 require __DIR__.'/auth.php';
 require __DIR__.'/speakers.php';
 require __DIR__.'/timeline.php';
+require __DIR__.'/sponsors.php';
