@@ -83,11 +83,7 @@ export default function AboutSection() {
               <p className="text-sm text-muted-foreground">Days of inspiration and connection</p>
             </motion.div>
           </motion.div>
-          <motion.div variants={itemVariants}>
-            <Button className="bg-[#03329b] hover:bg-[#03329b]/90 mt-8">
-              Learn More <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </motion.div>
+
         </div>
       </motion.div>
     </section>
