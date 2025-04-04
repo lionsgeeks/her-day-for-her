@@ -9,21 +9,17 @@ import AppLogo from './app-logo';
 import { useState } from 'react';
 import Dashboard from '@/pages/dashboard';
 
-const DashboardItem: NavItem[] = [
-    {
-        title: 'Dashboard',
-        url: '/dashboard',
-        icon: LayoutGrid,
-    },
-];
-const mainNavItems: NavItem[] = [
+const MaindItem: NavItem[] = [
+    { title: 'Dashboard', url: '/admin/dashboard', icon: LayoutGrid, },
     { title: 'Editions', url: '/editions', icon: Calendar },
+    { title: 'Messages', url: '/messages', icon: MessageSquare },
+    { title: 'Registration', url: '/registration', icon: Users },
+];
+const EventElement: NavItem[] = [
     { title: 'Speakers', url: '/admin/speakers', icon: Megaphone },
     { title: 'Sponsors', url: '/sponsors', icon: ClipboardList },
     { title: 'Gallery', url: '/gallery', icon: Image },
     { title: 'Timeline', url: '/admin/timeline', icon: Calendar },
-    { title: 'Messages', url: '/messages', icon: MessageSquare },
-    { title: 'Registration', url: '/registration', icon: Users },
 
 ];
 
@@ -50,39 +46,15 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <SidebarGroupLabel className='text-white' color='white'>Platform</SidebarGroupLabel>
 
-                <NavMain items={DashboardItem} />
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton
-                            onClick={() => setIsContentOpen(!isContentOpen)}
-                            className="flex items-center justify-between"
-                        >
-                            <span className="flex items-center gap-2 px-1.5 text-white">
-                                <ClipboardList color='#ff48e5' className="w-4" />
-                                Content
-                            </span>
-                            <ChevronDown color='#ff48e5' className={`w-4 h-4 transition-transform ${isContentOpen ? 'rotate-180' : ''}`} />
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    {isContentOpen && (
-                        <div className="ml-6">
-                            {contentItems.map((item, index) => (
-                                <SidebarMenuItem key={index}>
-                                    <SidebarMenuButton asChild>
-                                        <Link href={item.url} className="flex items-center gap-2 text-white">
-                                            {/* <item.icon className="w-5 h-5" /> */}
-                                            {item.title}
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </div>
-                    )}
-                </SidebarMenu>
+                <SidebarGroupLabel className='px-5' color='white'>Main</SidebarGroupLabel>
+                <NavMain items={MaindItem} />
 
-                <NavMain items={mainNavItems} />
+                <SidebarGroupLabel className='px-5' color='white'>Content</SidebarGroupLabel>
+                <NavMain items={contentItems} />
+
+                <SidebarGroupLabel className='px-5' color='white'>Event Elements</SidebarGroupLabel>
+                <NavMain items={EventElement} />
 
             </SidebarContent>
 
