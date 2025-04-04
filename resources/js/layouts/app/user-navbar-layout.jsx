@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 // import { LanguageSwitcher } from "@/components/language-switcher"
-import { RegistrationModal } from "@/components/registration-modal"
+import { RegistrationModal } from "@/components/registrations/registration-modal"
 import { Menu } from "lucide-react"
 import { motion } from "framer-motion"
 import { Link } from "@inertiajs/react"
