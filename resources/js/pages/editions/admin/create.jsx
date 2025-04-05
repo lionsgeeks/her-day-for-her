@@ -10,10 +10,11 @@ import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 // import Link from "next/link"
 import AppLayout from '@/layouts/app-layout';
-import { Link, useForm } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
+import AssignSponsors from '../../../components/assign-sponsors';
 
 export default function CreateEditionPage() {
-    const {data, setData, progress, post} = useForm({
+    const { data, setData, progress, post } = useForm({
         name: '',
         year: new Date().getFullYear() + 1,
         // theme: '',
@@ -27,9 +28,15 @@ export default function CreateEditionPage() {
         country: '',
         venue: '',
         isActive: true,
+        selectedSponsors: [],
     });
-
+    const { sponsors } = usePage().props;
     const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [selectedSponsors, setSelectedSponsors] = useState([]);
+    const updateSelectedSponsors = (sponsors) => {
+        setSelectedSponsors(sponsors);
+        setData((prev) => ({ ...prev, selectedSponsors: sponsors.map(s => s.id) }));
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -43,11 +50,28 @@ export default function CreateEditionPage() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('editions.store'))
+        post(route('editions.store'), {
+            onSuccess: () => setShowSuccessModal(true),
+            onFinish: () => {
+                setData({
+                    name: '',
+                    year: new Date().getFullYear() + 1,
+                    // theme: '',
+                    description: '',
+                    date: '',
+                    // endDate: '',
+                    google_map_url: '',
+                    city: '',
+                    country: '',
+                    venue: '',
+                    isActive: true,
+                    selectedSponsors: [],
+                });
+            },
+        });
         // In a real app, you would submit the form data to your API
         console.log('Form submitted:', data);
         // Show success modal
-        setShowSuccessModal(true);
     };
 
     return (
@@ -64,14 +88,7 @@ export default function CreateEditionPage() {
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div className="space-y-2">
                             <Label htmlFor="name">Edition Name</Label>
-                            <Input
-                                id="name"
-                                name="name"
-                                value={data.name}
-                                onChange={handleChange}
-                                placeholder="e.g. Her Day for Her 2025"
-                                required
-                            />
+                            <Input id="name" name="name" value={data.name} onChange={handleChange} placeholder="e.g. Her Day for Her 2025" required />
                         </div>
 
                         <div className="space-y-2">
@@ -180,6 +197,7 @@ export default function CreateEditionPage() {
                             Set as active edition
                         </label>
                     </div>
+                    <AssignSponsors sponsors={sponsors} selectedSponsors={selectedSponsors} setSelectedSponsors={updateSelectedSponsors} />
 
                     <div className="flex justify-end">
                         <Button type="submit" className="bg-[#03329b] hover:bg-[#03329b]/90">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Edition;
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -18,11 +19,9 @@ class SponsorController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'logo' => 'required|image|max:2048',
-            // 'edition_id' => 'required',
         ]);
         $logoPath = null;
         if ($request->hasFile('logo')) {
@@ -31,9 +30,11 @@ class SponsorController extends Controller
         $sponsor = Sponsor::create([
             'name' => $validated['name'],
             'logo' => $logoPath,
-            // 'edition_id' => $validated['edition_id']
         ]);
+        // $edition = Edition::latest()->first();
+        // $sponsor->editions()->attach($edition->id);
         $sponsor->images()->create(["path" => $logoPath]);
+        // dd($edition);
     }
     public function destroy(Sponsor $sponsor) {
         $sponsor->delete();

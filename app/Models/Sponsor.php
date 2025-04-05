@@ -11,4 +11,7 @@ class Sponsor extends Model
     {
         return $this->morphMany( Image::class, 'imageable');
     }
+    public function editions(){
+        return $this->belongsToMany(Edition::class, 'edition_sponsors');
+    }
 }

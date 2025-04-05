@@ -39,4 +39,8 @@ class Edition extends Model
     {
         return $this->hasMany(Gallery::class);
     }
+    public function sponsors()
+    {
+        return $this->belongsToMany(Sponsor::class, 'edition_sponsors');
+    }
 }

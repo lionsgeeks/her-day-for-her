@@ -57,7 +57,7 @@ export default function SponsorsPage() {
                 title="Sponsors Management"
                 description="Manage your sponsors"
                 action={{
-                    label: 'Add Speaker',
+                    label: 'Add Sponsor',
                     onClick: () => setFormModal(true),
                     icon: <Plus className="h-4 w-4" />,
                 }}

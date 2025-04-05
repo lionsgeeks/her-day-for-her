@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Edition;
+use App\Models\EditionSponsor;
+use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,7 +25,10 @@ class EditionController extends Controller
      */
     public function create()
     {
-        return Inertia::render('editions/admin/create');
+
+        return Inertia::render('editions/admin/create', [
+            'sponsors' => Sponsor::with('images')->get(),
+        ]);
     }
 
     /**
@@ -42,11 +47,10 @@ class EditionController extends Controller
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'venue' => 'required|string|max:255',
-            'is_active' => 'boolean',
+            'isActive' => 'required|boolean',
         ]);
-        // dd($request);
 
-        Edition::create([
+        $edition = Edition::create([
             'name' => $validated['name'],
             'year' => $validated['year'],
             'description' => $validated['description'],
@@ -57,8 +61,13 @@ class EditionController extends Controller
             'city' => $validated['city'],
             'country' => $validated['country'],
             'venue' => $validated['venue'],
-            'is_active' => $request->has('is_active'),
+            'is_active' => $validated['isActive'],
         ]);
+        $assignedSponsors = $request->selectedSponsors;
+        foreach ($assignedSponsors as $sponsor) {
+            $edition->sponsors()->attach($sponsor);
+        };
+        dd($assignedSponsors);
     }
 
     /**
@@ -76,8 +85,14 @@ class EditionController extends Controller
      */
     public function edit(Edition $edition)
     {
-        return Inertia::render('editions/admin/[id]/edit',[
+        $edition->load('sponsors.images');
+        return Inertia::render('editions/admin/[id]/edit', [
             'edition' => $edition,
+            'sponsors' => Sponsor::whereNotIn('id', function ($query) use ($edition) {
+                $query->select('sponsor_id')
+                    ->from('edition_sponsors')
+                    ->where('edition_id', $edition->id);
+            })->with('images')->get(),
         ]);
     }
 
@@ -108,7 +123,7 @@ class EditionController extends Controller
             'venue' => $validated['venue'],
             'is_active' => $request->has('is_active'),
         ]);
-
+        $edition->sponsors()->sync($request->selectedSponsors ?? []);
     }
 
     /**

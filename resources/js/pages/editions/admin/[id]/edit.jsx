@@ -7,13 +7,15 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import Link from "next/link"
 import AppLayout from '@/layouts/app-layout';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import AssignSponsors from '../../../../components/assign-sponsors';
 
 export default function EditEditionPage() {
-    const { edition } = usePage().props;
+    const { edition, sponsors } = usePage().props;
+    const [selectedSponsors, setSelectedSponsors] = useState(edition.sponsors || []);
     console.log(edition)
     const { data, setData, progress, put, delete: destroy } = useForm({
         name: edition.name,
@@ -26,14 +28,18 @@ export default function EditEditionPage() {
         city: edition.city,
         country: edition.country,
         venue: edition.venue,
-        isActive: true,
+        isActive: edition.is_active,
+        selectedSponsors: selectedSponsors.map(s => s.id),
     });
 
+    const updateSelectedSponsors = (sponsors) => {
+        setSelectedSponsors(sponsors);
+        setData((prev) => ({ ...prev, selectedSponsors: sponsors.map(s => s.id) }));
+    };
     const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
@@ -147,10 +153,11 @@ export default function EditEditionPage() {
                             Set as active edition
                         </label>
                     </div>
+                    <AssignSponsors sponsors={sponsors} selectedSponsors={selectedSponsors} setSelectedSponsors={updateSelectedSponsors} />
 
                     <div className="flex justify-end">
                         <Button type="submit" className="bg-[#03329b] hover:bg-[#03329b]/90">
-                            Create Edition
+                            Update Edition
                         </Button>
                     </div>
                 </form>
