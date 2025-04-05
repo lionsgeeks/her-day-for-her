@@ -53,9 +53,9 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 pt-2 md:pt-4"
           >
             <RegistrationModal />
-            <Button size="lg" variant="outline" className="border-none text-white bg-alpha hover:bg-white/10">
+            <a href="#timeline" size="lg" variant="outline" className="border-none text-white bg-alpha px-6 py-2 rounded-lg hover:bg-white/10">
               Explore Program
-            </Button>
+            </a>
           </motion.div>
           <motion.div
             initial={{ opacity: 0, y: 30 }}

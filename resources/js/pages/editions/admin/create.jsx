@@ -21,6 +21,8 @@ export default function CreateEditionPage() {
         date: '',
         // endDate: '',
         google_map_url: '',
+        email: '',
+        phone: '',
         city: '',
         country: '',
         venue: '',
@@ -98,6 +100,32 @@ export default function CreateEditionPage() {
                                 value={data.google_map_url}
                                 onChange={handleChange}
                                 placeholder="google map url"
+                                required
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="email">Contact email</Label>
+                            <Input
+                                type="email"
+                                id="email"
+                                name="email"
+                                value={data.email}
+                                onChange={handleChange}
+                                placeholder="Contact email"
+                                required
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="phone">Phone</Label>
+                            <Input
+                                type="phone"
+                                id="phone"
+                                name="phone"
+                                value={data.phone}
+                                onChange={handleChange}
+                                placeholder="Contact phone number"
                                 required
                             />
                         </div>

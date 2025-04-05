@@ -12,6 +12,8 @@ class Edition extends Model
         'description',
         'date',
         'google_map_url',
+        'email',
+        'phone',
         'city',
         'country',
         'venue',

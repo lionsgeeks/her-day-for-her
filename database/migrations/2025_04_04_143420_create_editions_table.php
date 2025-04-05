@@ -18,6 +18,8 @@ return new class extends Migration
             $table->text('description');
             $table->date('date');
             $table->string('google_map_url');
+            $table->string('email');
+            $table->string('phone');
             $table->string('city');
             $table->string('country');
             $table->string('venue');

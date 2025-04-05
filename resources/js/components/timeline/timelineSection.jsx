@@ -39,7 +39,7 @@ export default function TimelineSection({ timelineEvents }) {
     ]
 
     return (
-        <section ref={ref} className="py-16 px-6 container bg-white text-black">
+        <section id="timeline" ref={ref} className="py-16 px-6 container bg-white text-black">
             <motion.div
                 variants={containerVariants}
                 initial="hidden"

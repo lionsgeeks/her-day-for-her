@@ -74,15 +74,7 @@ export default function Navbar() {
                     {/* <div className="hidden md:block">
                         <LanguageSwitcher isScrolled={scrolled} />
                     </div> */}
-                    <Link href="/admin">
-                        <button
-                            variant="outline"
-                            size="sm"
-                            className={`hidden md:flex items-center ${scrolled ? "border-gray-300" : "border-white text-white hover:bg-white/10"}`}
-                        >
-                            <span>Admin</span>
-                        </button>
-                    </Link>
+
                     <RegistrationModal />
                     <Button
                         variant="outline"

@@ -4,6 +4,7 @@ use App\Models\Content;
 use App\Models\Speaker;
 use App\Models\Timeline;
 use App\Http\Controllers\RegistrationController;
+use App\Models\Edition;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -15,12 +16,14 @@ Route::get('/', function () {
     $timelineEvents = Timeline::all()->sortBy(function($timeline) {
         return \Carbon\Carbon::createFromFormat('H:i', $timeline->startTime);
     })->values()->toArray();
-    // dd($hero);
+    $edition = Edition::where("is_active" , 1)->first();
+    // dd($edition);
     return Inertia::render('welcome', [
         'speakers' => $speakers,
         'timelineEvents' => $timelineEvents,
         'hero' => $hero,
         'about' => $about,
+        'edition' => $edition,
     ]);
 })->name('home');
 
