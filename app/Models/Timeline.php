@@ -15,8 +15,14 @@ class Timeline extends Model
         'endTime',
         'description',
         'icon',
-        'edition'
+        'edition_id'
     ];
+
+
+    public function edition()
+    {
+        return $this->belongsTo(Edition::class);
+    }
 
 
 }

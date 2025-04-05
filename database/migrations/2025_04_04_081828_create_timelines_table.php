@@ -19,8 +19,7 @@ return new class extends Migration
             $table->string('endTime');
             $table->text('description')->nullable();
             $table->string('icon')->default('🗣️');
-            // will be changed to foreignID when editions are added
-            $table->string('edition');
+            $table->foreignId('edition_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

@@ -20,6 +20,8 @@ export default function SpeakersPage() {
     });
 
 
+    const breadcrumbs = [{ title: "Speakers", href: "/admin/speakers" }];
+
     const [deleteModalOpen, setDeleteModalOpen] = useState(false)
     const [formModal, setFormModal] = useState(false);
     const [selectedSpeaker, setSelectedSpeaker] = useState(null)
@@ -72,7 +74,7 @@ export default function SpeakersPage() {
     }
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader
                 title="Speakers Management"
                 description="Manage your conference speakers"

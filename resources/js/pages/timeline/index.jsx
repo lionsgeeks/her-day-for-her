@@ -1,11 +1,9 @@
 import { useState } from "react"
 import AdminHeader from "@/components/admin-header"
 import ConfirmationModal from "@/components/confirmationModal"
-
-
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Plus, Edit, Trash2, Calendar, Clock, MapPin } from "lucide-react"
+import { Plus, Edit, Trash2, Calendar, Clock } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import AppLayout from '@/layouts/app-layout';
 import { Head, useForm, usePage } from "@inertiajs/react"
@@ -14,7 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
 export default function TimelinePage() {
-    const { timelineEvents } = usePage().props
+    const { timelineEvents, editions } = usePage().props
     const { data, setData, post, put, delete: destroy } = useForm({
         title: '',
         date: '',
@@ -31,8 +29,9 @@ export default function TimelinePage() {
     const [selectedEvent, setSelectedEvent] = useState(null)
     const [selectedEdition, setSelectedEdition] = useState("2025")
 
-    // Mock data - in a real app, this would come from your API
-    const editions = ["2025", "2024", "2023", "2022"]
+
+    const breadcrumbs = [{ title: "Event Timeline", href: "/admin/timeline" }];
+
 
     const handleCreate = () => {
         setSelectedEvent(null);
@@ -53,7 +52,7 @@ export default function TimelinePage() {
         setSelectedEvent(event.id);
         setData('title', event.title);
         setData('date', event.date);
-        setData('edition', event.edition);
+        setData('edition', event.edition_id);
         setData('startTime', event.startTime);
         setData('endTime', event.endTime);
         setData('description', event.description);
@@ -92,7 +91,7 @@ export default function TimelinePage() {
 
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader
                 title="Timeline Management"
                 description="Manage your conference timeline and events"
@@ -107,12 +106,12 @@ export default function TimelinePage() {
             <div className="mb-6">
                 <Select value={selectedEdition} onValueChange={setSelectedEdition}>
                     <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder="Select Edition" />
+                        <SelectValue placeholder={selectedEdition} />
                     </SelectTrigger>
                     <SelectContent>
                         {editions.map((edition) => (
-                            <SelectItem key={edition} value={edition}>
-                                {edition} Edition
+                            <SelectItem key={edition.id} value={edition.year}>
+                                {edition.year} Edition
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -207,13 +206,14 @@ export default function TimelinePage() {
                             <label htmlFor="edition">Edition</label>
                             <Select value={data.edition} onValueChange={(value) => setData('edition', value)}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select edition" />
+                                    <option value="" disabled>{data.edition ? editions.find(item => item.id == data.edition).year : 'Please Select An Edition'}</option>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="2025">2025 Edition</SelectItem>
-                                    <SelectItem value="2024">2024 Edition</SelectItem>
-                                    <SelectItem value="2023">2023 Edition</SelectItem>
-                                    <SelectItem value="2022">2022 Edition</SelectItem>
+                                    {editions.map((edition) => (
+                                        <SelectItem key={edition.id} value={edition.id}>
+                                            {edition.year} Edition
+                                        </SelectItem>
+                                    ))}
                                 </SelectContent>
                             </Select>
                         </div>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Edition;
 use App\Models\Timeline;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -11,8 +12,10 @@ class TimelineController extends Controller
     public function index()
     {
         $timelineEvents = Timeline::all();
+        $editions = Edition::all();
         return Inertia::render('timeline/index', [
             'timelineEvents' => $timelineEvents,
+            'editions' => $editions,
         ]);
     }
 
@@ -31,7 +34,7 @@ class TimelineController extends Controller
         Timeline::create([
             'title' => $request->title,
             'date' => $request->date,
-            'edition' => $request->edition,
+            'edition_id' => $request->edition,
             'startTime' => $request->startTime,
             'endTime' => $request->endTime,
             'icon' => $request->icon,
@@ -52,7 +55,7 @@ class TimelineController extends Controller
         $timeline->update([
             'title' => $request->title,
             'date' => $request->date,
-            'edition' => $request->edition,
+            'edition_id' => $request->edition,
             'startTime' => $request->startTime,
             'endTime' => $request->endTime,
             'icon' => $request->icon,

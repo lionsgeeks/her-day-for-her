@@ -22,4 +22,9 @@ class Edition extends Model
         'date' => 'date',
         'is_active' => 'boolean',
     ];
+
+    public function timelines()
+    {
+        return $this->hasMany(Timeline::class);
+    }
 }
