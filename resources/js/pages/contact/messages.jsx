@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Eye, Trash2, CheckCircle, Clock, AlertCircle } from "lucide-react";
+import { useForm } from "@inertiajs/react";
 
 export default function MessagesPage({messages}) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
@@ -17,12 +18,32 @@ export default function MessagesPage({messages}) {
   const [viewedMessage, setViewedMessage] = useState(null);
 
 
+const { put , delete:destroy } = useForm(
+   {
+     status:"",
 
+   }
+);
 
-  const handleDelete = (id) => {
-    setSelectedMessage(id);
-    setDeleteModalOpen(true);
+  const handleDelete = (e) => {
+//    console.log(e);
+
+    destroy(route('contact.destroy' , e))
+
   };
+
+
+
+const handleUpdate = (e) => {
+
+    put((route('contact.update', e)) ,
+    { onSuccess: () => {
+        setViewModalOpen(false)
+      },}
+);
+
+};
+
 
   const confirmDelete = () => {
     console.log(`Deleting message ${selectedMessage}`);
@@ -140,14 +161,6 @@ export default function MessagesPage({messages}) {
         ))}
       </Tabs>
 
-      {deleteModalOpen && (
-        <ConfirmationModal
-          title="Delete Message"
-          description="Are you sure you want to delete this message?"
-          onCancel={() => setDeleteModalOpen(false)}
-          onConfirm={confirmDelete}
-        />
-      )}
 
       {viewModalOpen && viewedMessage && (
         console.log(viewModalOpen),
@@ -180,8 +193,8 @@ export default function MessagesPage({messages}) {
                   Close
                 </Button>
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex items-center">
-                    <CheckCircle className="h-4 w-4 mr-1" />
+                  <Button onClick={() => handleUpdate(viewedMessage.id)} variant="outline" className="flex items-center" >
+                    <CheckCircle  className="h-4 w-4 mr-1" />
                     Mark as {viewedMessage.status === "unread" ? "Read" : "Unread"}
                   </Button>
                   <Button className="bg-[#03329b] hover:bg-[#03329b]/90">Reply</Button>

@@ -80,6 +80,12 @@ class ContactController extends Controller
     public function update(Request $request, Contact $contact)
     {
         //
+
+        $contact->update([
+            "status"=>"read",
+        ]);
+
+        return back();
     }
 
     /**
@@ -88,5 +94,8 @@ class ContactController extends Controller
     public function destroy(Contact $contact)
     {
         //
+
+        $contact->delete();
+        return back();
     }
 }
