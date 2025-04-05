@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\Attributes\Ticket;
 
 class Registration extends Model
 {
@@ -20,4 +21,8 @@ class Registration extends Model
         'status',
         'attended_at',
     ];
+
+    public function edition() {
+        return $this->belongsTo(Edition::class);
+    }
 }

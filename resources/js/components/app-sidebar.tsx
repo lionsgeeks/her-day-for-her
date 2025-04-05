@@ -14,6 +14,8 @@ const MaindItem: NavItem[] = [
     { title: 'Editions', url: '/admin/editions', icon: Calendar },
     { title: 'Messages', url: '/admin/contact', icon: MessageSquare },
     { title: 'Registration', url: '/registration', icon: Users },
+    { title: 'Messages', url: '/messages', icon: MessageSquare },
+    { title: 'Registration', url: '/admin/registrations', icon: Users },
 ];
 const EventElement: NavItem[] = [
     { title: 'Speakers', url: '/admin/speakers', icon: Megaphone },

@@ -3,14 +3,14 @@ import { Button } from '@/components/ui/button';
 import { Link } from '@inertiajs/react';
 import { Calendar, Download, MapPin, Printer, Share2 } from 'lucide-react';
 
-export default function TicketPage({ registration }) {
+export default function TicketPage({ registration, editionYear, editionName, editionCity }) {
     return (
         <div className="flex min-h-screen items-center justify-center bg-slate-50 py-12">
             <div className="container max-w-4xl">
                 <div className="mb-8 text-center">
                     <h1 className="mb-2 text-3xl font-bold">Your Conference registration</h1>
                     {/* here the conference data need to be updated by edition year */}
-                    <p className="text-muted-foreground">Thank you for registering for Her Day for Her Conference 2025</p>
+                    <p className="text-muted-foreground">Thank you for registering for Her Day for Her Conference { editionYear }</p>
                 </div>
 
                 <div className="overflow-hidden rounded-lg bg-white shadow-lg">
@@ -34,7 +34,7 @@ export default function TicketPage({ registration }) {
                             <div className="space-y-4 md:col-span-2">
                                 <div>
                                     <h2 className="text-2xl font-bold">Professional Pass</h2>
-                                    <p className="text-muted-foreground">Her Day for Her Conference 2025</p>
+                                    <p className="text-muted-foreground">Her Day for Her Conference {editionYear}</p>
                                 </div>
 
                                 <div className="grid grid-cols-2 gap-4">
@@ -58,7 +58,7 @@ export default function TicketPage({ registration }) {
                                     </div>
                                 </div>
 
-                                <div className="flex flex-col gap-4 pt-2 sm:flex-row">
+                                <div className="flex flex-col gap-2 pt-2 sm:flex-row ">
                                     <div className="flex items-center gap-2">
                                         <Calendar className="h-5 w-5 text-[#fd5f90]" />
                                         {/* here the conference data need to be updated by edition year */}
@@ -67,7 +67,7 @@ export default function TicketPage({ registration }) {
                                     <div className="flex items-center gap-2">
                                         <MapPin className="h-5 w-5 text-[#fd5f90]" />
                                         {/* here the conference data need to be updated by editionplace */}
-                                        <span>Grand Conference Center, Paris</span>
+                                        <span>Grand Conference Center, {editionCity}</span>
                                     </div>
                                 </div>
                             </div>

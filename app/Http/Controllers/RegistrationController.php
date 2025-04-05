@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\TicketMailer;
+use App\Models\Edition;
 use App\Models\Registration;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
@@ -18,7 +21,19 @@ class RegistrationController extends Controller
      */
     public function index()
     {
-        //
+        $ticket = Registration::where('id', 1)->get();
+        $edition = Edition::where('id', 1)->get();
+        $first_name = $ticket[0]->first_name;
+        $last_name = $ticket[0]->last_name;
+        $email = $ticket[0]->email;
+        $company = $ticket[0]->company;
+        $job_title = $ticket[0]->job_title;
+        $qrCodePath = $ticket[0]->qr_code;
+        $ticket_number = $ticket[0]->ticket_number;
+        $edition = $edition[0];
+        // dd($qrCodePath);
+        //    $edition = $edition;
+        return view('mail.ticketMaile', compact('first_name', 'last_name', 'email', 'company', 'job_title', 'qrCodePath', 'ticket_number', 'edition'));
     }
 
     /**
@@ -57,19 +72,21 @@ class RegistrationController extends Controller
 
         //* generate qr code
         $qrCode = QrCode::size(200)->format('svg')->generate($ticket_number);
+        // $qrCode = QrCode::size(200)->format('png')->generate($ticket_number);
 
         //* qrCode Svg path
         $qrCodePath = 'qrcodes/' . $ticket_number . '.svg';
+        // $qrCodePath = 'qrcodes/' . $ticket_number . '.png';
         Storage::disk('public')->put($qrCodePath, $qrCode);
 
         //* store data in registration table
-
+        $edition = Edition::latest()->first();
         $ticket = Registration::create([
             "first_name" => $request->first_name,
             "last_name" => $request->last_name,
             "email" => $request->email,
             "phone" => $request->phone,
-            "edition_id" => Str::uuid(), // to be replaced with edition->id
+            "edition_id" => $edition->id, // to be replaced with edition->id
             "company" => $request->company,
             "job_title" => $request->job_title,
             "dietary_restrictions" => $request->dietary_restrictions,
@@ -79,12 +96,18 @@ class RegistrationController extends Controller
 
         Log::info('DATA STORED IN DATABASE:', $ticket->toArray());
 
-        // return inertia()->location(route('tickets.show', $ticket->id));
-
-        // return response()->json([
-        //     'registration' => $ticket,
-        //     'redirect' => route('tickets.show', $ticket->id)
-        // ]);
+        //* send ticket via mail to registered user
+        $qrCodePath = $ticket->qr_code;
+        //* trying to download the pdf and send it to email as an attachement
+        $base64 = base64_encode($qrCode);
+        $qrCode = 'data:image/svg+xml;base64,' . $base64;
+        //* Generate PDF
+        // dd($ticket->ticket_number);
+        $pdf = Pdf::loadView('ticket.ticket-pdf', compact('ticket', 'qrCode'));
+        $pdfFileName = "tickets/ticket-{$ticket->ticket_number}.pdf";
+        Storage::disk('public')->put($pdfFileName, $pdf->output());
+        // dd($pdfPath);
+        Mail::to('chafikidrissisara@gmail.com')->send(new TicketMailer($ticket->first_name, $ticket->last_name, $ticket->email, $ticket->company, $ticket->job_title, $qrCodePath, $ticket->ticket_number, $edition, $pdfFileName));
         return redirect()->route('tickets.show', $ticket->id);
     }
 
@@ -95,7 +118,10 @@ class RegistrationController extends Controller
     {
         // $ticket = Registration::where('id', $registration->id);
         return Inertia::render('tickets/ticketPage', [
-            'registration' => $registration
+            'registration' => $registration,
+            'editionYear' => $registration->edition->year,
+            'editionName' => $registration->edition->name,
+            'editionCity' => $registration->edition->city
         ]);
     }
 
@@ -105,7 +131,8 @@ class RegistrationController extends Controller
         $svg = QrCode::size(200)->format('svg')->generate($registration->ticket_number);
         $base64 = base64_encode($svg);
         $qrCode = 'data:image/svg+xml;base64,' . $base64;
-        $pdf = Pdf::loadView('ticket.ticket-pdf', compact('registration', 'qrCode'));
+        $ticket = $registration;
+        $pdf = Pdf::loadView('ticket.ticket-pdf', compact('ticket', 'qrCode'));
 
 
         // Set PDF options
