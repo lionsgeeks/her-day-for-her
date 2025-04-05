@@ -34,4 +34,9 @@ class Edition extends Model
     {
         return $this->belongsToMany(Speaker::class, 'edition_speakers')->withTimestamps();
     }
+
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class);
+    }
 }

@@ -11,4 +11,11 @@ class Image extends Model
     {
         return $this->morphTo();
     }
+
+
+    public function galleries()
+    {
+        return $this->where('imageable_type', Gallery::class)->get();
+    }
+
 }

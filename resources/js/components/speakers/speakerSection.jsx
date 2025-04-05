@@ -38,7 +38,7 @@ export default function SpeakersSection({ speakers }) {
                     className="flex flex-col items-center text-center mb-12"
                 >
                     <motion.div variants={itemVariants}>
-                        <Badge className="mb-4 text-white rounded-full bg-blue-800">Featured Speakers</Badge>
+                        <Badge className="mb-4 text-white rounded-full bg-alpha">Featured Speakers</Badge>
                     </motion.div>
                     <motion.h2 variants={itemVariants} className="text-3xl md:text-4xl font-bold mb-4 text-black">
                         Meet Our Speakers

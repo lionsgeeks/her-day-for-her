@@ -47,7 +47,7 @@ export default function TimelineSection({ timelineEvents }) {
                 className="flex flex-col items-center text-center mb-12"
             >
                 <motion.div variants={itemVariants}>
-                    <Badge className="mb-4 bg-gradient-to-r from-fun-pink to-fun-blue text-white px-4 py-1 rounded-full text-sm">
+                    <Badge className="mb-4 bg-gradient-to-r from-beta to-alpha text-white px-4 py-1 rounded-full text-sm">
                         <Sparkles className="h-4 w-4 mr-1" /> Conference Program
                     </Badge>
                 </motion.div>

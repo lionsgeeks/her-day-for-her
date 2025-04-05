@@ -18,7 +18,7 @@ const MaindItem: NavItem[] = [
 const EventElement: NavItem[] = [
     { title: 'Speakers', url: '/admin/speakers', icon: Megaphone },
     { title: 'Sponsors', url: '/admin/sponsors', icon: ClipboardList },
-    { title: 'Gallery', url: '/gallery', icon: Image },
+    { title: 'Gallery', url: '/admin/gallery', icon: Image },
     { title: 'Timeline', url: '/admin/timeline', icon: Calendar },
 
 ];

@@ -5,6 +5,8 @@ use App\Models\Speaker;
 use App\Models\Timeline;
 use App\Http\Controllers\RegistrationController;
 use App\Models\Edition;
+use App\Models\Gallery;
+use App\Models\Image;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -18,12 +20,15 @@ Route::get('/', function () {
     })->values()->toArray();
     $edition = Edition::where("is_active" , 1)->first();
     // dd($edition);
+    //..TODO Get Random Images from any edition
+    $galleries = Image::where('imageable_type', 'App\Models\Gallery')->take(9)->get()->shuffle();
     return Inertia::render('welcome', [
         'speakers' => $speakers,
         'timelineEvents' => $timelineEvents,
         'hero' => $hero,
         'about' => $about,
         'edition' => $edition,
+        'galleries' => $galleries,
     ]);
 })->name('home');
 
@@ -31,7 +36,7 @@ Route::middleware(['auth', 'verified'])->prefix("admin")->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
-    
+
 });
 Route::post('/tickets', [RegistrationController::class, 'store'])->name('tickets.store');
 Route::get('/tickets/{registration}', [RegistrationController::class, 'show'])->name('tickets.show');
@@ -44,4 +49,5 @@ require __DIR__.'/timeline.php';
 require __DIR__.'/sponsors.php';
 require __DIR__.'/editions.php';
 require __DIR__.'/contact.php';
+require __DIR__.'/gallery.php';
 
