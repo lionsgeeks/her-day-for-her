@@ -59,7 +59,7 @@ export default function ContactPage() {
           <div className="relative">
             {/* Decorative elements */}
             <div className="absolute -top-10 -left-10 w-20 h-20 bg-[#fd5f90]/10 rounded-full"></div>
-            <div className="absolute top-1/4 -right-10 w-32 h-32 bg-[#03329b]/10 rounded-full"></div>
+            <div className="absolute top-1/4 -right-10 w-32 h-32 bg-[#03329b]/10 rounded-full hidden md:block"></div>
             <div className="absolute bottom-10 left-1/4 w-16 h-16 bg-[#fd5f90]/20 rounded-full"></div>
 
             {/* Main content */}
