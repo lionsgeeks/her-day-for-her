@@ -13,4 +13,10 @@ class Speaker extends Model
         'image',
     ];
 
+
+    public function editions()
+    {
+        return $this->belongsToMany(Edition::class, 'edition_speakers')->withTimestamps();
+    }
+
 }

@@ -9,14 +9,16 @@ import { Head, useForm, usePage } from "@inertiajs/react"
 import AppLayout from '@/layouts/app-layout';
 import AdminHeader from "@/components/admin-header"
 import FramerModal from "../../components/framer-modal"
+import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SpeakersPage() {
-    const { speakers } = usePage().props;
+    const { speakers, editions } = usePage().props;
     const { data, setData, post, put, delete: destory } = useForm({
         name: '',
         position: '',
         linked: '',
         image: '',
+        editions: [],
     });
 
 
@@ -28,8 +30,14 @@ export default function SpeakersPage() {
     const [selectedEdition, setSelectedEdition] = useState("2025")
     const [searchQuery, setSearchQuery] = useState("")
 
-    // Mock data - in a real app, this would come from your API
-    const editions = ["2025", "2024", "2023", "2022"]
+
+    const handleEditionChange = (edition, checked) => {
+        if (checked) {
+            setData((prev) => ({ ...prev, editions: [...prev.editions, edition] }))
+        } else {
+            setData((prev) => ({ ...prev, editions: prev.editions.filter((e) => e !== edition) }))
+        }
+    }
 
     const handleCreate = () => {
         setSelectedSpeaker(null);
@@ -38,16 +46,20 @@ export default function SpeakersPage() {
             position: '',
             linked: '',
             image: '',
+            editions: [],
         })
         setFormModal(true);
     }
-
     const handleEdit = (speaker) => {
+        const editionIDs = speaker.editions.map(item => item.id);
+
         setSelectedSpeaker(speaker.id);
         setData('name', speaker.name);
         setData('position', speaker.position);
         setData('linked', speaker.linkedin);
         setData('image', speaker.image);
+        setData('editions', editionIDs);
+
         setFormModal(true);
 
     }
@@ -66,7 +78,11 @@ export default function SpeakersPage() {
     const handleForm = (e) => {
         e.preventDefault();
         if (selectedSpeaker) {
-            put(route('speakers.update', { speaker: selectedSpeaker }))
+            post(route('speakers.update', {
+                _method: 'put',
+                data: data,
+                speaker: selectedSpeaker
+            }))
         } else {
             post(route('speakers.store'))
         }
@@ -93,8 +109,8 @@ export default function SpeakersPage() {
                     </SelectTrigger>
                     <SelectContent>
                         {editions.map((edition) => (
-                            <SelectItem key={edition} value={edition}>
-                                {edition} Edition
+                            <SelectItem key={edition.id} value={edition.year}>
+                                {edition.year} Edition
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -196,7 +212,7 @@ export default function SpeakersPage() {
                 isOpen={formModal}
                 onClose={() => setFormModal(false)}
             >
-                <form onSubmit={handleForm} className="p-2">
+                <form onSubmit={handleForm} className="p-2" encType="multipart/form-data" >
                     {/* Speaker Image */}
                     <div className="flex items-center md:flex-row gap-6 mb-6">
                         <div className="w-32 h-32 relative rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
@@ -215,10 +231,11 @@ export default function SpeakersPage() {
                             }
                         </div>
                         <div className="space-y-2 flex items-center ">
-                            <input id="photo" name="photo" type="file" accept="image/*"
+                            <input id="image" name="image" type="file" accept="image/*"
                                 className="border-2 rounded p-1" onChange={e => setData('image', e.target.files[0])}
                             />
                         </div>
+
                     </div>
 
                     <div className="flex flex-col gap-3">
@@ -265,6 +282,27 @@ export default function SpeakersPage() {
                                 required
                                 onChange={(e) => { setData('linked', e.target.value) }}
                             />
+                        </div>
+
+                        <div className="flex items-start flex-col gap-2">
+                            <label className="">Conference Editions</label>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {editions.map((edition) => (
+                                    <div key={edition.id} className="flex items-center space-x-2">
+                                        <Checkbox
+                                            id={`edition-${edition.id}`}
+                                            checked={data.editions.includes(edition.id)}
+                                            onCheckedChange={(checked) => handleEditionChange(edition.id, checked)}
+                                        />
+                                        <label
+                                            htmlFor={`edition-${edition.id}`}
+                                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                        >
+                                            {edition.year} Edition
+                                        </label>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
 

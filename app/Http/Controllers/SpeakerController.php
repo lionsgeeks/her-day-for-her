@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Edition;
 use App\Models\Speaker;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -11,9 +12,11 @@ class SpeakerController extends Controller
 {
     public function index()
     {
-        $speakers = Speaker::all();
+        $speakers = Speaker::with('editions')->get();
+        $editions = Edition::all();
         return Inertia::render('speakers/index', [
-            'speakers' => $speakers
+            'speakers' => $speakers,
+            'editions' => $editions
         ]);
     }
 
@@ -23,19 +26,22 @@ class SpeakerController extends Controller
             'name' => 'required',
             'position' => 'required',
             'linked' => 'required|url',
-            'image' => 'required|image|mimes:png,jpg,jpeg'
+            'image' => 'required|image|mimes:png,jpg,jpeg',
+            'editions' => 'required',
         ]);
 
         $file = $request->file('image');
-        $filaName = $file->store('images/speakers', 'public');
+        $fileName = $file->store('images/speakers', 'public');
 
 
-        Speaker::create([
+        $speaker = Speaker::create([
             'name' => $request->name,
             'position' => $request->position,
             'linkedin' => $request->linked,
-            'image' => $filaName,
+            'image' => $fileName,
         ]);
+
+        $speaker->editions()->attach($request->editions);
     }
 
     public function update(Request $request, Speaker $speaker)
@@ -44,21 +50,26 @@ class SpeakerController extends Controller
             'name' => 'required',
             'position' => 'required',
             'linked' => 'required',
-            'image' => 'required',
+            'editions' => 'required',
         ]);
 
-        // TODO if image changed or same
-        // if ($request->image === $speaker->image) {
-        //     dd('same image');
-        // } else {
-        //     dd('changing image');
-        // }
+        if ($request->image != $speaker->image) {
+            // delete old image
+            Storage::disk('public')->delete($speaker->image);
+
+            // store new one
+            $file = $request->file('image');
+            $fileName = $file->store('images/speakers', 'public');
+        }
+
         $speaker->update([
             'name' => $request->name,
             'position' => $request->position,
             'linkedin' => $request->linked,
+            'image' => $fileName,
         ]);
 
+        $speaker->editions()->sync($request->editions);
     }
 
 
@@ -66,6 +77,5 @@ class SpeakerController extends Controller
     {
         Storage::disk('public')->delete($speaker->image);
         $speaker->delete();
-
     }
 }

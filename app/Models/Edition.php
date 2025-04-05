@@ -27,4 +27,9 @@ class Edition extends Model
     {
         return $this->hasMany(Timeline::class);
     }
+
+    public function speakers()
+    {
+        return $this->belongsToMany(Speaker::class, 'edition_speakers')->withTimestamps();
+    }
 }
