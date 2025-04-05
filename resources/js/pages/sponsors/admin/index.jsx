@@ -87,7 +87,7 @@ export default function SponsorsPage() {
                     <Card key={sponsor.id} className="overflow-hidden">
                         <div className="flex flex-col items-center p-4">
                             <div className="relative mb-4  overflow-hidden rounded-lg">
-                                <img src={`${image_url}/${sponsor.images[0]?.path}`} alt={sponsor.name} fill className="object-contain" />
+                                <img src={`${image_url}/${sponsor.images[0]?.path}`} alt={sponsor.name} fill className="object-cover w-full aspect-square" />
                             </div>
                             <h3 className="mb-2 text-center text-lg font-bold">{sponsor.name}</h3>
                             {/* <div className="mb-4 flex flex-wrap justify-center gap-1">

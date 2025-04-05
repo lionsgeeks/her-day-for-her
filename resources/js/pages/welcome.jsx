@@ -4,22 +4,23 @@ import AboutSection from "@/components/about/about-section";
 import SpeakerSection from "@/components/speakers/speakerSection"
 import TimelineSection from "@/components/timeline/timelineSection"
 import GallerySection from "@/components/gallery/gallery-section"
+import SponsorsSection from "@/components/sponsors/sponsors-section"
 import { Head, usePage } from "@inertiajs/react";
 import { Footer } from "@/components/footer";
 import { CtaSection } from "@/components/cta-section";
 import { MapSection } from "@/components/map-section";
 
 export default function Welcome() {
-    const { speakers, timelineEvents, galleries } = usePage().props
+    const { edition, speakers, timelineEvents, galleries } = usePage().props
     return (
         <UserLayout>
             <Head title="Her Day For Her" />
-            <HeroSection />
-            <AboutSection />
+            {/* <HeroSection /> */}
+            {/* <AboutSection /> */}
             <SpeakerSection speakers={speakers} />
             <TimelineSection timelineEvents={timelineEvents} />
             <GallerySection galleries={galleries} />
-
+            <SponsorsSection sponsors={edition.sponsors}/>
             <CtaSection />
             <MapSection />
             <Footer />

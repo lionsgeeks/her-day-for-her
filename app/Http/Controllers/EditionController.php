@@ -110,7 +110,7 @@ class EditionController extends Controller
             'city' => 'required|string|max:255',
             'country' => 'required|string|max:255',
             'venue' => 'required|string|max:255',
-            'is_active' => 'boolean',
+            'isActive' => 'boolean',
         ]);
         $edition->update([
             'name' => $validated['name'],
@@ -121,7 +121,7 @@ class EditionController extends Controller
             'city' => $validated['city'],
             'country' => $validated['country'],
             'venue' => $validated['venue'],
-            'is_active' => $request->has('is_active'),
+            'is_active' => $validated['isActive'],
         ]);
         $edition->sponsors()->sync($request->selectedSponsors ?? []);
     }

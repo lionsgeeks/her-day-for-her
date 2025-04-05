@@ -2,6 +2,7 @@
 
 use App\Models\Content;
 use App\Models\Speaker;
+use App\Models\Sponsor;
 use App\Models\Timeline;
 use App\Http\Controllers\RegistrationController;
 use App\Models\Edition;
@@ -18,7 +19,7 @@ Route::get('/', function () {
     $timelineEvents = Timeline::all()->sortBy(function($timeline) {
         return \Carbon\Carbon::createFromFormat('H:i', $timeline->startTime);
     })->values()->toArray();
-    $edition = Edition::where("is_active" , 1)->first();
+    $edition = Edition::where("is_active" , 1)->with('sponsors.images')->first();
     // dd($edition);
     //..TODO Get Random Images from any edition
     $galleries = Image::where('imageable_type', 'App\Models\Gallery')->take(9)->get()->shuffle();
