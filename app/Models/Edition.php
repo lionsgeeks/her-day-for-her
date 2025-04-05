@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use PHPUnit\Framework\Attributes\Ticket;
 
 class Edition extends Model
 {
@@ -22,4 +23,8 @@ class Edition extends Model
         'date' => 'date',
         'is_active' => 'boolean',
     ];
+
+    public function registrations(){
+        $this->hasMany(Registration::class);
+    }
 }

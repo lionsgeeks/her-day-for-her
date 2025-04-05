@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('email');
             $table->string('phone');
-            $table->foreignId('edition_id')->nullable(); //! nullable for now cause edition table is not created yet
+            $table->foreignId('edition_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate(); 
             $table->string('company')->nullable();
             $table->string('job_title')->nullable();
             $table->string('dietary_restrictions')->nullable();

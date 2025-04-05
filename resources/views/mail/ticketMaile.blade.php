@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Ticket #{{ $ticket->ticket_number }}</title>
+    <title>Ticket #{{ $ticket_number }}</title>
     <style>
         @page {
             margin: 0;
@@ -159,22 +159,26 @@
         .qrCode p {
             padding-left: 10px
         }
+        .flex-col {
+            flex-direction: column;
+        }
+       
     </style>
 </head>
 
 <body>
     <div class="ticket">
-        <div class="header">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
+        <div class="header  ">
+            <div class="flex flex-col gap-y-4">
+                <div class="flex items-center mb-8  gap-8">
                     <div class="rounded-full bg-white p-1">
                         <div class="h-8 w-8 rounded-full bg-[#03329b]"></div>
                     </div>
-                    <span class="text-xl font-bold">Her Day for Her</span>
+                    <span class="text-xl font-bold ">Her Day for Her</span>
                 </div>
                 <div class="text-right">
                     <div class="text-sm opacity-80">Ticket #</div>
-                    <div class="font-bold">{{ $ticket->ticket_number }}</div>
+                    <div class="font-bold">{{ $ticket_number }}</div>
                 </div>
             </div>
         </div>
@@ -184,45 +188,46 @@
                 <div class="md:col-span-2 space-y-4">
                     <div>
                         <h2 class="text-2xl font-bold">Professional Pass</h2>
-                        <p class="text-muted">Her Day for Her Conference 2025</p>
+                        <p class="text-muted">Her Day for Her Conference {{ $edition->year }}</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
                         <div>
                             <div class="text-sm text-muted">Attendee</div>
                             <div class="font-medium">
-                                {{ $ticket->first_name }} {{ $ticket->last_name }}
+                                {{ $first_name }} {{ $last_name }}
                             </div>
                         </div>
                         <div>
                             <div class="text-sm text-muted">Email</div>
-                            <div class="font-medium">{{ $ticket->email }}</div>
+                            <div class="font-medium">{{ $email }}</div>
                         </div>
                         <div>
                             <div class="text-sm text-muted">Company</div>
-                            <div class="font-medium">{{ $ticket->company ?? 'N/A' }}</div>
+                            <div class="font-medium">{{ $company ?? 'N/A' }}</div>
                         </div>
                         <div>
                             <div class="text-sm text-muted">Job Title</div>
-                            <div class="font-medium">{{ $ticket->job_title ?? 'N/A' }}</div>
+                            <div class="font-medium">{{ $job_title ?? 'N/A' }}</div>
                         </div>
                     </div>
 
                     <div class="flex flex-col sm:flex-row gap-4 pt-2">
                         <div class="flex items-center gap-2">
                             <span style="color: #fd5f90;">📅</span>
-                            <span>June 15-17, 2025</span>
+                            <span>{{ \Carbon\Carbon::parse($edition->created_at)->format('F j') }}-{{ \Carbon\Carbon::parse($edition->created_at)->addDays(2)->format('j, Y') }}
+                            </span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span style="color: #fd5f90;">📍</span>
-                            <span>Grand Conference Center, Paris</span>
+                            <span>Grand Conference Center, {{ $edition->city }}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="flex flex-col items-center justify-center qrCode">
                     <div class="qr-container ">
-                        <img src="{{ $qrCode }}" alt="QR Code" width="200" height="200">
+                        <img src="{{ asset('storage/' . $qrCodePath) }}"  alt="QR Code" width="200" height="200">
                     </div>
                     <p class="text-xs text-center text-muted mt-2 ">
                         Present this QR code at the registration desk

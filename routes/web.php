@@ -33,6 +33,7 @@ Route::middleware(['auth', 'verified'])->prefix("admin")->group(function () {
 Route::post('/tickets', [RegistrationController::class, 'store'])->name('tickets.store');
 Route::get('/tickets/{registration}', [RegistrationController::class, 'show'])->name('tickets.show');
 Route::get('/ticket/pdf/{registration}', [RegistrationController::class, 'downloadTicket'])->name('ticket.pdf');
+Route::get('/ticket/mail', [RegistrationController::class, 'index']);
 require __DIR__.'/settings.php';
 require __DIR__.'/content.php';
 require __DIR__.'/auth.php';
@@ -41,4 +42,5 @@ require __DIR__.'/timeline.php';
 require __DIR__.'/sponsors.php';
 require __DIR__.'/editions.php';
 require __DIR__.'/contact.php';
+require __DIR__.'/registrations.php';
 
