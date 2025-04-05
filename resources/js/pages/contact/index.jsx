@@ -8,8 +8,8 @@ import { Input } from "@/components/ui/input"
 import { MapPin, Phone, Mail, Send } from "lucide-react"
 import { motion } from "framer-motion"
 import { SuccessModal } from "@/components/success-modal"
-import { Textarea } from "@headlessui/react";
 import { useForm } from "@inertiajs/react";
+import { Footer } from "@/components/footer";
 
 export default function ContactPage() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -40,7 +40,7 @@ export default function ContactPage() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
 
-      <section className="pt-32 pb-16 bg-gradient-to-r from-[#03329b] to-[#fd5f90]">
+      <section className="pt-32 pb-16 p-6 bg-gradient-to-r from-[#03329b] to-[#fd5f90]">
         <div className="container">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -211,7 +211,7 @@ export default function ContactPage() {
         <SuccessModal onClose={() => setShowSuccessModal(false)} />
       )}
 
-      {/* <Footer /> */}
+      <Footer />
     </div>
   )
 }

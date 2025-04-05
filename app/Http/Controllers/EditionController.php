@@ -67,7 +67,7 @@ class EditionController extends Controller
         foreach ($assignedSponsors as $sponsor) {
             $edition->sponsors()->attach($sponsor);
         };
-        dd($assignedSponsors);
+        // dd($assignedSponsors);
     }
 
     /**
