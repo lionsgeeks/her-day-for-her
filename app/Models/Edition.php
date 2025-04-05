@@ -26,7 +26,6 @@ class Edition extends Model
         'is_active' => 'boolean',
     ];
 
-<<<<<<< HEAD
     public function timelines()
     {
         return $this->hasMany(Timeline::class);
@@ -44,9 +43,8 @@ class Edition extends Model
     public function sponsors()
     {
         return $this->belongsToMany(Sponsor::class, 'edition_sponsors');
-=======
+    }
     public function registrations(){
         $this->hasMany(Registration::class);
->>>>>>> sara
     }
 }
