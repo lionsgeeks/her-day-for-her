@@ -25,12 +25,13 @@ const { put , delete:destroy } = useForm(
    }
 );
 
+
+
   const handleDelete = (e) => {
-//    console.log(e);
+    setSelectedMessage(e);
+    setDeleteModalOpen(true);
+};
 
-    destroy(route('contact.destroy' , e))
-
-  };
 
 
 
@@ -46,8 +47,10 @@ const handleUpdate = (e) => {
 
 
   const confirmDelete = () => {
-    console.log(`Deleting message ${selectedMessage}`);
-    // API call would go here
+    console.log(selectedMessage);
+
+    destroy(route('contact.destroy' ,selectedMessage ))
+
   };
 
   const viewMessage = (message) => {
@@ -204,6 +207,16 @@ const handleUpdate = (e) => {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Delete Message"
+        message="Are you sure you want to delete this message? This action cannot be undone."
+        confirmText="Delete"
+        type="danger"
+      />
     </AppLayout>
   );
 }

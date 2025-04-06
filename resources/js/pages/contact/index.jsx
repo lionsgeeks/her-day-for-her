@@ -31,7 +31,6 @@ export default function ContactPage() {
     post((route('contact.store')), {
       onSuccess: () => {
         setShowSuccessModal(true)
-        reset()
       },
     })
   }
@@ -208,10 +207,20 @@ export default function ContactPage() {
         </div>
       </section>
 
+<<<<<<< Updated upstream
       {showSuccessModal && (
         <SuccessModal onClose={() => setShowSuccessModal(false)} />
       )}
     </UserLayout>
+=======
+      
+      <SuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        title="Message Sent!"
+        message="Thank you for contacting us. We'll get back to you as soon as possible."
+      />
+>>>>>>> Stashed changes
 
   )
 }
