@@ -43,6 +43,7 @@ export default function GalleryModal({ isOpen, onClose, images, currentImageInde
 
     if (!isOpen) return null
 
+    const baseUrl = window.location.origin;
     return (
         <AnimatePresence>
             {isOpen && (
@@ -69,7 +70,7 @@ export default function GalleryModal({ isOpen, onClose, images, currentImageInde
                         </button>
 
                         <div className="relative w-full h-[80vh] max-w-6xl flex items-center justify-center">
-                            <img src={'http://127.0.0.1:8000/storage/' + images[imageIndex].path}
+                            <img src={baseUrl +'/storage/' + images[imageIndex].path}
                                 alt="image title or somthing"
                                 className="object-contain w-5/6"
                             />

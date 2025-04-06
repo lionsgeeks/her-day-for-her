@@ -13,7 +13,7 @@ class SpeakerController extends Controller
     public function index()
     {
         $speakers = Speaker::with('editions')->get();
-        $editions = Edition::all();
+        $editions = Edition::select('id', 'year')->get();
         return Inertia::render('speakers/index', [
             'speakers' => $speakers,
             'editions' => $editions

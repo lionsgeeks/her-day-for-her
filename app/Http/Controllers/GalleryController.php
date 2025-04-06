@@ -14,7 +14,7 @@ class GalleryController extends Controller
     public function index()
     {
         $galleries = Gallery::with('images')->with('edition')->get();
-        $editions = Edition::all();
+        $editions = Edition::select('id', 'year')->get();
         return Inertia::render('gallery/index', [
             'editions' => $editions,
             'galleries' => $galleries,
@@ -23,11 +23,13 @@ class GalleryController extends Controller
 
     public function frontPage()
     {
-        $galleries = Image::where('imageable_type', 'App\Models\Gallery')->take(9)->get()->shuffle();
+        $images = Image::where('imageable_type', 'App\Models\Gallery')->get()->shuffle();
         $editions = Edition::select('id', 'year')->get();
+        $galleries = Gallery::all();
         return Inertia::render('gallery/front/index', [
+            'images' => $images,
+            'editions' => $editions,
             'galleries' => $galleries,
-            'editions' => $editions
         ]);
     }
 
@@ -38,25 +40,24 @@ class GalleryController extends Controller
             'images' => 'required',
         ]);
 
-        $gallery = Gallery::create([
-            'edition_id' => $request->edition,
-        ]);
 
-        foreach ($request->images as $key => $value) {
-            $file = $value;
-            $fileName = $file->store('images/gallery', 'public');
+        // I'M A GENIUS HAHAHAHA
+        $gallery = Gallery::firstOrCreate(['edition_id' => $request->edition]);
+
+        foreach ($request->images as $image) {
+            $fileName = $image->store('images/gallery', 'public');
             $gallery->images()->create([
                 'path' => $fileName,
             ]);
         }
+
     }
 
 
 
     public function destroy(Gallery $gallery)
     {
-        foreach($gallery->images as $image)
-        {
+        foreach ($gallery->images as $image) {
             Storage::disk('public')->delete($image->path);
         }
         $gallery->images()->delete();

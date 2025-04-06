@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import ConfirmationModal from "@/components/confirmationModal"
+import GalleryCard from '../../components/gallery/gallery-card';
 
 
 
@@ -50,6 +51,7 @@ export default function GalleryPage() {
         setDeleteModalOpen(false);
     }
 
+    const baseUrl = window.location.origin;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader
@@ -67,47 +69,7 @@ export default function GalleryPage() {
 
                 {
                     galleries.map((gal, index) => (
-                        <Card key={gal.id} className="overflow-hidden p-0">
-                            <CardContent className="p-0">
-                                <div className="relative aspect-video w-full overflow-hidden">
-
-                                    <img src={'http://127.0.0.1:8000/storage/' + gal.images[0]?.path} />
-                                    <div className="absolute right-2 top-2">
-                                        <DropdownMenu>
-                                            <DropdownMenuTrigger asChild>
-                                                <Button variant="" size="icon" className="h-8 w-8 rounded-full bg-white text-black transition-all duration-300 ease-in-out hover:text-white">
-                                                    <MoreHorizontal className="h-4 w-4" />
-                                                    <span className="sr-only">Open menu</span>
-                                                </Button>
-                                            </DropdownMenuTrigger>
-                                            <DropdownMenuContent align="end">
-                                                <DropdownMenuItem
-                                                // onClick={() => handlePreview(image)}
-                                                >
-                                                    <Eye className="mr-2 h-4 w-4" />
-                                                    Preview (TODO)
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                // onClick={() => onEdit(image)}
-                                                >
-                                                    <Edit className="mr-2 h-4 w-4" />
-                                                    Edit (TODO)
-                                                </DropdownMenuItem>
-                                                <DropdownMenuItem
-                                                    onClick={() => onDeletePress(gal)}
-                                                >
-                                                    <Trash2 className="mr-2 h-4 w-4" />
-                                                    Delete
-                                                </DropdownMenuItem>
-                                            </DropdownMenuContent>
-                                        </DropdownMenu>
-                                    </div>
-                                </div>
-                                <CardFooter className="py-2">
-                                    <p><span className='font-semibold'>Gallry For Edition</span>: {gal.edition.name} - {gal.edition.year}</p>
-                                </CardFooter>
-                            </CardContent>
-                        </Card>
+                        <GalleryCard gal={gal} onDeletePress={onDeletePress} />
                     ))
                 }
             </div>
@@ -130,9 +92,13 @@ export default function GalleryPage() {
                 onClose={() => setFormModal(false)}
             >
 
-                <form onSubmit={handleForm} className="w-full lg:w-[35vw] space-y-3 p-2">
+                <form onSubmit={handleForm} className="w-full lg:w-[35vw] space-y-3 p-3">
+
+                    <div>
+                        <h1 className='text-2xl text-center'>Create A New Gallery</h1>
+                    </div>
                     <div className="flex flex-col gap-2 items-start">
-                        <label htmlFor="edition">Edition</label>
+                        <label htmlFor="edition" className='text-lg'>Select an Edition: </label>
                         <Select value={data.edition} onValueChange={(value) => setData('edition', value)}>
                             <SelectTrigger>
                                 <option value="" disabled>{data.edition ? editions.find(item => item.id == data.edition).year : 'Please Select An Edition'}</option>
@@ -147,11 +113,27 @@ export default function GalleryPage() {
                         </Select>
                     </div>
 
-                    <div className="flex flex-col gap-2 items-start">
-                        <label htmlFor="images">Choose Images:</label>
-                        <input id="images" name="images" type="file" accept="image/*" multiple
-                            className="border-2 rounded p-1 w-full" onChange={e => setData('images', Array.from(e.target.files))}
-                        />
+
+                    <div className="">
+                        <label htmlFor="images" className="text-lg">
+                            Choose Images:
+                        </label>
+                        <div className="flex items-center justify-center w-full">
+                            <label
+                                htmlFor="images"
+                                className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors"
+                            >
+                                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <p className="mb-2 text-sm text-gray-500">
+                                        <span className="font-semibold">Click to upload</span>
+                                    </p>
+                                    <p className="text-xs text-gray-500">PNG, JPG, JPEG</p>
+                                </div>
+                                <input id="images" name="images" type="file" accept="image/*" multiple className="hidden"
+                                    onChange={e => setData('images', Array.from(e.target.files))}
+                                />
+                            </label>
+                        </div>
                     </div>
 
 

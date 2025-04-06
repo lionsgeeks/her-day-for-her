@@ -42,7 +42,7 @@ export default function FramerModal({
                         className="bg-white rounded-lg shadow-xl overflow-hidden"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <div className="relative p-2">
+                        <div className="relative">
                             <button
                                 className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
                                 onClick={onClose}
