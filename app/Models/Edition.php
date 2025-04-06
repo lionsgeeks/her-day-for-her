@@ -45,6 +45,6 @@ class Edition extends Model
         return $this->belongsToMany(Sponsor::class, 'edition_sponsors');
     }
     public function registrations(){
-        $this->hasMany(Registration::class);
+        return $this->hasMany(Registration::class);
     }
 }

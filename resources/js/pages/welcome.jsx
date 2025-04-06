@@ -20,7 +20,7 @@ export default function Welcome() {
             <SpeakerSection speakers={speakers} />
             <TimelineSection timelineEvents={timelineEvents} />
             <GallerySection galleries={galleries} />
-            <SponsorsSection sponsors={edition.sponsors}/>
+            <SponsorsSection sponsors={edition?.sponsors}/>
             <CtaSection />
             <MapSection />
         </UserLayout>

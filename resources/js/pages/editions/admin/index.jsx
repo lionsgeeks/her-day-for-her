@@ -13,71 +13,11 @@ import { useState } from 'react';
 
 export default function EditionsPage() {
     const { editions } = usePage().props;
-    const {delete: destroy} = useForm();
-    console.log(editions)
+    const { delete: destroy } = useForm();
+    console.log(editions);
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [selectedEdition, setSelectedEdition] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-
-    // Mock data - in a real app, this would come from your API
-    // const editions = [
-    //     {
-    //         id: 1,
-    //         year: '2025',
-    //         name: 'Her Day for Her 2025',
-    //         startDate: '2025-06-15',
-    //         endDate: '2025-06-17',
-    //         location: 'Paris, France',
-    //         venue: 'Le Grand Palais',
-    //         status: 'upcoming',
-    //         registrations: 342,
-    //         speakers: 28,
-    //         sponsors: 15,
-    //         galleryItems: 24,
-    //     },
-    //     {
-    //         id: 2,
-    //         year: '2024',
-    //         name: 'Her Day for Her 2024',
-    //         startDate: '2024-06-10',
-    //         endDate: '2024-06-12',
-    //         location: 'London, UK',
-    //         venue: 'ExCeL London',
-    //         status: 'active',
-    //         registrations: 450,
-    //         speakers: 32,
-    //         sponsors: 18,
-    //         galleryItems: 120,
-    //     },
-    //     {
-    //         id: 3,
-    //         year: '2023',
-    //         name: 'Her Day for Her 2023',
-    //         startDate: '2023-06-05',
-    //         endDate: '2023-06-07',
-    //         location: 'Berlin, Germany',
-    //         venue: 'Messe Berlin',
-    //         status: 'past',
-    //         registrations: 400,
-    //         speakers: 30,
-    //         sponsors: 16,
-    //         galleryItems: 95,
-    //     },
-    //     {
-    //         id: 4,
-    //         year: '2022',
-    //         name: 'Her Day for Her 2022',
-    //         startDate: '2022-06-08',
-    //         endDate: '2022-06-10',
-    //         location: 'Barcelona, Spain',
-    //         venue: 'Fira Barcelona',
-    //         status: 'past',
-    //         registrations: 350,
-    //         speakers: 25,
-    //         sponsors: 12,
-    //         galleryItems: 80,
-    //     },
-    // ];
 
     const filteredEditions = editions.filter(
         (edition) =>
@@ -93,21 +33,12 @@ export default function EditionsPage() {
     };
 
     const confirmDelete = () => {
-        
         console.log(`Deleting edition ${selectedEdition}`);
         destroy(route('editions.destroy', { edition: selectedEdition }));
         // Then update your local state or refetch data
     };
 
-    const getStatusBadge = (status) => {
-        const colors = {
-            upcoming: 'bg-blue-100 text-blue-800',
-            active: 'bg-green-100 text-green-800',
-            past: 'bg-gray-100 text-gray-800',
-        };
 
-        return <Badge className={colors[status] || 'bg-gray-100 text-gray-800'}>{status.charAt(0).toUpperCase() + status.slice(1)}</Badge>;
-    };
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -127,7 +58,12 @@ export default function EditionsPage() {
             />
 
             <div className="mb-6">
-                <Input placeholder="Search editions..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="max-w-md bg-white" />
+                <Input
+                    placeholder="Search editions..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="max-w-md bg-white"
+                />
             </div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -140,7 +76,7 @@ export default function EditionsPage() {
                                     <div className="mt-1 flex items-center gap-2">
                                         <Calendar className="h-4 w-4 text-gray-500" />
                                         <span className="text-sm text-gray-600">
-                                            {formatDate(edition.startDate)} - {formatDate(edition.endDate)}
+                                            {formatDate(edition.date)}
                                         </span>
                                     </div>
                                     <div className="mt-1 flex items-center gap-2">
@@ -150,28 +86,32 @@ export default function EditionsPage() {
                                         </span>
                                     </div>
                                 </div>
-                                {/* <div>{getStatusBadge(edition.status)}</div> */}
+                                <div>
+                                    <Badge className={edition.is_active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}>
+                                        {edition.is_active ? 'Active' : 'Past'}
+                                    </Badge>
+                                </div>
                             </div>
 
                             <div className="mt-2 grid grid-cols-2 gap-4 md:grid-cols-4">
                                 <div className="flex flex-col items-center rounded-md bg-gray-50 p-3">
                                     <Users className="mb-1 h-5 w-5 text-[#03329b]" />
-                                    <span className="text-lg font-semibold">{edition.registrations}</span>
+                                    <span className="text-lg font-semibold">{edition.registrations?.length}</span>
                                     <span className="text-xs text-gray-500">Registrations</span>
                                 </div>
                                 <div className="flex flex-col items-center rounded-md bg-gray-50 p-3">
                                     <Users className="mb-1 h-5 w-5 text-[#fd5f90]" />
-                                    <span className="text-lg font-semibold">{edition.speakers}</span>
+                                    <span className="text-lg font-semibold">{edition.speakers?.length}</span>
                                     <span className="text-xs text-gray-500">Speakers</span>
                                 </div>
                                 <div className="flex flex-col items-center rounded-md bg-gray-50 p-3">
                                     <Building className="mb-1 h-5 w-5 text-[#03329b]" />
-                                    <span className="text-lg font-semibold">{edition.sponsors}</span>
+                                    <span className="text-lg font-semibold">{edition.sponsors.length}</span>
                                     <span className="text-xs text-gray-500">Sponsors</span>
                                 </div>
                                 <div className="flex flex-col items-center rounded-md bg-gray-50 p-3">
                                     <Image className="mb-1 h-5 w-5 text-[#fd5f90]" />
-                                    <span className="text-lg font-semibold">{edition.galleryItems}</span>
+                                    <span className="text-lg font-semibold">{edition.galleries?.length}</span>
                                     <span className="text-xs text-gray-500">Gallery Items</span>
                                 </div>
                             </div>

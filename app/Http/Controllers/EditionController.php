@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Edition;
-use App\Models\EditionSponsor;
 use App\Models\Sponsor;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -16,7 +15,7 @@ class EditionController extends Controller
     public function index()
     {
         return Inertia::render('editions/admin/index', [
-            'editions' => Edition::all(),
+            'editions' => Edition::with('sponsors')->with('speakers')->with('registrations')->with('galleries')->get(),
         ]);
     }
 
@@ -49,7 +48,9 @@ class EditionController extends Controller
             'venue' => 'required|string|max:255',
             'isActive' => 'required|boolean',
         ]);
-
+        if ($validated['isActive']) {
+            Edition::where('is_active', true)->update(['is_active' => false]);
+        }
         $edition = Edition::create([
             'name' => $validated['name'],
             'year' => $validated['year'],
@@ -67,6 +68,7 @@ class EditionController extends Controller
         foreach ($assignedSponsors as $sponsor) {
             $edition->sponsors()->attach($sponsor);
         };
+
         // dd($assignedSponsors);
     }
 
@@ -76,7 +78,7 @@ class EditionController extends Controller
     public function show(Edition $edition)
     {
         return Inertia::render('editions/admin/[id]/index', [
-            'edition' => $edition,
+            'edition' => $edition->with('sponsors.images')->with('speakers.images')->with('registrations')->with('galleries')->first(),
         ]);
     }
 
@@ -112,6 +114,9 @@ class EditionController extends Controller
             'venue' => 'required|string|max:255',
             'isActive' => 'boolean',
         ]);
+        if ($validated['isActive']) {
+            Edition::where('is_active', true)->update(['is_active' => false]);
+        }
         $edition->update([
             'name' => $validated['name'],
             'year' => $validated['year'],
