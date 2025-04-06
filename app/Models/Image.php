@@ -13,9 +13,4 @@ class Image extends Model
     }
 
 
-    public function galleries()
-    {
-        return $this->where('imageable_type', Gallery::class)->get();
-    }
-
 }

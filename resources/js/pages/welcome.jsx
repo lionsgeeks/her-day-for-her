@@ -23,7 +23,6 @@ export default function Welcome() {
             <SponsorsSection sponsors={edition.sponsors}/>
             <CtaSection />
             <MapSection />
-            <Footer />
         </UserLayout>
     );
 }

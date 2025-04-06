@@ -76,7 +76,7 @@ export default function GallerySection({galleries}) {
 
                     <motion.h2
                         variants={itemVariants}
-                        className="text-3xl md:text-4xl font-bold mb-4"
+                        className="text-3xl md:text-4xl font-bold mb-4 text-black"
                     >
                         Moments from Previous Editions
                     </motion.h2>

@@ -1,12 +1,10 @@
 <?php
 
 use App\Models\Content;
-use App\Models\Speaker;
 use App\Models\Sponsor;
 use App\Models\Timeline;
 use App\Http\Controllers\RegistrationController;
 use App\Models\Edition;
-use App\Models\Gallery;
 use App\Models\Image;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -14,14 +12,12 @@ use Inertia\Inertia;
 Route::get('/', function () {
     $hero = Content::where("section", "hero")->first();
     $about = Content::where("section", "about")->first();
-    $speakers = Speaker::all();
+    $edition = Edition::where("is_active" , 1)->with('sponsors.images')->first();
+    $speakers = $edition->speakers()->get();
     // Sort the events by their starting time..TODO take into consideration multiple days
-    $timelineEvents = Timeline::all()->sortBy(function($timeline) {
+    $timelineEvents = Timeline::where('edition_id', $edition->id)->get()->sortBy(function($timeline) {
         return \Carbon\Carbon::createFromFormat('H:i', $timeline->startTime);
     })->values()->toArray();
-    $edition = Edition::where("is_active" , 1)->with('sponsors.images')->first();
-    // dd($edition);
-    //..TODO Get Random Images from any edition
     $galleries = Image::where('imageable_type', 'App\Models\Gallery')->take(9)->get()->shuffle();
     return Inertia::render('welcome', [
         'speakers' => $speakers,

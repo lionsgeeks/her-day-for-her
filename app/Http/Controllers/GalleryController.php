@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Edition;
 use App\Models\Gallery;
+use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -17,6 +18,16 @@ class GalleryController extends Controller
         return Inertia::render('gallery/index', [
             'editions' => $editions,
             'galleries' => $galleries,
+        ]);
+    }
+
+    public function frontPage()
+    {
+        $galleries = Image::where('imageable_type', 'App\Models\Gallery')->take(9)->get()->shuffle();
+        $editions = Edition::select('id', 'year')->get();
+        return Inertia::render('gallery/front/index', [
+            'galleries' => $galleries,
+            'editions' => $editions
         ]);
     }
 
