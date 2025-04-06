@@ -1,6 +1,10 @@
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 export function Footer() {
+  const {edition} =  usePage().props
+
+  console.log(edition);
+  
   return (
     <footer className="bg-alpha  text-white p-12 lg:px-24">
       <div className="container">
@@ -15,7 +19,7 @@ export function Footer() {
               <span className="text-xl font-bold">Her Day for Her</span>
             </div>
             <p className="text-sm opacity-80">
-              The premier conference celebrating women in technology, leadership, and innovation.
+              The premier conference celebrating women's leadership, and innovation.
             </p>
             <div className="flex gap-4">
               <a href="#" className="text-white hover:text-[#fd5f90] transition-colors">
@@ -131,7 +135,7 @@ export function Footer() {
                 >
                   <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                 </svg>
-                <span>+33 1 23 45 67 89</span>
+                <span>{edition.phone}</span>
               </li>
               <li className="flex items-start gap-2 text-sm opacity-80">
                 <svg
@@ -149,7 +153,7 @@ export function Footer() {
                   <rect width="20" height="16" x="2" y="4" rx="2" />
                   <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
-                <span>contact@herdayforher.com</span>
+                <span>{edition.email}</span>
               </li>
               <li className="flex items-start gap-2 text-sm opacity-80">
                 <svg
@@ -168,11 +172,11 @@ export function Footer() {
                   <circle cx="12" cy="10" r="3" />
                 </svg>
                 <span>
-                  Grand Conference Center
+                  {edition.city}
                   <br />
-                  123 Avenue des Champs-Élysées
+                  {edition.venue}
                   <br />
-                  75008 Paris, France
+                  {edition.country}
                 </span>
               </li>
             </ul>

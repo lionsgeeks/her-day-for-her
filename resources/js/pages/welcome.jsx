@@ -15,8 +15,8 @@ export default function Welcome() {
     return (
         <UserLayout>
             <Head title="Her Day For Her" />
-            {/* <HeroSection /> */}
-            {/* <AboutSection /> */}
+            <HeroSection />
+            <AboutSection />
             <SpeakerSection speakers={speakers} />
             <TimelineSection timelineEvents={timelineEvents} />
             <GallerySection galleries={galleries} />

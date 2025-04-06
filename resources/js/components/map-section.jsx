@@ -12,7 +12,6 @@ export function MapSection() {
   const isInView = useInView(ref, { once: true, amount: 0.2 })
   const { edition } = usePage().props
 
-  console.log(edition);
 
 
   const containerVariants = {

@@ -18,8 +18,8 @@ export default function HeroSection() {
   return (
     <section className="relative lg:px-24 px-12 text-center lg:text-start min-h-screen flex items-center">
       <div className="absolute inset-0 z-0">
-        <img src={heroContent.image} alt="Conference" className="object-cover w-full h-full" />
-        <div className="absolute inset-0 bg-gradient-to-tl from-alpha/90 to-[#fd5f90]/70"></div>
+        <img src={heroContent.image}  className="object-cover w-full h-full" />
+        <div className="absolute inset-0 bg-gradient-to-r from-alpha/80 to-beta/70"></div>
       </div>
 
       <div className=" relative z-10 py-24 md:py-0">
@@ -53,7 +53,7 @@ export default function HeroSection() {
             className="flex flex-col sm:flex-row gap-4 pt-2 md:pt-4"
           >
             <RegistrationModal />
-            <a href="#timeline" size="lg" variant="outline" className="border-none text-white bg-alpha px-6 py-2 rounded-lg hover:bg-white/10">
+            <a href="#timeline" size="lg" variant="outline" className="border-none text-white bg-alpha/80 px-6 py-2 rounded-lg hover:bg-white/10">
               Explore Program
             </a>
           </motion.div>

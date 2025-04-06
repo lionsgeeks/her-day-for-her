@@ -2,22 +2,22 @@
 
 import React, { useState } from "react"
 
-import Navbar from '@/layouts/app/user-navbar-layout';
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { MapPin, Phone, Mail, Send } from "lucide-react"
 import { motion } from "framer-motion"
 import { SuccessModal } from "@/components/success-modal"
-import { useForm } from "@inertiajs/react";
-import { Footer } from "@/components/footer";
+import { useForm , Head } from "@inertiajs/react";
+import UserLayout from '@/layouts/user-layout';
+
 
 export default function ContactPage() {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        name: "",
-        email: "",
-        message: "",
-        subject: "",
-      })
+  const { data, setData, post, processing, errors, reset } = useForm({
+    name: "",
+    email: "",
+    message: "",
+    subject: "",
+  })
   const [showSuccessModal, setShowSuccessModal] = useState(false)
 
   const handleChange = (e) => {
@@ -37,16 +37,17 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
 
-      <section className="pt-32 pb-16 p-6 bg-gradient-to-r from-[#03329b] to-[#fd5f90]">
-        <div className="container">
+    <UserLayout>
+      <Head title="Gallery" />
+
+      <section className="pt-32 pb-16 p-6 bg-gradient-to-r from-alpha to-beta text-center">
+        <div className="w-full ">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-3xl text-white"
+            className=" w-full  text-white text-center"
           >
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
             <p className="text-xl opacity-90">Have questions? We're here to help.</p>
@@ -70,7 +71,7 @@ export default function ContactPage() {
                   initial={{ opacity: 0, x: -30 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="bg-gradient-to-br from-[#03329b] to-[#fd5f90] p-8 text-white"
+                  className="bg-gradient-to-br from-alpha to-beta p-8 text-white"
                 >
                   <div className="h-full flex flex-col justify-between">
                     <div>
@@ -154,52 +155,52 @@ export default function ContactPage() {
                 >
                   <h2 className="text-2xl font-bold mb-6 text-[#03329b]">Send Us a Message</h2>
                   <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <Input
-              name="name"
-              value={data.name}
-              onChange={handleChange}
-              placeholder="Your Name"
-            />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
-          </div>
-          <div>
-            <Input
-              name="subject"
-              value={data.subject}
-              onChange={handleChange}
-              placeholder="Your subject"
-            />
-            {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
-          </div>
+                    <div>
+                      <Input
+                        name="name"
+                        value={data.name}
+                        onChange={handleChange}
+                        placeholder="Your Name"
+                      />
+                      {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                    </div>
+                    <div>
+                      <Input
+                        name="subject"
+                        value={data.subject}
+                        onChange={handleChange}
+                        placeholder="Your subject"
+                      />
+                      {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+                    </div>
 
-          <div>
-            <Input
-              name="email"
-              type="email"
-              value={data.email}
-              onChange={handleChange}
-              placeholder="Your Email"
-            />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
-          </div>
+                    <div>
+                      <Input
+                        name="email"
+                        type="email"
+                        value={data.email}
+                        onChange={handleChange}
+                        placeholder="Your Email"
+                      />
+                      {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                    </div>
 
-          <div>
-            <textarea
-              name="message"
-              value={data.message}
-              onChange={handleChange}
-              placeholder="Your Message"
-              className="w-full p-2 border rounded-md"
-              rows={4}
-            />
-            {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
-          </div>
+                    <div>
+                      <textarea
+                        name="message"
+                        value={data.message}
+                        onChange={handleChange}
+                        placeholder="Your Message"
+                        className="w-full p-2 border rounded-md"
+                        rows={4}
+                      />
+                      {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                    </div>
 
-          <Button type="submit" disabled={processing} className="w-full">
-            {processing ? "Sending..." : "Send Message"}
-          </Button>
-        </form>
+                    <Button type="submit" disabled={processing} className="w-full">
+                      {processing ? "Sending..." : "Send Message"}
+                    </Button>
+                  </form>
                 </motion.div>
               </div>
             </div>
@@ -210,8 +211,7 @@ export default function ContactPage() {
       {showSuccessModal && (
         <SuccessModal onClose={() => setShowSuccessModal(false)} />
       )}
+    </UserLayout>
 
-      <Footer />
-    </div>
   )
 }

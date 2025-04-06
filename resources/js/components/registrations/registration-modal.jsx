@@ -77,7 +77,7 @@ export function RegistrationModal() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button size="lg" className="bg-[#fd5f90] text-white hover:bg-[#fd5f90]/90">
+                <Button size="lg" className="bg-beta/70  text-white hover:bg-alpha/80 hover:cursor-pointer">
                     Get Your Tickets
                 </Button>
             </DialogTrigger>

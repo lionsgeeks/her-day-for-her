@@ -13,7 +13,6 @@ export default function AboutSection() {
   const isInView = useInView(ref, { once: true, amount: 0.3 })
   let { about } = usePage().props
 
-  console.log(about);
   
 
   const containerVariants = {
