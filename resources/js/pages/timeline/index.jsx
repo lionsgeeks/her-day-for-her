@@ -27,10 +27,15 @@ export default function TimelinePage() {
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [formModal, setFormModal] = useState(false);
     const [selectedEvent, setSelectedEvent] = useState(null)
-    const [selectedEdition, setSelectedEdition] = useState("2025")
-
+    const [selectedEdition, setSelectedEdition] = useState(null)
 
     const breadcrumbs = [{ title: "Event Timeline", href: "/admin/timeline" }];
+
+    const filteredTimelines = timelineEvents.filter((speaker) =>
+        selectedEdition === null
+            ? true
+            : speaker.edition_id == selectedEdition
+    )
 
 
     const handleCreate = () => {
@@ -106,11 +111,14 @@ export default function TimelinePage() {
             <div className="mb-6">
                 <Select value={selectedEdition} onValueChange={setSelectedEdition}>
                     <SelectTrigger className="w-[180px]">
-                        <SelectValue placeholder={selectedEdition} />
+                        <SelectValue placeholder="Select Edition" />
                     </SelectTrigger>
                     <SelectContent>
+                        <SelectItem value={null}>
+                            All Editions
+                        </SelectItem>
                         {editions.map((edition) => (
-                            <SelectItem key={edition.id} value={edition.year}>
+                            <SelectItem key={edition.id} value={edition.id}>
                                 {edition.year} Edition
                             </SelectItem>
                         ))}
@@ -119,7 +127,7 @@ export default function TimelinePage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
-                {timelineEvents.map((event) => (
+                {filteredTimelines.map((event) => (
                     <Card key={event.id} className="p-6">
                         <div className="flex flex-col gap-4">
                             <div>

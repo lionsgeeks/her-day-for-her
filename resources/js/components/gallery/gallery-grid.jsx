@@ -30,7 +30,7 @@ export default function GalleryGrid({ limit = 8, showViewAll = true, galleries, 
         setSelectedImageIndex(index)
         setModalOpen(true)
     }
-
+    const baseUrl = window.location.origin;
     return (
         <div className="space-y-6">
             <motion.div
@@ -47,7 +47,7 @@ export default function GalleryGrid({ limit = 8, showViewAll = true, galleries, 
                         whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}
                         onClick={() => openModal(index)}
                     >
-                        <img src={'http://127.0.0.1:8000/storage/' + image.path} alt=""
+                        <img   src={`${baseUrl}/storage/${image.path}`} alt=""
                             className="w-full h-full object-cover aspect-square transition-transform group-hover:scale-110 "
                         />
                     </motion.div>

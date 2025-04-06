@@ -3,15 +3,26 @@ import { Head, Link, usePage } from "@inertiajs/react";
 import { motion } from "framer-motion"
 import GalleryGrid from "@/components/gallery/gallery-grid"
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button";
 
 
 export default function FrontGallery() {
-    const { galleries, editions } = usePage().props;
+    const { images, editions, galleries } = usePage().props;
     const [selectedEdition, setSelectedEdition] = useState();
+    const [filteredImages, setFilteredImages] = useState(images);
 
+    useEffect(() => {
+        if (selectedEdition) {
+            const galleryID = galleries.find((gal) => gal.edition_id == selectedEdition).id;
+            const filImg = images.filter((img) => img.imageable_id == galleryID);
+            setFilteredImages(filImg);
+
+        } else {
+            setFilteredImages(images)
+        }
+    }, [selectedEdition])
 
     return (
         <UserLayout>
@@ -40,6 +51,9 @@ export default function FrontGallery() {
                                 <option value="" disabled>{selectedEdition ? editions.find(item => item.id == selectedEdition).year + " Edition" : 'Please Select An Edition'}</option>
                             </SelectTrigger>
                             <SelectContent>
+                                <SelectItem value={null}>
+                                    All Editions
+                                </SelectItem>
                                 {editions.map((edition) => (
                                     <SelectItem key={edition.id} value={edition.id}>
                                         {edition.year} Edition
@@ -50,7 +64,7 @@ export default function FrontGallery() {
                     </div>
                 </div>
                 <br />
-                <GalleryGrid showViewAll={false} galleries={galleries} gridCols={4} />
+                <GalleryGrid showViewAll={false} galleries={filteredImages} gridCols={4} />
             </section>
 
 

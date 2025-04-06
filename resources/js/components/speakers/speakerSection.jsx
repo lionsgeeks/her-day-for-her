@@ -28,6 +28,7 @@ export default function SpeakersSection({ speakers }) {
         visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
     }
 
+    const baseUrl = window.location.origin;
     return (
         <section ref={ref} className="py-16 px-6 bg-slate-50">
             <div className="container">
@@ -54,19 +55,6 @@ export default function SpeakersSection({ speakers }) {
                     animate={isInView ? "visible" : "hidden"}
                     className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
                 >
-                    {/* {
-                        [1, 2, 3, 4].map((speaker, index) => (
-                            <motion.div key={index} variants={speakerVariants}>
-                                <SpeakerCard
-                                    name="Dr. Sarah Johnson"
-                                    role="CTO, TechInnovate"
-                                    image="https://thispersondoesnotexist.com/"
-                                    topic="The Future of AI in Healthcare"
-                                    index={index}
-                                />
-                            </motion.div>
-                        ))
-                    } */}
 
                     {/* when speakers are added to database use this */}
                     {
@@ -75,7 +63,7 @@ export default function SpeakersSection({ speakers }) {
                                 <SpeakerCard
                                     name={speaker.name}
                                     role={speaker.position}
-                                    image={'http://127.0.0.1:8000/storage/' + speaker.image}
+                                    image={baseUrl + '/storage/' + speaker.image}
                                     topic={speaker.linkedin}
                                     index={index}
                                 />
@@ -83,17 +71,7 @@ export default function SpeakersSection({ speakers }) {
                         ))
                     }
                 </motion.div>
-                {/*
-                <motion.div
-                    variants={itemVariants}
-                    initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
-                    className="flex justify-center mt-10"
-                >
-                    <Button className="bg-[#03329b] hover:bg-[#03329b]/90">
-                        View All Speakers <ChevronRight className="ml-2 h-4 w-4" />
-                    </Button>
-                </motion.div> */}
+
             </div>
         </section>
     )
