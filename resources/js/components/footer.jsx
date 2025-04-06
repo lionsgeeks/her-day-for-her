@@ -3,7 +3,6 @@ import { Link, usePage } from "@inertiajs/react";
 export function Footer() {
   const {edition} =  usePage().props
 
-  console.log(edition);
   
   return (
     <footer className="bg-alpha  text-white p-12 lg:px-24">

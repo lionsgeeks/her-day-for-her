@@ -133,4 +133,16 @@ class EditionController extends Controller
     {
         $edition->delete();
     }
+
+    public function pastEditions(){
+        $editions = Edition::wherenot("is_active", 1)
+            ->with(['sponsors.images', 'speakers', 'galleries'])
+            ->get();
+            
+    
+        return Inertia::render("editions/user/past-editions", [
+            "editions" => $editions
+        ]);
+    }
+    
 }
