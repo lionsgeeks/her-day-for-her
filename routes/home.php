@@ -12,6 +12,7 @@ Route::get('/', function () {
     $hero = Content::where("section", "hero")->first();
     $about = Content::where("section", "about")->first();
     $edition = Edition::where("is_active" , 1)->with('sponsors.images')->first();
+    // dd($edition);
     $speakers = $edition->speakers()->get();
     // Sort the events by their starting time..TODO take into consideration multiple days
     $timelineEvents = Timeline::where('edition_id', $edition->id)->get()->sortBy(function($timeline) {

@@ -1,22 +1,25 @@
-import { Badge } from '@/components/ui/badge';
+import AdminHeader from '@/components/admin-header';
+import ConfirmationModal from '@/components/confirmationModal';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { Edit, Eye, Image, Plus, Trash2 } from 'lucide-react';
+import { Head, useForm, usePage } from '@inertiajs/react';
+import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
-// import Image from "next/image"
-// import Link from "next/link"
-import AdminHeader from '@/components/admin-header';
-import ConfirmationModal from '@/components/confirmationModal';
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import FramerModal from '../../../components/framer-modal';
 
 export default function SponsorsPage() {
-  const { sponsors, image_url } = usePage().props;
-  console.log('sponsors', sponsors)
-    const { data, setData, post, progress, delete : destroy,  } = useForm({
+    const { sponsors, editions } = usePage().props;
+    console.log('sponsors', sponsors);
+    const {
+        data,
+        setData,
+        post,
+        progress,
+        delete: destroy,
+    } = useForm({
         logo: null,
         name: '',
         // edition_id: 1
@@ -26,32 +29,33 @@ export default function SponsorsPage() {
     const [selectedEdition, setSelectedEdition] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [formModal, setFormModal] = useState(false);
-
+    console.log('edition',selectedEdition);
     // Mock data - in a real app, this would come from your API
-    const editions = ['all', '2025', '2024', '2023', '2022'];
-
 
     const filteredSponsors = sponsors
-        // .filter((sponsor) => selectedEdition === 'all' || sponsor.editions.includes(selectedEdition))
+        .filter((sponsor) => selectedEdition === 'all' || sponsor.editions.some((edition) => edition.year === selectedEdition))
         .filter((sponsor) => searchQuery === '' || sponsor.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const handleDelete = (id) => {
-      setSelectedSponsor(id);
-      setDeleteModalOpen(true);
+        setSelectedSponsor(id);
+        setDeleteModalOpen(true);
     };
-    
+
     const confirmDelete = () => {
-      console.log("delete ", selectedSponsor)
         destroy(route('sponsors.destroy', { sponsor: selectedSponsor }));
     };
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('sponsors.store'),{
+        post(route('sponsors.store'), {
             onFinish: () => setFormModal(false),
         });
     };
+    const breadcrumbs = [{
+        title: "Sponsors",
+        href: `/admin/sponsors`
+    }]
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Sponsors" />
             <AdminHeader
                 title="Sponsors Management"
@@ -69,9 +73,12 @@ export default function SponsorsPage() {
                         <SelectValue placeholder="Select Edition" />
                     </SelectTrigger>
                     <SelectContent>
+                            <SelectItem value={"all"}>
+                                All Editions
+                            </SelectItem>
                         {editions.map((edition) => (
-                            <SelectItem key={edition} value={edition}>
-                                {edition === 'all' ? 'All Editions' : `${edition} Edition`}
+                            <SelectItem key={edition.id} value={edition.year}>
+                                {`${edition.year}  Edition`}
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -86,8 +93,13 @@ export default function SponsorsPage() {
                 {filteredSponsors?.map((sponsor) => (
                     <Card key={sponsor.id} className="overflow-hidden">
                         <div className="flex flex-col items-center p-4">
-                            <div className="relative mb-4  overflow-hidden rounded-lg">
-                                <img src={`${image_url}/${sponsor.images[0]?.path}`} alt={sponsor.name} fill className="object-cover w-full aspect-square" />
+                            <div className="relative mb-4 overflow-hidden rounded-lg">
+                                <img
+                                    src={`/storage/${sponsor.images[0]?.path}`}
+                                    alt={sponsor.name}
+                                    fill
+                                    className="aspect-square w-full object-cover"
+                                />
                             </div>
                             <h3 className="mb-2 text-center text-lg font-bold">{sponsor.name}</h3>
                             {/* <div className="mb-4 flex flex-wrap justify-center gap-1">
@@ -135,26 +147,30 @@ export default function SponsorsPage() {
             <FramerModal isOpen={formModal} onClose={() => setFormModal(false)}>
                 <form onSubmit={handleSubmit}>
                     {/* Speaker Image */}
-                    <div className="md:flex- mb-6 flex flex-col gap-6">
+                    <div className="md:flex- mb-6 flex flex-col gap-6 lg:px-5">
                         <div className="flex-1">
                             <h3 className="invisible mb-2 text-lg font-semibold">Sponsor Logo</h3>
-                            <div className="space-y-2">
-                                <label htmlFor="logo" className="bg-alpha rounded-l-lg p-2 text-white">
+                            <div className="flex items-center space-x-2">
+                                <label
+                                    htmlFor="logo"
+                                    className="cursor-pointer rounded-lg bg-alpha px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-800"
+                                >
                                     Upload Logo
                                 </label>
-                                <Input
+                                <input
                                     id="logo"
                                     name="logo"
                                     type="file"
                                     accept="image/*"
-                                    className="rounded-r-lg border-2 p-1"
+                                    className="hidden"
                                     onChange={(e) => setData('logo', e.target.files[0])}
                                 />
+                                <span className="text-sm text-gray-600">{data.logo ? data.logo.name : 'No file chosen'}</span>
                             </div>
                         </div>
-                        {data.image && (
+                        {data.logo && (
                             <div className="relative mx-auto h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg md:mx-0">
-                                <img src={URL.createObjectURL(data.image)} className="aspect-square object-cover" alt="speaker_person" />
+                                <img src={URL.createObjectURL(data.logo)} className="aspect-square object-cover" alt="speaker_person" />
                             </div>
                         )}
                     </div>

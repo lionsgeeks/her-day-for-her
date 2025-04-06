@@ -15,7 +15,7 @@ class EditionController extends Controller
     public function index()
     {
         return Inertia::render('editions/admin/index', [
-            'editions' => Edition::with('sponsors')->with('speakers')->with('registrations')->with('galleries')->get(),
+            'editions' => Edition::with('sponsors.images', 'speakers', 'registrations', 'galleries.images' )->get(),
         ]);
     }
 
@@ -78,7 +78,7 @@ class EditionController extends Controller
     public function show(Edition $edition)
     {
         return Inertia::render('editions/admin/[id]/index', [
-            'edition' => $edition->with('sponsors.images')->with('speakers.images')->with('registrations')->with('galleries')->first(),
+            'edition' => $edition->load('sponsors.images', 'speakers', 'registrations', 'galleries.images'),
         ]);
     }
 

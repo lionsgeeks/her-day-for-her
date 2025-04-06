@@ -55,9 +55,12 @@ export default function EditEditionPage() {
         // Show success modal
         setShowSuccessModal(true);
     };
-
+    const breadcrumbs = [{
+        title: `Edit ${edition.name}`,
+        href: `/admin/editions/${edition.id}/edit`
+    }]
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader title="Create Edition" description="Set up a new conference edition" />
 
             <Link href="/admin/editions" className="mb-6 inline-flex items-center text-sm text-[#03329b] hover:underline">

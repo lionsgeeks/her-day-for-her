@@ -13,8 +13,8 @@ class SponsorController extends Controller
     public function index()
     {
         return Inertia::render('sponsors/admin/index', [
-            'sponsors' => Sponsor::with('images')->get(),
-            "image_url" => asset('storage/'),
+            'sponsors' => Sponsor::with('images', 'editions')->get(),
+            'editions' => Edition::all(),
         ]);
     }
     public function store(Request $request)

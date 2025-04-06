@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import AppLayout from '@/layouts/app-layout';
-import { Link, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { Building, Calendar, Edit, Eye, Image, MapPin, Plus, Trash2, Users } from 'lucide-react';
 import { useState } from 'react';
 
@@ -22,10 +22,7 @@ export default function EditionsPage() {
     const filteredEditions = editions.filter(
         (edition) =>
             searchQuery === '' ||
-            // edition.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            edition.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            edition.year.includes(searchQuery),
-    );
+            edition.name.toLowerCase().includes(searchQuery.toLowerCase())    );
 
     const handleDelete = (id) => {
         setSelectedEdition(id);
@@ -37,7 +34,10 @@ export default function EditionsPage() {
         destroy(route('editions.destroy', { edition: selectedEdition }));
         // Then update your local state or refetch data
     };
-
+    const breadcrumbs = [{
+        title: 'Editions',
+        href: '/admin/editions'
+    }]
 
 
     const formatDate = (dateString) => {
@@ -46,7 +46,8 @@ export default function EditionsPage() {
     };
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title='Editions'/>
             <AdminHeader
                 title="Editions Management"
                 description="Manage your conference editions"

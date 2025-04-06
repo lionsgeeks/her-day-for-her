@@ -40,14 +40,16 @@ export default function CreateEditionPage() {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
     const handleCheckboxChange = (checked) => {
         setData((prev) => ({ ...prev, isActive: checked }));
     };
-
+    const breadcrumbs = [{
+        title: 'Create Editions',
+        href: '/admin/create'
+    }]
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('editions.store'), {
@@ -69,13 +71,10 @@ export default function CreateEditionPage() {
                 });
             },
         });
-        // In a real app, you would submit the form data to your API
-        console.log('Form submitted:', data);
-        // Show success modal
     };
 
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader title="Create Edition" description="Set up a new conference edition" />
 
             <Link href="/admin/editions" className="mb-6 inline-flex items-center text-sm text-[#03329b] hover:underline">

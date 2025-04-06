@@ -16,9 +16,12 @@ export default function EditionDetailsPage() {
         const date = new Date(dateString);
         return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
     };
-
+    const breadcrumbs = [{
+        title: edition.name,
+        href: `/admin/editions/${edition.id}`
+    }]
     return (
-        <AppLayout>
+        <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader title="Edition Details" description={`Viewing details for ${edition.name}`} />
 
             <Link href="/admin/editions" className="mb-6 inline-flex items-center text-sm text-[#03329b] hover:underline">
@@ -101,22 +104,22 @@ export default function EditionDetailsPage() {
                                 Edit Edition
                             </Button>
                         </Link>
-                        <Link href="/admin/speakers/create">
+                        <Link href="/admin/speakers">
                             <Button variant="outline" className="w-full">
                                 Add Speaker
                             </Button>
                         </Link>
-                        <Link href="/admin/sponsors/create">
+                        <Link href="/admin/sponsors">
                             <Button variant="outline" className="w-full">
                                 Add Sponsor
                             </Button>
                         </Link>
-                        <Link href="/admin/gallery/create">
+                        <Link href="/admin/gallery">
                             <Button variant="outline" className="w-full">
                                 Add Gallery Image
                             </Button>
                         </Link>
-                        <Link href="/admin/timeline/create">
+                        <Link href="/admin/timeline">
                             <Button variant="outline" className="w-full">
                                 Add Timeline Event
                             </Button>

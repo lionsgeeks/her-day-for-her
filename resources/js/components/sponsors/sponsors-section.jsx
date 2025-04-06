@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
-import { Heart, Star, Sparkles, Image } from "lucide-react"
+import { Heart } from "lucide-react"
 
 export default function SponsorsSection({sponsors}) {
   const ref = useRef(null)
