@@ -225,14 +225,14 @@
                     </div>
                 </div>
 
-                <div class="flex flex-col items-center justify-center qrCode">
+                {{-- <div class="flex flex-col items-center justify-center qrCode">
                     <div class="qr-container ">
                         <img src="{{ asset('storage/' . $qrCodePath) }}"  alt="QR Code" width="200" height="200">
                     </div>
                     <p class="text-xs text-center text-muted mt-2 ">
                         Present this QR code at the registration desk
                     </p>
-                </div>
+                </div> --}}
             </div>
 
             <div class="mt-6">

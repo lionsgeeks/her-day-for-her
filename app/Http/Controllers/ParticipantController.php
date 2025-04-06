@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Edition;
 use App\Models\Registration;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,9 +14,11 @@ class ParticipantController extends Controller
      */
     public function index()
     {
-        return Inertia::render('registrations/index', [
-            'registrations' => Registration::all(),
-        ]);
+        
+return Inertia::render('registrations/index', [
+    'registrations' => Registration::with('edition')->get(),
+    'editions' => Edition::all()
+]);
     }
 
     /**

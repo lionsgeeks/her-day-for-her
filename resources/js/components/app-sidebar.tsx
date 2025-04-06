@@ -13,7 +13,6 @@ const MaindItem: NavItem[] = [
     { title: 'Dashboard', url: '/admin/dashboard', icon: LayoutGrid, },
     { title: 'Editions', url: '/admin/editions', icon: Calendar },
     { title: 'Messages', url: '/admin/contact', icon: MessageSquare },
-    { title: 'Registration', url: '/admin/registration', icon: Users },
     { title: 'Messages', url: '/messages', icon: MessageSquare },
     { title: 'Registration', url: '/admin/registrations', icon: Users },
 ];
