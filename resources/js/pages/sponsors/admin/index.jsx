@@ -9,6 +9,7 @@ import { Head, useForm, usePage } from '@inertiajs/react';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import FramerModal from '../../../components/framer-modal';
+import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SponsorsPage() {
     const { sponsors, editions } = usePage().props;
@@ -22,14 +23,14 @@ export default function SponsorsPage() {
     } = useForm({
         logo: null,
         name: '',
-        // edition_id: 1
+        editions: [],
     });
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [selectedSponsor, setSelectedSponsor] = useState(null);
     const [selectedEdition, setSelectedEdition] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [formModal, setFormModal] = useState(false);
-    console.log('edition',selectedEdition);
+    console.log('edition', selectedEdition);
     // Mock data - in a real app, this would come from your API
 
     const filteredSponsors = sponsors
@@ -50,10 +51,20 @@ export default function SponsorsPage() {
             onFinish: () => setFormModal(false),
         });
     };
-    const breadcrumbs = [{
-        title: "Sponsors",
-        href: `/admin/sponsors`
-    }]
+    
+    const handleEditionChange = (edition, checked) => {
+        if (checked) {
+            setData((prev) => ({ ...prev, editions: [...prev.editions, edition] }))
+        } else {
+            setData((prev) => ({ ...prev, editions: prev.editions.filter((e) => e !== edition) }))
+        }
+    }
+    const breadcrumbs = [
+        {
+            title: 'Sponsors',
+            href: `/admin/sponsors`,
+        },
+    ];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Sponsors" />
@@ -73,9 +84,7 @@ export default function SponsorsPage() {
                         <SelectValue placeholder="Select Edition" />
                     </SelectTrigger>
                     <SelectContent>
-                            <SelectItem value={"all"}>
-                                All Editions
-                            </SelectItem>
+                        <SelectItem value={'all'}>All Editions</SelectItem>
                         {editions.map((edition) => (
                             <SelectItem key={edition.id} value={edition.year}>
                                 {`${edition.year}  Edition`}
@@ -145,7 +154,7 @@ export default function SponsorsPage() {
             )}
 
             <FramerModal isOpen={formModal} onClose={() => setFormModal(false)}>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className="p-5">
                     {/* Speaker Image */}
                     <div className="md:flex- mb-6 flex flex-col gap-6 lg:px-5">
                         <div className="flex-1">
@@ -153,7 +162,7 @@ export default function SponsorsPage() {
                             <div className="flex items-center space-x-2">
                                 <label
                                     htmlFor="logo"
-                                    className="cursor-pointer rounded-lg bg-alpha px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-800"
+                                    className="bg-alpha cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-800"
                                 >
                                     Upload Logo
                                 </label>
@@ -190,6 +199,26 @@ export default function SponsorsPage() {
                                     setData('name', e.target.value);
                                 }}
                             />
+                        </div>
+                    </div>
+                    <div className="space-y-3">
+                        <label className="font-medium">Conference Editions</label>
+                        <div className="mt-2 grid grid-cols-2 gap-4">
+                            {editions.map((edition) => (
+                                <div key={edition.id} className="flex items-center space-x-2">
+                                    <Checkbox
+                                        id={`edition-${edition.id}`}
+                                        checked={data.editions.includes(edition.id)}
+                                        onCheckedChange={(checked) => handleEditionChange(edition.id, checked)}
+                                    />
+                                    <label
+                                        htmlFor={`edition-${edition.id}`}
+                                        className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                    >
+                                        {edition.year} Edition
+                                    </label>
+                                </div>
+                            ))}
                         </div>
                     </div>
 

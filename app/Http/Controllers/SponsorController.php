@@ -19,6 +19,7 @@ class SponsorController extends Controller
     }
     public function store(Request $request)
     {
+        // dd($request);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'logo' => 'required|image|max:2048',
@@ -31,10 +32,8 @@ class SponsorController extends Controller
             'name' => $validated['name'],
             'logo' => $logoPath,
         ]);
-        // $edition = Edition::latest()->first();
-        // $sponsor->editions()->attach($edition->id);
+        $sponsor->editions()->sync($request->editions);
         $sponsor->images()->create(["path" => $logoPath]);
-        // dd($edition);
     }
     public function destroy(Sponsor $sponsor) {
         $sponsor->delete();
