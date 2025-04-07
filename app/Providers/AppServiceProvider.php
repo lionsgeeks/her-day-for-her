@@ -23,9 +23,9 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 
-        $edition = Edition::where("is_active", 1)->first();
-        Inertia::share([
-            "edition" => $edition
-        ]);
+        // $edition = Edition::where("is_active", 1)->first();
+        // Inertia::share([
+        //     "edition" => $edition
+        // ]);
     }
 }
