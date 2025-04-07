@@ -20,7 +20,6 @@ export default function TimelinePage() {
         startTime: '',
         endTime: '',
         description: '',
-        icon: '',
     });
 
 
@@ -47,7 +46,6 @@ export default function TimelinePage() {
             startTime: '',
             endTime: '',
             description: '',
-            icon: '',
         })
         setFormModal(true);
     }
@@ -61,7 +59,6 @@ export default function TimelinePage() {
         setData('startTime', event.startTime);
         setData('endTime', event.endTime);
         setData('description', event.description);
-        setData('icon', event.icon);
     }
 
     const handleDelete = (id) => {
@@ -89,7 +86,6 @@ export default function TimelinePage() {
             startTime: '',
             endTime: '',
             description: '',
-            icon: '',
         })
         setFormModal(false);
     }
@@ -132,7 +128,7 @@ export default function TimelinePage() {
                         <div className="flex flex-col gap-4">
                             <div>
                                 <div className="flex items-center gap-2 mb-2">
-                                    <h3 className="text-xl font-bold text-gray-900">{event.title} - {event.icon}</h3>
+                                    <h3 className="text-xl font-bold text-gray-900">{event.title}</h3>
                                 </div>
 
                                 <p className="mb-4">{event.description}</p>
@@ -190,6 +186,7 @@ export default function TimelinePage() {
 
 
                 <form onSubmit={handleForm} className="w-full lg:w-[35vw] space-y-3 p-2">
+                    <h1 className="text-center text-2xl">Create A Timeline Event</h1>
                     <div className="flex flex-col gap-2 items-start">
                         <label htmlFor="title">Event Title</label>
                         <Input
@@ -205,7 +202,8 @@ export default function TimelinePage() {
                     <div className="grid grid-cols-2 gap-2">
                         <div className="flex flex-col gap-2 items-start">
                             <label htmlFor="date">Date</label>
-                            <Input id="date" name="date" type="date" value={data.date}
+                            <Input id="date" name="date" type="date"
+                                value={data.edition ? new Date(editions.find((item) => item.id == data.edition).date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}
                                 onChange={(e) => setData('date', e.target.value)}
                                 required />
                         </div>
@@ -249,24 +247,6 @@ export default function TimelinePage() {
                                 required
                             />
                         </div>
-                    </div>
-
-                    <div className="flex flex-col items-start gap-2">
-                        <label htmlFor="icon">Event Icon:</label>
-                        <Select value={data.icon} onValueChange={(value) => setData('icon', value)}>
-                            <SelectTrigger>
-                                <SelectValue placeholder="Select Icon" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectItem value="📢">📢</SelectItem>
-                                <SelectItem value="🗣️">🗣️</SelectItem>
-                                <SelectItem value="❓">❓</SelectItem>
-                                <SelectItem value="🎤">🎤</SelectItem>
-                                <SelectItem value="👏">👏</SelectItem>
-                                <SelectItem value="⏳">⏳</SelectItem>
-                                <SelectItem value="⭐">⭐</SelectItem>
-                            </SelectContent>
-                        </Select>
                     </div>
 
                     <div className="flex flex-col items-start gap-2">

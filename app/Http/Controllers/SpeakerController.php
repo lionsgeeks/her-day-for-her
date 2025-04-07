@@ -66,7 +66,7 @@ class SpeakerController extends Controller
             'name' => $request->name,
             'position' => $request->position,
             'linkedin' => $request->linked,
-            'image' => $fileName,
+            'image' => $fileName ?? $request->image,
         ]);
 
         $speaker->editions()->sync($request->editions);

@@ -54,7 +54,7 @@ export default function FrontGallery() {
                                 <SelectItem value={null}>
                                     All Editions
                                 </SelectItem>
-                                {editions.map((edition) => (
+                                {editions.filter((ed) => ed.galleries.length > 0).map((edition) => (
                                     <SelectItem key={edition.id} value={edition.id}>
                                         {edition.year} Edition
                                     </SelectItem>

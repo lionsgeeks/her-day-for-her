@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\Edition;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,8 +14,10 @@ class ContactController extends Controller
      */
     public function index()
     {
-        //
-        return Inertia::render('contact/index');
+        $edition = Edition::where('is_active', 1)->first();
+        return Inertia::render('contact/index', [
+            'edition' => $edition
+        ]);
     }
     public function adminindex()
     {

@@ -3,7 +3,7 @@ import GalleryGrid from "./gallery-grid"
 import { motion } from "framer-motion"
 import { useInView } from "framer-motion"
 import { useRef } from "react"
-import { Camera, Sparkles, Heart } from "lucide-react"
+import { Camera } from "lucide-react"
 
 export default function GallerySection({galleries}) {
     const ref = useRef(null)
@@ -85,28 +85,6 @@ export default function GallerySection({galleries}) {
                         Explore highlights from our past conferences and get a glimpse of the inspiring atmosphere, connections
                         made, and knowledge shared.
                     </motion.p>
-
-                    <motion.div variants={itemVariants} className="flex gap-2 mt-4">
-                        {/* little title stuff */}
-                        {["Workshops", "Speakers", "Networking", "Fun"].map((tag, i) => (
-                            <motion.span
-                                key={i}
-                                whileHover={{ scale: 1.1, rotate: Math.random() > 0.5 ? 3 : -3 }}
-                                className={`px-3 py-1 rounded-full text-xs font-medium
-                                    ${i === 0
-                                        ? "bg-fun-pink/20 text-fun-pink"
-                                        : i === 1
-                                            ? "bg-fun-purple/20 text-fun-purple"
-                                            : i === 2
-                                                ? "bg-fun-yellow/20 text-fun-yellow"
-                                                : "bg-fun-green/20 text-fun-green"
-                                    }`}
-                            >
-                                {i % 2 === 0 ? <Heart className="h-3 w-3 inline mr-1" /> : <Sparkles className="h-3 w-3 inline mr-1" />}
-                                {tag}
-                            </motion.span>
-                        ))}
-                    </motion.div>
                 </motion.div>
 
                 <motion.div

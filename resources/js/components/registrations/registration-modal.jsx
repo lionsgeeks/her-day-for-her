@@ -5,26 +5,12 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { router, useForm } from '@inertiajs/react';
+import { useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
 export function RegistrationModal() {
     const [step, setStep] = useState(1);
     const [open, setOpen] = useState(false);
-    // const [data, setFormData] = useState({
-    //   first_name: "",
-    //   last_name: "",
-    //   email: "",
-    //   phone: "",
-    //   ticketType: "professional",
-    //   company: "",
-    //   job_title: "",
-    //   dietary_restrictions: "",
-    //   agree_terms: false,
-    //   agree_privacy: false,
-    // })
-
     // Replace local state with Inertia's useForm
 
     const { data, setData, post, processing, errors } = useForm({
@@ -34,17 +20,13 @@ export function RegistrationModal() {
         phone: '',
         company: '',
         job_title: '',
-        dietary_restrictions: '',
+        dietary_restrictions: 'none',
         agree_terms: false,
-        agree_privacy: false,
+        agree_privacy: true,
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setData((prev) => ({ ...prev, [name]: value }));
-    };
-
-    const handleSelectChange = (name, value) => {
         setData((prev) => ({ ...prev, [name]: value }));
     };
 
@@ -62,16 +44,9 @@ export function RegistrationModal() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // In a real app, you would submit the form data to your backend here
         console.log('Form submitted:', data);
         setOpen(false);
         post('/tickets');
-        // post('/tickets', {
-        //   onSuccess: () => {
-        //     setOpen(false)
-        //     router.visit(response.redirect);
-        //   }
-        // })
     };
 
     return (
@@ -124,24 +99,6 @@ export function RegistrationModal() {
                                 <Label htmlFor="job_title">Job Title</Label>
                                 <Input id="job_title" name="job_title" value={data.job_title} onChange={handleChange} />
                             </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="dietary_restrictions">Dietary Restrictions</Label>
-                                <Select
-                                    onValueChange={(value) => handleSelectChange('dietary_restrictions', value)}
-                                    defaultValue={data.dietary_restrictions}
-                                >
-                                    <SelectTrigger>
-                                        <SelectValue placeholder="Select if applicable" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="none">None</SelectItem>
-                                        <SelectItem value="vegetarian">Vegetarian</SelectItem>
-                                        <SelectItem value="vegan">Vegan</SelectItem>
-                                        <SelectItem value="gluten-free">Gluten-free</SelectItem>
-                                        <SelectItem value="other">Other (please specify)</SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
                         </div>
                     )}
 
@@ -162,8 +119,6 @@ export function RegistrationModal() {
                                     <div>{data.company || 'N/A'}</div>
                                     <div className="font-medium">Job Title:</div>
                                     <div>{data.job_title || 'N/A'}</div>
-                                    <div className="font-medium">Dietary Restrictions:</div>
-                                    <div className="capitalize">{data.dietary_restrictions || 'None'}</div>
                                 </div>
                             </div>
                             <div className="space-y-2">
@@ -176,15 +131,7 @@ export function RegistrationModal() {
                                     />
                                     <Label htmlFor="agree_terms">I agree to the terms and conditions*</Label>
                                 </div>
-                                <div className="flex items-center space-x-2">
-                                    <Checkbox
-                                        id="agree_privacy"
-                                        checked={data.agree_privacy}
-                                        onCheckedChange={(checked) => handleCheckboxChange('agree_privacy', checked)}
-                                        required
-                                    />
-                                    <Label htmlFor="agree_privacy">I agree to the privacy policy*</Label>
-                                </div>
+
                             </div>
                         </div>
                     )}

@@ -18,18 +18,18 @@ export default function HeroContentPage() {
   const { hero } = usePage().props
 
   console.table(hero);
-  
+
   const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [imagePreview, setImagePreview] = useState(hero.content.image);
+  const [imagePreview, setImagePreview] = useState(hero?.content.image);
   const { data, setData, post, processing } = useForm({
     section: "hero",
     content: {
-      title: hero.content.title,
-      subtitle: hero.content.subtitle,
-      date: hero.content.date,
-      location: hero.content.location,
-      attendees: hero.content.attendees,
-      image: hero.content.attendees || null,
+      title: hero?.content.title,
+      subtitle: hero?.content.subtitle,
+      date: hero?.content.date,
+      location: hero?.content.location,
+      attendees: hero?.content.attendees,
+      image: hero?.content.attendees || null,
     },
   });
 

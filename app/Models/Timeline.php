@@ -14,7 +14,6 @@ class Timeline extends Model
         'startTime',
         'endTime',
         'description',
-        'icon',
         'edition_id'
     ];
 

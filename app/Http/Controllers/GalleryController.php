@@ -24,7 +24,7 @@ class GalleryController extends Controller
     public function frontPage()
     {
         $images = Image::where('imageable_type', 'App\Models\Gallery')->get()->shuffle();
-        $editions = Edition::select('id', 'year')->get();
+        $editions = Edition::select('id', 'year')->with('galleries')->get();
         $galleries = Gallery::all();
         return Inertia::render('gallery/front/index', [
             'images' => $images,

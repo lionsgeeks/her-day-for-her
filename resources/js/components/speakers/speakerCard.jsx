@@ -50,21 +50,10 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
                         >
                             <div className="text-white opacity-100">
                                 <p className="font-bold mb-2 flex items-center">
-                                    {icons[iconIndex]} <span className="ml-1">Linkedin:</span>
+                                    Linkedin
                                 </p>
                                 <a href={topic} target="_blank" rel="noopener noreferrer">{topic}</a>
                             </div>
-                        </div>
-
-                        {/* Decorative elements */}
-                        <div className="absolute top-4 right-4">
-                            <motion.div
-                                className={`${colorScheme.accent} rounded-full p-2 shadow-md`}
-                                animate={{ rotate: [0, 10, 0, -10, 0] }}
-                                transition={{ duration: 5, repeat: Number.POSITIVE_INFINITY }}
-                            >
-                                {icons[iconIndex]}
-                            </motion.div>
                         </div>
                     </div>
 

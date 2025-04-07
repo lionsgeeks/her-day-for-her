@@ -37,7 +37,6 @@ class TimelineController extends Controller
             'edition_id' => $request->edition,
             'startTime' => $request->startTime,
             'endTime' => $request->endTime,
-            'icon' => $request->icon,
             'description' => $request->description ?? null,
         ]);
     }
@@ -58,7 +57,6 @@ class TimelineController extends Controller
             'edition_id' => $request->edition,
             'startTime' => $request->startTime,
             'endTime' => $request->endTime,
-            'icon' => $request->icon,
             'description' => $request->description ?? null,
         ]);
     }

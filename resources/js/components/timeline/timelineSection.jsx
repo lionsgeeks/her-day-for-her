@@ -75,8 +75,7 @@ export default function TimelineSection({ timelineEvents }) {
                     <motion.div key={index} variants={itemVariants} className="relative mb-16 last:mb-0 group">
                         {/* Circle node */}
                         <div className="absolute right-2 md:left-1/2 top-0 -ml-5 mt-3">
-                            <div className={`w-10 h-10 rounded-full group-hover:scale-110 group-hover:rotate-360 transition-all duration-300 ease-in-out bg-white border-4 ${colorSchemes[index % 6].border} flex items-center justify-center text-lg `}>
-                                {event.icon}
+                            <div className={`w-10 h-10 rounded-full group-hover:scale-110 transition-all duration-300 ease-in-out  ${colorSchemes[index % 6].accent} `}>
                             </div>
                         </div>
 

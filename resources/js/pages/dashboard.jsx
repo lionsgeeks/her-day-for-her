@@ -1,6 +1,6 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 import { StatCard } from "@/components/stat-card"
 import { MessageSquare, UserPlus, Megaphone, Building } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -15,52 +15,9 @@ const breadcrumbs = [
 ];
 
 export default function Dashboard() {
+    const {editions, messages, registrations} = usePage().props
 
-    const [selectedEdition, setSelectedEdition] = useState("2025")
-
-    // Mock data - in a real app, this would come from your API
-    const editions = ["2025", "2024", "2023", "2022"]
-
-    const stats = {
-        "2025": {
-            registrations: 342,
-            speakers: 28,
-            sponsors: 15,
-            messages: 47,
-            gallery: 24,
-            registrationTrend: "+12% from last week",
-            messagesTrend: "+5% from last week",
-        },
-        "2024": {
-            registrations: 450,
-            speakers: 32,
-            sponsors: 18,
-            messages: 63,
-            gallery: 120,
-            registrationTrend: "Final count",
-            messagesTrend: "Archive",
-        },
-        "2023": {
-            registrations: 400,
-            speakers: 30,
-            sponsors: 16,
-            messages: 58,
-            gallery: 95,
-            registrationTrend: "Final count",
-            messagesTrend: "Archive",
-        },
-        "2022": {
-            registrations: 350,
-            speakers: 25,
-            sponsors: 12,
-            messages: 42,
-            gallery: 80,
-            registrationTrend: "Final count",
-            messagesTrend: "Archive",
-        },
-    }
-
-    const currentStats = stats[selectedEdition]
+    const [selectedEdition, setSelectedEdition] = useState(editions[0])
 
     // Recent registrations - mock data
     const recentRegistrations = [
@@ -92,8 +49,8 @@ export default function Dashboard() {
                     </SelectTrigger>
                     <SelectContent>
                         {editions.map((edition) => (
-                            <SelectItem key={edition} value={edition}>
-                                {edition} Edition
+                            <SelectItem key={edition.id} value={edition.id}>
+                                {edition.year} Edition
                             </SelectItem>
                         ))}
                     </SelectContent>
@@ -103,19 +60,15 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatCard
                     title="Registrations"
-                    value={currentStats.registrations}
+                    value={selectedEdition.registrations ? selectedEdition.registrations.length : 0}
                     icon={<UserPlus className="h-6 w-6" />}
-                    change={currentStats.registrationTrend}
-                    trend={currentStats.registrationTrend.includes("+") ? "up" : "neutral"}
                 />
-                <StatCard title="Speakers" value={currentStats.speakers} icon={<Megaphone className="h-6 w-6" />} />
-                <StatCard title="Sponsors" value={currentStats.sponsors} icon={<Building className="h-6 w-6" />} />
+                <StatCard title="Speakers" value={selectedEdition.speakers ? selectedEdition.speakers.length : 0} icon={<Megaphone className="h-6 w-6" />} />
+                <StatCard title="Sponsors" value={selectedEdition.sponsors ? selectedEdition.sponsors.length : 0} icon={<Building className="h-6 w-6" />} />
                 <StatCard
                     title="Messages"
-                    value={currentStats.messages}
+                    value={messages.length}
                     icon={<MessageSquare className="h-6 w-6" />}
-                    change={currentStats.messagesTrend}
-                    trend={currentStats.messagesTrend.includes("+") ? "up" : "neutral"}
                 />
             </div>
 
@@ -141,23 +94,23 @@ export default function Dashboard() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {recentRegistrations.map((registration) => (
+                                {registrations.map((registration) => (
                                     <tr key={registration.id}>
                                         <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            {registration.name}
+                                            {registration.first_name} {registration.last_name}
                                         </td>
                                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{registration.email}</td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{registration.date}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{new Date(registration.created_at).toLocaleDateString()}</td>
                                         <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                                             <span
-                                                className={`px-2 py-1 text-xs rounded-full ${registration.ticketType === "VIP"
+                                                className={`px-2 py-1 text-xs rounded-full ${registration.status === "VIP"
                                                         ? "bg-purple-100 text-purple-800"
-                                                        : registration.ticketType === "Professional"
+                                                        : registration.status === "Professional"
                                                             ? "bg-blue-100 text-blue-800"
                                                             : "bg-green-100 text-green-800"
                                                     }`}
                                             >
-                                                {registration.ticketType}
+                                                {registration.status}
                                             </span>
                                         </td>
                                     </tr>
@@ -185,11 +138,11 @@ export default function Dashboard() {
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
-                                {recentMessages.map((message) => (
+                                {messages.map((message) => (
                                     <tr key={message.id}>
                                         <td className="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">{message.name}</td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{message.subject}</td>
-                                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{message.date}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{message.message}</td>
+                                        <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{new Date(message.created_at).toLocaleDateString()}-{new Date(message.created_at).toLocaleTimeString()}</td>
                                     </tr>
                                 ))}
                             </tbody>

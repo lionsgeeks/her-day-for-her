@@ -141,13 +141,13 @@ class EditionController extends Controller
 
     public function pastEditions(){
         $editions = Edition::wherenot("is_active", 1)
-            ->with(['sponsors.images', 'speakers', 'galleries'])
+            ->with(['sponsors.images', 'speakers', 'galleries.images', 'registrations'])
             ->get();
-            
-    
+
+
         return Inertia::render("editions/user/past-editions", [
             "editions" => $editions
         ]);
     }
-    
+
 }

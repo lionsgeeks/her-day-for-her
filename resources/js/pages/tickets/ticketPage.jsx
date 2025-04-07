@@ -14,11 +14,11 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                 </div>
 
                 <div className="overflow-hidden rounded-lg bg-white shadow-lg">
-                    <div className="bg-gradient-to-r from-[#03329b] to-[#fd5f90] p-6 text-white">
+                    <div className="bg-gradient-to-r from-alpha to-beta p-6 text-white">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
                                 <div className="rounded-full bg-white p-1">
-                                    <div className="h-8 w-8 rounded-full bg-[#03329b]"></div>
+                                    <div className="h-8 w-8 rounded-full bg-alpha"></div>
                                 </div>
                                 <span className="text-xl font-bold">Her Day for Her</span>
                             </div>
@@ -102,7 +102,7 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                                     strokeWidth="2"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="h-5 w-5 text-[#03329b]"
+                                    className="h-5 w-5 text-alpha"
                                 >
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
@@ -119,7 +119,7 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                                     strokeWidth="2"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="h-5 w-5 text-[#03329b]"
+                                    className="h-5 w-5 text-alpha"
                                 >
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
@@ -136,7 +136,7 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                                     strokeWidth="2"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="h-5 w-5 text-[#03329b]"
+                                    className="h-5 w-5 text-alpha"
                                 >
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
@@ -153,7 +153,7 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                                     strokeWidth="2"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="h-5 w-5 text-[#03329b]"
+                                    className="h-5 w-5 text-alpha"
                                 >
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
@@ -170,7 +170,7 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                                     strokeWidth="2"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    className="h-5 w-5 text-[#03329b]"
+                                    className="h-5 w-5 text-alpha"
                                 >
                                     <polyline points="20 6 9 17 4 12" />
                                 </svg>
@@ -200,13 +200,13 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                 <div className="mt-8 space-y-4 text-center">
                     <p className="text-muted-foreground">
                         If you have any questions, please contact us at{' '}
-                        <a href="mailto:support@herdayforher.com" className="text-[#03329b] underline">
+                        <a href="mailto:support@herdayforher.com" className="text-alpha underline">
                             support@herdayforher.com
                         </a>
                     </p>
                     <div>
                         <Link href="/">
-                            <Button variant="link" className="text-[#03329b]">
+                            <Button variant="link" className="text-alpha">
                                 Return to Homepage
                             </Button>
                         </Link>
