@@ -20,7 +20,7 @@ export default function EditionsPage() {
         <UserLayout>
             <Head title="Her Day For Her" />
 
-            <div className="min-h-screen flex flex-col">
+            <div className="min-h-screen flex flex-col bg-gradient-to-br from-white to-[#f8e9f8]">
                 <main className="flex-1">
                     <section className="relative">
                         <div className="absolute inset-0 bg-gradient-to-r from-alpha to-beta opacity-90"></div>

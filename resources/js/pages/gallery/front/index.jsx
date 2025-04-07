@@ -69,7 +69,7 @@ export default function FrontGallery() {
 
 
 
-            <section className="py-12 bg-slate-50">
+            <section className="py-12 bg-[#fbf3fb]">
                 <div className="container text-center">
                     <Badge className="mb-4 bg-gradient-to-r from-alpha to-beta text-white py-1">Share Your Experience</Badge>
                     <h2 className="text-2xl md:text-3xl font-bold mb-4 text-black">Have Photos from the Conference?</h2>

@@ -30,7 +30,7 @@ export default function SpeakersSection({ speakers }) {
 
     const baseUrl = window.location.origin;
     return (
-        <section ref={ref} className="py-16 px-6 bg-slate-50">
+        <section ref={ref} className="py-16 px-6 bg-[#fbf3fb]">
             <div className="container">
                 <motion.div
                     variants={containerVariants}

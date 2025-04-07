@@ -35,7 +35,7 @@ export default function GallerySection({galleries}) {
     }
 
     return (
-        <section ref={ref} className="lg:p-24 container bg-white p-12">
+        <section ref={ref} className="lg:p-24 container bg-[#fbf3fb] p-12">
             {/* Colorful background */}
             <div className="absolute inset-0 bg-gradient-to-b from-white via-fun-purple/5 to-fun-pink/10 -z-10"></div>
 
