@@ -51,7 +51,6 @@ export default function GalleryPage() {
         setDeleteModalOpen(false);
     }
 
-    const baseUrl = window.location.origin;
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader

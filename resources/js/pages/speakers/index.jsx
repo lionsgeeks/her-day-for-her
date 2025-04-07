@@ -99,7 +99,7 @@ export default function SpeakersPage() {
         }
         setFormModal(false)
     }
-    const baseUrl = window.location.origin;
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader
@@ -145,7 +145,7 @@ export default function SpeakersPage() {
                     <Card key={speaker.id} className="p-6">
                         <div className="flex flex-row gap-6">
                             <div className="w-24 h-24 md:w-32 md:h-32 relative rounded-lg overflow-hidden flex-shrink-0 mx-auto md:mx-0">
-                                <img src={baseUrl + '/storage/' + speaker.image}
+                                <img src={'/storage/' + speaker.image}
                                     className="w-full h-full object-cover"
                                     alt={speaker.name} />
                             </div>
@@ -233,7 +233,7 @@ export default function SpeakersPage() {
                             <div className="relative w-24 h-24 flex-shrink-0">
                                 {
                                     selectedSpeaker ?
-                                        <img src={typeof (data.image) == 'string' ? baseUrl + '/storage/' + data.image : URL.createObjectURL(data.image)}
+                                        <img src={typeof (data.image) == 'string' ? '/storage/' + data.image : URL.createObjectURL(data.image)}
                                             className="aspect-square object-cover rounded"
                                             alt={data.name}
                                         />

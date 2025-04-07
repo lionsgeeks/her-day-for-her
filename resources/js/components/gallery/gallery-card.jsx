@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Badge } from "@/components/ui/badge"
 
 export default function GalleryCard({ gal, onDeletePress }) {
-    const baseUrl = window.location.origin;
+
     const [imageIndex, setImageIndex] = useState(0)
     const handleNext = () => {
         setImageIndex((prev) => (prev === gal.images.length - 1 ? 0 : prev + 1))
@@ -41,7 +41,7 @@ export default function GalleryCard({ gal, onDeletePress }) {
                         <ChevronRight className="h-6 w-6" />
                     </button>
 
-                    <img src={baseUrl + '/storage/' + gal.images[imageIndex]?.path} />
+                    <img src={'/storage/' + gal.images[imageIndex]?.path} />
                     <div className="absolute right-2 top-2">
                         <DropdownMenu>
                             <DropdownMenuTrigger asChild>

@@ -28,7 +28,6 @@ export default function SpeakersSection({ speakers }) {
         visible: { opacity: 1, x: 0, transition: { duration: 0.6 } },
     }
 
-    const baseUrl = window.location.origin;
     return (
         <section ref={ref} className="py-16 px-6 bg-[#fbf3fb]">
             <div className="container">
@@ -63,7 +62,7 @@ export default function SpeakersSection({ speakers }) {
                                 <SpeakerCard
                                     name={speaker.name}
                                     role={speaker.position}
-                                    image={baseUrl + '/storage/' + speaker.image}
+                                    image={'/storage/' + speaker.image}
                                     topic={speaker.linkedin}
                                     index={index}
                                 />
