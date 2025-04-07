@@ -2,6 +2,7 @@ import AdminHeader from '@/components/admin-header';
 import ConfirmationModal from '@/components/confirmationModal';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
@@ -9,7 +10,6 @@ import { Head, useForm, usePage } from '@inertiajs/react';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import FramerModal from '../../../components/framer-modal';
-import { Checkbox } from "@/components/ui/checkbox"
 
 export default function SponsorsPage() {
     const { sponsors, editions } = usePage().props;
@@ -48,17 +48,24 @@ export default function SponsorsPage() {
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('sponsors.store'), {
-            onFinish: () => setFormModal(false),
+            onFinish: () => {
+                setFormModal(false);
+                setData({
+                    logo: null,
+                    name: '',
+                    editions: [],
+                });
+            },
         });
     };
-    
+
     const handleEditionChange = (edition, checked) => {
         if (checked) {
-            setData((prev) => ({ ...prev, editions: [...prev.editions, edition] }))
+            setData((prev) => ({ ...prev, editions: [...prev.editions, edition] }));
         } else {
-            setData((prev) => ({ ...prev, editions: prev.editions.filter((e) => e !== edition) }))
+            setData((prev) => ({ ...prev, editions: prev.editions.filter((e) => e !== edition) }));
         }
-    }
+    };
     const breadcrumbs = [
         {
             title: 'Sponsors',
