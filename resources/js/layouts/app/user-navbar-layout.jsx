@@ -57,9 +57,9 @@ export default function Navbar() {
                     <Link href="/gallery" className="text-sm font-medium hover:opacity-80">
                         Gallery
                     </Link>
-                    <Link href="/past-editions" className="text-sm font-medium hover:opacity-80">
+                    {/* <Link href="/past-editions" className="text-sm font-medium hover:opacity-80">
                         Past Editions
-                    </Link>
+                    </Link> */}
                     <Link href="/contact" className="text-sm font-medium hover:opacity-80">
                         Contact
                     </Link>
