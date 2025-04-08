@@ -52,7 +52,7 @@ export default function SpeakersSection({ speakers }) {
                     variants={containerVariants}
                     initial="hidden"
                     animate={isInView ? "visible" : "hidden"}
-                    className="grid gap-6 md:grid-cols-2 lg:grid-cols-4"
+                    className="grid gap-6 md:grid-cols-2 lg:grid-cols-5"
                 >
 
                     {/* when speakers are added to database use this */}

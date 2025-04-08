@@ -115,7 +115,7 @@ export default function ContactPage() {
                                             </div>
                                         </div>
 
-                                        <div className="mt-12">
+                                        {/* <div className="mt-12">
                                             <p className="text-sm opacity-80">Follow us on social media for updates and announcements</p>
                                             <div className="flex gap-4 mt-4">
                                                 <a href="#" className="bg-white/10 p-2 rounded-full hover:bg-white/20 transition-colors">
@@ -142,7 +142,7 @@ export default function ContactPage() {
                                                     </svg>
                                                 </a>
                                             </div>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </motion.div>
 

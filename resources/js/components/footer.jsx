@@ -20,7 +20,7 @@ export function Footer() {
                         <p className="text-sm opacity-80">
                             The premier conference celebrating women's leadership, and innovation.
                         </p>
-                        <div className="flex gap-4">
+                        {/* <div className="flex gap-4">
                             <a href="#" className="text-white hover:text-[#fd5f90] transition-colors">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
@@ -89,7 +89,7 @@ export function Footer() {
                                     <circle cx="4" cy="4" r="2" />
                                 </svg>
                             </a>
-                        </div>
+                        </div> */}
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold mb-4">Quick Links</h3>

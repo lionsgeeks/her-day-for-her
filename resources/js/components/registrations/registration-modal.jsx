@@ -5,7 +5,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import { useState } from 'react';
 
 export function RegistrationModal() {
@@ -52,11 +52,13 @@ export function RegistrationModal() {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
-                <Button size="lg" className="bg-beta/70  text-white hover:bg-alpha/80 hover:cursor-pointer">
+                <Button  size="lg" className="bg-beta/70  text-white hover:bg-alpha/80 hover:cursor-pointer">
+                    <a target='_blank'  href=' https://www.billetteries.ma/billetterie/her-day-for-her'>
                     Get Your Tickets
+                    </a>
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            {/* <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Register for Her Day for Her 2025</DialogTitle>
                     <DialogDescription>
@@ -155,7 +157,7 @@ export function RegistrationModal() {
                         </div>
                     </DialogFooter>
                 </form>
-            </DialogContent>
+            </DialogContent> */}
         </Dialog>
     );
 }

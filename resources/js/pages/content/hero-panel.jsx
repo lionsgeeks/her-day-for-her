@@ -17,7 +17,6 @@ const breadcrumbs = [{ title: "Dashboard", href: "/dashboard" },];
 export default function HeroContentPage() {
   const { hero } = usePage().props
 
-  console.table(hero);
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [imagePreview, setImagePreview] = useState(hero?.content.image);
@@ -29,7 +28,7 @@ export default function HeroContentPage() {
       date: hero?.content.date,
       location: hero?.content.location,
       attendees: hero?.content.attendees,
-      image: hero?.content.attendees || null,
+      image: hero?.content.image || null,
     },
   });
 
@@ -59,13 +58,15 @@ export default function HeroContentPage() {
     e.preventDefault();
     let formData = new FormData();
     formData.append("section", data.section);
+    console.log(data.content.image);
+    
 
     let content = JSON.stringify(data.content);
 
 
     formData.append("content", content);
     if (data.content.image) {
-      formData.append("image", data.content.image);
+      formData.append("image", data.content.image || hero.content.image);
     }
 
 

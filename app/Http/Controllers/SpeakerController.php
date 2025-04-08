@@ -25,7 +25,7 @@ class SpeakerController extends Controller
         $request->validate([
             'name' => 'required',
             'position' => 'required',
-            'linked' => 'required|url',
+            // 'linked' => 'url',
             'image' => 'required|image|mimes:png,jpg,jpeg',
             'editions' => 'required',
         ]);
@@ -37,7 +37,7 @@ class SpeakerController extends Controller
         $speaker = Speaker::create([
             'name' => $request->name,
             'position' => $request->position,
-            'linkedin' => $request->linked,
+            'linkedin' => $request->linked || null,
             'image' => $fileName,
         ]);
 

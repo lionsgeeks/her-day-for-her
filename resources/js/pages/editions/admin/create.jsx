@@ -110,7 +110,7 @@ export default function CreateEditionPage() {
                         <div className="space-y-2">
                             <Label htmlFor="google_map_url">Google map Url</Label>
                             <Input
-                                type="url"
+                                type="text"
                                 id="google_map_url"
                                 name="google_map_url"
                                 value={data.google_map_url}

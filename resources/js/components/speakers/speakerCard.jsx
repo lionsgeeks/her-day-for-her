@@ -38,8 +38,9 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
                 rotate: Math.random() > 0.5 ? 2 : -2,
                 transition: { duration: 0.3 },
             }}
+            className=""
         >
-            <Card className="overflow-hidden transition-all p-0 hover:shadow-lg rounded-2xl border-2 border-white">
+            <Card className="overflow-hidden transition-all min-h-[50vh] p-0 hover:shadow-lg rounded-2xl border-2 border-white">
                 <CardContent className="p-0">
                     <div className="relative h-64 w-full">
                         <img src={image} className="h-full w-full object-cover rounded-t-xl" alt={name} />
@@ -48,21 +49,25 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
                         <div
                             className={`absolute inset-0 bg-gradient-to-t  transition-opacity flex items-end p-6`}
                         >
+                    {
+                        topic != 0 && (
                             <div className="text-white opacity-100">
                                 <p className="font-bold mb-2 flex items-center">
                                     Linkedin
                                 </p>
                                 <a href={topic} target="_blank" rel="noopener noreferrer">{topic}</a>
                             </div>
+                        )
+                    }
                         </div>
                     </div>
 
-                    <div className={`p-4 border-t-4 ${colorScheme.border} bg-white`}>
+                    <div className={`p-4 border-t-4 h-[20vh] ${colorScheme.border} bg-white`}>
+                        {/* <div className={`w-1/3 h-1 mt-2 rounded-full ${colorScheme.accent} opacity-50`}></div> */}
                         <h3 className={`font-bold text-lg ${colorScheme.text}`}>{name}</h3>
                         <p className="text-sm text-muted-foreground">{role}</p>
 
                         {/* Decorative bar */}
-                        <div className={`w-1/3 h-1 mt-2 rounded-full ${colorScheme.accent} opacity-50`}></div>
                     </div>
                 </CardContent>
             </Card>

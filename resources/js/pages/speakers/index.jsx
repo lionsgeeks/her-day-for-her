@@ -293,7 +293,7 @@ export default function SpeakersPage() {
                                     <Input id="speaker-linkedin" placeholder="Enter LinkedIn profile URL"
                                         onChange={(e) => { setData('linked', e.target.value) }}
                                         value={data.linked}
-                                        required
+                                        
                                         type="url"
                                     />
                                 </div>

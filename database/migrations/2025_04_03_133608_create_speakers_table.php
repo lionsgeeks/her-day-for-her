@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('position');
-            $table->string('linkedin');
+            $table->string('linkedin')->nullable();
             $table->string('image');
             $table->timestamps();
         });
