@@ -63,4 +63,11 @@ class GalleryController extends Controller
         $gallery->images()->delete();
         $gallery->delete();
     }
+
+
+    public function destroyImage(Image $image)
+    {
+        Storage::disk('public')->delete($image->path);
+        $image->delete();
+    }
 }
