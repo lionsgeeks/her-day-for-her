@@ -31,7 +31,9 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
     const iconIndex = name.length % icons.length
 
     return (
-        <motion.div
+        <motion.a
+        href={topic ? topic : "#"}
+        target="_blank"
         key={index}
             whileHover={{
                 y: -10,
@@ -49,16 +51,7 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
                         <div
                             className={`absolute inset-0 bg-gradient-to-t  transition-opacity flex items-end p-6`}
                         >
-                    {
-                        topic != 0 && (
-                            <div className="text-white opacity-100">
-                                <p className="font-bold mb-2 flex items-center">
-                                    Linkedin
-                                </p>
-                                <a href={topic} target="_blank" rel="noopener noreferrer">{topic}</a>
-                            </div>
-                        )
-                    }
+                 
                         </div>
                     </div>
 
@@ -71,7 +64,7 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
                     </div>
                 </CardContent>
             </Card>
-        </motion.div>
+        </motion.a>
     )
 }
 
