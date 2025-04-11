@@ -53,7 +53,7 @@ export default function AboutSection() {
         </motion.div>
         <div>
           <motion.div variants={itemVariants}>
-            <Badge className="text-beta">About the Conference</Badge>
+            <Badge className="text-beta">About the MasterClass</Badge>
           </motion.div>
           <motion.h2 variants={itemVariants} className="text-3xl text-beta md:text-4xl font-bold mt-4">
             {about.content.title}
@@ -71,7 +71,7 @@ export default function AboutSection() {
             </motion.div>
             <motion.div variants={statsVariants} className="space-y-2">
               <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.speakers}</div>
-              <p className="text-sm text-muted-foreground">Femal speakers </p>
+              <p className="text-sm text-muted-foreground">Speakers </p>
             </motion.div>
             <motion.div variants={statsVariants} className="space-y-2">
               <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.sessions}</div>
