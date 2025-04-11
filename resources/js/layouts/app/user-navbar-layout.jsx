@@ -103,7 +103,7 @@ export default function Navbar() {
                         <Link href="/gallery" className="text-sm font-medium text-gray-800 hover:text-[#03329b]">
                             Gallery
                         </Link>
-                        <Link href="/editions" className="text-sm font-medium text-gray-800 hover:text-[#03329b]">
+                        <Link href="/past-editions" className="text-sm font-medium text-gray-800 hover:text-[#03329b]">
                             Past Editions
                         </Link>
                         <Link href="/contact" className="text-sm font-medium text-gray-800 hover:text-[#03329b]">

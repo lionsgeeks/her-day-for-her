@@ -64,23 +64,23 @@ export default function AboutSection() {
           <motion.p variants={itemVariants} className="text-lg text-muted-foreground mt-4">
             {about.content.secondaryText}
           </motion.p>
-          <motion.div variants={containerVariants} className="grid grid-cols-2 gap-6 mt-8">
+          <motion.div variants={containerVariants} className="grid grid-cols-3 gap-6 mt-8">
             <motion.div variants={statsVariants} className="space-y-2">
               <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.attendees}</div>
-              <p className="text-sm text-muted-foreground">Attendees from around the world</p>
+              <p className="text-sm text-muted-foreground">Attendees </p>
             </motion.div>
             <motion.div variants={statsVariants} className="space-y-2">
               <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.speakers}</div>
-              <p className="text-sm text-muted-foreground">Expert speakers and workshop leaders</p>
+              <p className="text-sm text-muted-foreground">Femal speakers </p>
             </motion.div>
             <motion.div variants={statsVariants} className="space-y-2">
               <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.sessions}</div>
-              <p className="text-sm text-muted-foreground">Sessions across multiple tracks</p>
+              <p className="text-sm text-muted-foreground">Editions </p>
             </motion.div>
-            <motion.div variants={statsVariants} className="space-y-2">
+            {/* <motion.div variants={statsVariants} className="space-y-2">
               <div className="text-3xl font-bold text-[#fd5f90]">{about.content.stats.days}</div>
               <p className="text-sm text-muted-foreground">Days of inspiration and connection</p>
-            </motion.div>
+            </motion.div> */}
           </motion.div>
 
         </div>

@@ -40,7 +40,7 @@ export default function EditionsPage() {
                                 onChange={(e) => setSelectedYear(e.target.value)}
                                 className="border rounded p-2 text-sm"
                             >
-                                {editions.filter((ed) => (ed.galleries.length > 0 && ed.speakers && ed.sponsors)).map((edition) => (
+                                {editions.map((edition) => (
                                     <option key={edition.year} value={edition.year}>
                                         {edition.year}
                                     </option>
@@ -82,62 +82,82 @@ export default function EditionsPage() {
                                     <p>{selectedEdition.description}</p>
 
                                     <div className="flex gap-4 pt-2">
-                                    <Link href="/gallery">
+                                        <Link href="/gallery">
 
-                                        <Button className="bg-[#03329b] hover:bg-[#03329b]/90">View Gallery</Button>
-                                    </Link>
+                                            <Button className="bg-[#03329b] hover:bg-[#03329b]/90">View Gallery</Button>
+                                        </Link>
                                     </div>
                                 </div>
                             </div>
 
                             {/* Featured Speakers */}
-                            <div>
-                                <h3 className="text-2xl font-bold mb-6 text-center">Featured Speakers</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                                    {selectedEdition?.speakers?.map((speaker, idx) => (
-                                        <div key={idx} className="text-center flex  flex-col items-center">
-                                            <a href={speaker.linkedin} className=" relative mb-3  overflow-hidden">
-                                                <img src={"storage/" + speaker.image} alt={speaker.name} className="object-cover w-32 h-32 rounded-full" />
-                                            </a>
-                                            <h4 className="font-semibold">{speaker.name}</h4>
-                                            <p className="text-sm text-muted-foreground">{speaker.role}</p>
+                            {
+                                selectedEdition?.speakers.length > 0 && (
+
+                                    <div>
+                                        <h3 className="text-2xl font-bold mb-6 text-center">Featured Speakers</h3>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                            {selectedEdition?.speakers?.map((speaker, idx) => (
+                                                <div key={idx} className="text-center flex  flex-col items-center">
+                                                    <a href={speaker.linkedin} className=" relative mb-3  overflow-hidden">
+                                                        <img src={"storage/" + speaker.image} alt={speaker.name} className="object-cover w-32 h-32 rounded-full" />
+                                                    </a>
+                                                    <h4 className="font-semibold">{speaker.name}</h4>
+                                                    <p className="text-sm text-muted-foreground">{speaker.role}</p>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
-                            </div>
+                                    </div>
+                                )
+                            }
 
                             {/* Featured Sponsors */}
-                            <div>
-                                <h3 className="text-2xl font-bold mb-6 text-center">Featured Sponsors</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 items-center">
-                                    {selectedEdition?.sponsors?.map((sponsor, idx) => (
-                                        sponsor.images.map((image, idx) =>
-                                            <>
-                                        <img key={idx} src={"storage/" + image.path} className="rounded w-50 h-50 object-cover hover:scale-105 transition-all duration-300 ease-in-out" />
-                                        </>
-                                        )
-                                    ))}
-                                </div>
-                            </div>
+
+
+                            {
+                                selectedEdition?.sponsors.length > 0 && (
+
+                                    <div>
+                                        <h3 className="text-2xl font-bold mb-6 text-center">Featured Sponsors</h3>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 items-center">
+                                            {selectedEdition?.sponsors?.map((sponsor, idx) => (
+                                                sponsor.images.map((image, idx) =>
+                                                    <>
+                                                        <img key={idx} src={"storage/" + image.path} className="rounded w-50 h-50 object-cover hover:scale-105 transition-all duration-300 ease-in-out" />
+                                                    </>
+                                                )
+                                            ))}
+                                        </div>
+                                    </div>
+                                )
+                            }
 
                             {/* Gallery */}
-                            <div className="mt-12 text-center">
-                                <h3 className="text-2xl font-bold mb-6">Gallery Highlights</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                                    {selectedEdition?.galleries?.slice(0, 4).map((gall, idx) => (
-                                        gall?.images?.slice(0, 4).map((image, idx) =>
-                                            <>
-                                                <img key={idx} src={"storage/" + image.path} className="rounded object-contain hover:scale-105 transition-all duration-300 ease-in-out" />
-                                            </>
-                                        )
-                                    ))}
-                                </div>
-                                <Link href="/gallery">
-                                    <Button className="bg-[#fd5f90] hover:bg-[#fd5f90]/90">
-                                        View Full {selectedEdition.year} Gallery <ArrowRight className="ml-2 h-4 w-4" />
-                                    </Button>
-                                </Link>
-                            </div>
+
+                            {
+                                selectedEdition?.galleries.length > 0 && (
+
+
+                                    <div className="mt-12 text-center">
+                                        <h3 className="text-2xl font-bold mb-6">Gallery Highlights</h3>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                            {selectedEdition?.galleries?.slice(0, 4).map((gall, idx) => (
+                                                gall?.images?.slice(0, 4).map((image, idx) =>
+                                                    <>
+                                                        <img key={idx} src={"storage/" + image.path} className="rounded object-contain hover:scale-105 transition-all duration-300 ease-in-out" />
+                                                    </>
+                                                )
+                                            ))}
+                                        </div>
+                                        <Link href="/gallery">
+                                            <Button className="bg-[#fd5f90] hover:bg-[#fd5f90]/90">
+                                                View Full {selectedEdition.year} Gallery <ArrowRight className="ml-2 h-4 w-4" />
+                                            </Button>
+                                        </Link>
+                                    </div>
+                                )
+                            }
+
                         </div>
                     </section>
                 </main>
