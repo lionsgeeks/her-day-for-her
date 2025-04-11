@@ -109,11 +109,11 @@ export default function EditionsPage() {
                             {/* Featured Sponsors */}
                             <div>
                                 <h3 className="text-2xl font-bold mb-6 text-center">Featured Sponsors</h3>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 items-center">
                                     {selectedEdition?.sponsors?.map((sponsor, idx) => (
                                         sponsor.images.map((image, idx) =>
                                             <>
-                                        <img key={idx} src={"storage/" + image.path} className="rounded object-contain hover:scale-105 transition-all duration-300 ease-in-out" />
+                                        <img key={idx} src={"storage/" + image.path} className="rounded w-50 h-50 object-cover hover:scale-105 transition-all duration-300 ease-in-out" />
                                         </>
                                         )
                                     ))}
