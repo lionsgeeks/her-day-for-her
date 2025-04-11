@@ -74,7 +74,7 @@ export default function EditionsPage() {
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <Users className="h-5 w-5 text-[#fd5f90]" />
-                                            <span>{selectedEdition.registrations.length}</span>
+                                            <span>{selectedEdition.attendees}</span>
                                         </div>
                                     </div>
 
@@ -123,7 +123,7 @@ export default function EditionsPage() {
                                             {selectedEdition?.sponsors?.map((sponsor, idx) => (
                                                 sponsor.images.map((image, idx) =>
                                                     <>
-                                                        <img key={idx} src={"storage/" + image.path} className="rounded w-50 h-50 object-cover hover:scale-105 transition-all duration-300 ease-in-out" />
+                                                        <img key={idx} src={"storage/" + image.path} className="rounded w-2/3 hover:scale-105 transition-all duration-300 ease-in-out" />
                                                     </>
                                                 )
                                             ))}

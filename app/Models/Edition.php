@@ -16,6 +16,7 @@ class Edition extends Model
         'email',
         'phone',
         'city',
+        'attendees',
         'country',
         'venue',
         'is_active',

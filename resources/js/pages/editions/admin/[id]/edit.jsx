@@ -25,6 +25,7 @@ export default function EditEditionPage() {
         date: new Date(edition.date).toISOString().split('T')[0],
         // endDate: '',
         google_map_url: edition.google_map_url,
+        attendees: edition.attendees,
         city: edition.city,
         country: edition.country,
         venue: edition.venue,
@@ -125,6 +126,20 @@ export default function EditEditionPage() {
                                 onChange={handleChange}
                                 placeholder="e.g. Grand Conference Center"
                                 required
+                            />
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="venue">Attendees</Label>
+                            <Input
+                                type="number"
+                                min={0}
+                                id="attendees"
+                                name="attendees"
+                                value={data.attendees}
+                                onChange={handleChange}
+                                placeholder="e.g. 180 attendees"
+
                             />
                         </div>
 

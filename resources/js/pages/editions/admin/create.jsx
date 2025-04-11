@@ -23,6 +23,7 @@ export default function CreateEditionPage() {
         // endDate: '',
         google_map_url: '',
         email: '',
+        attendees: '',
         phone: '',
         city: '',
         country: '',
@@ -63,6 +64,7 @@ export default function CreateEditionPage() {
                     date: '',
                     // endDate: '',
                     google_map_url: '',
+                    attendees: '',
                     city: '',
                     country: '',
                     venue: '',
@@ -165,6 +167,19 @@ export default function CreateEditionPage() {
                                 onChange={handleChange}
                                 placeholder="e.g. Grand Conference Center"
                                 required
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="venue">Attendees</Label>
+                            <Input
+                                type="number"
+                                min={0}
+                                id="attendees"
+                                name="attendees"
+                                value={data.attendees}
+                                onChange={handleChange}
+                                placeholder="e.g. 180 attendees"
+
                             />
                         </div>
 
