@@ -1,4 +1,5 @@
 import { Link, usePage } from "@inertiajs/react";
+import AppLogoIcon from "./app-logo-icon";
 
 export function Footer() {
     const { edition } = usePage().props
@@ -7,14 +8,10 @@ export function Footer() {
     return (
         <footer className="bg-alpha  text-white p-12 lg:px-24">
             <div className="container">
-                <div className="grid gap-8 md:grid-cols-4">
+                <div className="grid gap-8 md:grid-cols-3">
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
-                            <div className="rounded-full bg-[#fd5f90] p-1">
-                                <div className="rounded-full bg-white p-1">
-                                    <div className="h-6 w-6 rounded-full bg-[#03329b]"></div>
-                                </div>
-                            </div>
+                            <AppLogoIcon className="w-5" />
                             <span className="text-xl font-bold">Her Day for Her</span>
                         </div>
                         <p className="text-sm opacity-80">
@@ -105,7 +102,7 @@ export function Footer() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/editions" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
+                                <Link href="/past-editions" className="text-sm opacity-80 hover:opacity-100 transition-opacity">
                                     Past Editions
                                 </Link>
                             </li>
@@ -179,22 +176,6 @@ export function Footer() {
                                 </span>
                             </li>
                         </ul>
-                    </div>
-                    <div>
-                        <h3 className="text-lg font-semibold mb-4">Subscribe</h3>
-                        <p className="text-sm opacity-80 mb-4">
-                            Stay updated with the latest news and announcements about the conference.
-                        </p>
-                        <div className="flex">
-                            <input
-                                type="email"
-                                placeholder="Your email"
-                                className="px-3 py-2 bg-white/10 border border-white/20 rounded-l-md text-white text-sm w-full focus:outline-none focus:ring-2 focus:ring-white/30"
-                            />
-                            <button className="bg-[#fd5f90] hover:bg-[#fd5f90]/90 px-4 py-2 rounded-r-md text-white text-sm transition-colors">
-                                Subscribe
-                            </button>
-                        </div>
                     </div>
                 </div>
                 <div className="border-t border-white/20 mt-8 pt-8 text-center text-sm opacity-70">

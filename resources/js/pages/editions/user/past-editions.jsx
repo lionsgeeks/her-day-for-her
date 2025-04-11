@@ -53,7 +53,7 @@ export default function EditionsPage() {
                             <div className="text-center mb-8">
                                 <Badge className="mb-2">{selectedEdition?.venue}</Badge>
                                 <h2 className="text-3xl font-bold mb-2">Her Day for Her {selectedEdition.year}</h2>
-                                <p className="text-muted-foreground max-w-2xl mx-auto">{selectedEdition.description}</p>
+                                {/* <p className="text-muted-foreground max-w-2xl mx-auto">{selectedEdition.description}</p> */}
                             </div>
 
                             <div className="grid md:grid-cols-2 gap-8 items-center">
