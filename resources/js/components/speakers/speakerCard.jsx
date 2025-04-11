@@ -55,7 +55,7 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
                         </div>
                     </div>
 
-                    <div className={`p-4 border-t-4 h-[20vh] ${colorScheme.border} bg-white`}>
+                    <div className={`p-4 border-t-4 h-[20vh] overflow-y-auto ${colorScheme.border} bg-white`}>
                         {/* <div className={`w-1/3 h-1 mt-2 rounded-full ${colorScheme.accent} opacity-50`}></div> */}
                         <h3 className={`font-bold text-lg ${colorScheme.text}`}>{name}</h3>
                         <p className="text-sm text-muted-foreground">{role}</p>

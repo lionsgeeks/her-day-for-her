@@ -40,7 +40,7 @@ export default function EditionsPage() {
                                 onChange={(e) => setSelectedYear(e.target.value)}
                                 className="border rounded p-2 text-sm"
                             >
-                                {editions.map((edition) => (
+                                {editions.sort((a,b) => b.year - a.year).map((edition) => (
                                     <option key={edition.year} value={edition.year}>
                                         {edition.year}
                                     </option>
@@ -119,11 +119,11 @@ export default function EditionsPage() {
 
                                     <div>
                                         <h3 className="text-2xl font-bold mb-6 text-center">Featured Sponsors</h3>
-                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 items-center">
+                                        <div className="grid grid-cols-2 md:grid-cols-5  gap-4 mb-6 items-center">
                                             {selectedEdition?.sponsors?.map((sponsor, idx) => (
                                                 sponsor.images.map((image, idx) =>
                                                     <>
-                                                        <img key={idx} src={"storage/" + image.path} className="rounded w-2/3 hover:scale-105 transition-all duration-300 ease-in-out" />
+                                                        <img key={idx} src={"storage/" + image.path} className="rounded mx-auto w-1/2 h-1/2 object-contain hover:scale-105 transition-all duration-300 ease-in-out" />
                                                     </>
                                                 )
                                             ))}

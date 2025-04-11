@@ -100,9 +100,9 @@ export default function SponsorsSection({sponsors}) {
               }}
             >
               <div
-                className={`p-1 rounded-full bg-beta/10 border-2 border-alpha mb-3 shadow-lg relative`}
+                className={`p-1 flex  flex-col items-center`}
               >
-                <div className="w-24 h-24 relative rounded-full overflow-hidden">
+                <div className="w-1/2 relative  overflow-hidden">
                   <img
                     src={`/storage/${i.images[0].path}`}
                     alt={i.name}
@@ -126,7 +126,7 @@ export default function SponsorsSection({sponsors}) {
               </div>
 
               <p className={`text-sm font-medium text-center `}>
-                {i.name}
+                {/* {i.name} */}
               </p>
             </motion.div>
           )
