@@ -203,14 +203,19 @@ export default function TimelinePage() {
                         <div className="flex flex-col gap-2 items-start">
                             <label htmlFor="date">Date</label>
                             <Input id="date" name="date" type="date"
-                                value={data.edition ? new Date(editions.find((item) => item.id == data.edition).date).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]}
+                                value={data.date}
                                 onChange={(e) => setData('date', e.target.value)}
                                 required />
                         </div>
 
                         <div className="flex flex-col gap-2 items-start">
                             <label htmlFor="edition">Edition</label>
-                            <Select value={data.edition} onValueChange={(value) => setData('edition', value)}>
+                            <Select value={data.edition} onValueChange={(value) => {
+                                setData('edition', value)
+                                const date = new Date(editions.find((item) => item.id == value).date).toISOString().split('T')[0]
+                                setData('date', date);
+                            }
+                            }>
                                 <SelectTrigger>
                                     <option value="" disabled>{data.edition ? editions.find(item => item.id == data.edition).year : 'Please Select An Edition'}</option>
                                 </SelectTrigger>
