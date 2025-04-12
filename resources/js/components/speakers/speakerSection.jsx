@@ -50,8 +50,8 @@ export default function SpeakersSection({ speakers }) {
 
                 <motion.div
                     variants={containerVariants}
-                    initial="hidden"
-                    animate={isInView ? "visible" : "hidden"}
+                    initial="visible"
+                    // animate={isInView ? "visible" : "hidden"}
                     className="grid gap-6 md:grid-cols-2 lg:grid-cols-5"
                 >
 

@@ -42,7 +42,7 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
             }}
             className=""
         >
-            <Card className="overflow-hidden transition-all min-h-[50vh] p-0 hover:shadow-lg rounded-2xl border-2 border-white">
+            <Card className="overflow-hidden bg-red-600 transition-all min-h-[50vh] p-0 hover:shadow-lg rounded-2xl border-2 border-white">
                 <CardContent className="p-0">
                     <div className="relative h-64 w-full">
                         <img src={image} className="h-full w-full object-cover rounded-t-xl" alt={name} />
