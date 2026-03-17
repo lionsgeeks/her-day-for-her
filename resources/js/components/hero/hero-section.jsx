@@ -3,7 +3,7 @@
 import { Calendar, MapPin, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { RegistrationModal } from "@/components/registrations/registration-modal"
+import { RegistrationModalTrigger } from "@/components/registrations/registration-modal"
 import { motion } from "framer-motion"
 import { usePage } from "@inertiajs/react"
 
@@ -52,7 +52,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.8 }}
             className="flex flex-col sm:flex-row gap-4 pt-2 md:pt-4"
           >
-            <RegistrationModal />
+            <RegistrationModalTrigger />
             <a href="#timeline" size="lg" variant="outline" className="border-none text-white bg-alpha/80 px-6 py-2 rounded-lg hover:bg-white/10">
               Explore Program
             </a>

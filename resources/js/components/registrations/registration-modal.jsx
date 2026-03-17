@@ -5,12 +5,61 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Link, useForm } from '@inertiajs/react';
-import { useState } from 'react';
+import { useForm } from '@inertiajs/react';
+import { useState, useEffect } from 'react';
 
-export function RegistrationModal() {
+export const REGISTER_HASH = '#register';
+
+function isRegisterHash() {
+    if (typeof window === 'undefined') return false;
+    return window.location.hash === REGISTER_HASH;
+}
+
+function openRegistrationModal() {
+    window.location.hash = REGISTER_HASH.slice(1); // 'register'
+}
+
+/** Trigger-only button: use when the actual modal is rendered elsewhere (e.g. in layout). Prevents multiple modals. */
+export function RegistrationModalTrigger({ className, children, ...buttonProps }) {
+    return (
+        <Button
+            size="lg"
+            className={className ?? 'bg-beta/70 text-white hover:bg-alpha/80 hover:cursor-pointer'}
+            onClick={openRegistrationModal}
+            {...buttonProps}
+        >
+            {children ?? 'Get Your Tickets'}
+        </Button>
+    );
+}
+
+export function RegistrationModal({ triggerOnly = false }) {
     const [step, setStep] = useState(1);
     const [open, setOpen] = useState(false);
+    const [linkCopied, setLinkCopied] = useState(false);
+
+    // Open modal when URL has #register (shareable link)
+    useEffect(() => {
+        setOpen(isRegisterHash());
+        const handleHashChange = () => setOpen(isRegisterHash());
+        window.addEventListener('hashchange', handleHashChange);
+        return () => window.removeEventListener('hashchange', handleHashChange);
+    }, []);
+
+    const handleOpenChange = (nextOpen) => {
+        setOpen(nextOpen);
+        if (nextOpen) {
+            const url = `${window.location.pathname}${window.location.search}${REGISTER_HASH}`;
+            window.history.replaceState(null, '', url);
+        } else {
+            const url = window.location.pathname + window.location.search;
+            window.history.replaceState(null, '', url);
+        }
+    };
+
+    if (triggerOnly) {
+        return <RegistrationModalTrigger />;
+    }
     // Replace local state with Inertia's useForm
 
     const { data, setData, post, processing, errors } = useForm({
@@ -45,12 +94,24 @@ export function RegistrationModal() {
     const handleSubmit = (e) => {
         e.preventDefault();
         console.log('Form submitted:', data);
-        setOpen(false);
+        handleOpenChange(false);
         post('/tickets');
     };
 
+    const registrationLink = typeof window !== 'undefined'
+        ? `${window.location.origin}${window.location.pathname}${window.location.search}${REGISTER_HASH}`
+        : '';
+
+    const copyRegistrationLink = () => {
+        if (!registrationLink) return;
+        navigator.clipboard.writeText(registrationLink).then(() => {
+            setLinkCopied(true);
+            setTimeout(() => setLinkCopied(false), 2000);
+        });
+    };
+
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
                 <Button  size="lg" className="bg-beta/70  text-white hover:bg-alpha/80 hover:cursor-pointer">
                     {/* <a target='_blank'  href=' https://www.billetteries.ma/billetterie/her-day-for-her'>
@@ -67,6 +128,12 @@ export function RegistrationModal() {
                         {step === 2 && 'Select your ticket type and additional information.'}
                         {step === 3 && 'Review and confirm your registration.'}
                     </DialogDescription>
+                    {/* <p className="text-xs text-muted-foreground mt-1 flex items-center gap-2 flex-wrap">
+                        Share this page with the link:
+                        <Button type="button" variant="ghost" size="sm" className="h-7 text-xs" onClick={copyRegistrationLink}>
+                            {linkCopied ? 'Copied!' : 'Copy link'}
+                        </Button>
+                    </p> */}
                 </DialogHeader>
                 <form onSubmit={handleSubmit}>
                     {step === 1 && (
