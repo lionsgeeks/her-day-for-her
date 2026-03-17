@@ -53,12 +53,13 @@ export function RegistrationModal() {
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogTrigger asChild>
                 <Button  size="lg" className="bg-beta/70  text-white hover:bg-alpha/80 hover:cursor-pointer">
-                    <a target='_blank'  href=' https://www.billetteries.ma/billetterie/her-day-for-her'>
+                    {/* <a target='_blank'  href=' https://www.billetteries.ma/billetterie/her-day-for-her'>
                     Get Your Tickets
-                    </a>
+                    </a> */}
+                    Get Your Tickets
                 </Button>
             </DialogTrigger>
-            {/* <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>Register for Her Day for Her 2025</DialogTitle>
                     <DialogDescription>
@@ -157,7 +158,7 @@ export function RegistrationModal() {
                         </div>
                     </DialogFooter>
                 </form>
-            </DialogContent> */}
+            </DialogContent>
         </Dialog>
     );
 }

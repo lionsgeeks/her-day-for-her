@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
-// import { LanguageSwitcher } from "@/components/language-switcher"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { RegistrationModal } from "@/components/registrations/registration-modal"
 import { Menu } from "lucide-react"
 import { motion } from "framer-motion"
 import { Link } from "@inertiajs/react"
 import AppLogoIcon from "@/components/app-logo-icon"
+import { useGoogleTranslate } from "@/hooks/useGoogleTranslate"
 
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false)
@@ -27,11 +28,15 @@ export default function Navbar() {
         }
     }, [scrolled])
 
+    useGoogleTranslate()
+
     return (
         <header
-            className={`fixed lg:px-24 top-0 left-0 right-0 z-50 px-6 transition-all duration-300 ${scrolled ? "bg-white shadow-sm py-2" : "bg-transparent py-4"
+            className={`fixed lg:px-24 top-0 left-0 right-0 z-50 px-6 transition-all duration-300 ${scrolled ? "bg-white shadow-sm py-2" : "bg-gradient-to-r from-alpha to-[#d7306d] py-2"
                 }`}
         >
+
+
             <div className="container flex items-center justify-between">
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
@@ -71,7 +76,9 @@ export default function Navbar() {
                     transition={{ duration: 0.5 }}
                     className="flex items-center gap-4"
                 >
-                    {/* <div className="hidden md:block">
+                    {/* <div className="hidden md:block relative">
+                        <div id="google_translate_element" className="flex items-center gap-4"></div>
+
                         <LanguageSwitcher isScrolled={scrolled} />
                     </div> */}
 
@@ -112,9 +119,9 @@ export default function Navbar() {
                         {/* <Link href="/admin" className="text-sm font-medium text-gray-800 hover:text-[#03329b]">
                             Admin Dashboard
                         </Link> */}
-                        {/* <div className="pt-2">
+                        <div className="pt-2">
                             <LanguageSwitcher isScrolled={true} />
-                        </div> */}
+                        </div>
                     </nav>
                 </motion.div>
             )}

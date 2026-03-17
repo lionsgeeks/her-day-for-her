@@ -17,16 +17,16 @@ export function LanguageSwitcher({ isScrolled = true }) {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className={isScrolled ? "" : "text-white hover:bg-white/10"}>
-          <Globe className="h-5 w-5" />
+          <Globe color="black" className="h-5 w-5" />
           <span className="sr-only">Switch language</span>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      {/* <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => setLanguage("English")}>English</DropdownMenuItem>
         <DropdownMenuItem onClick={() => setLanguage("Français")}>Français</DropdownMenuItem>
         <DropdownMenuItem onClick={() => setLanguage("Español")}>Español</DropdownMenuItem>
         <DropdownMenuItem onClick={() => setLanguage("العربية")}>العربية</DropdownMenuItem>
-      </DropdownMenuContent>
+      </DropdownMenuContent> */}
     </DropdownMenu>
 
 

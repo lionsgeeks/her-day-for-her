@@ -239,3 +239,23 @@
 .pulse {
     animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
+
+
+.goog-te-combo {
+    background-color: var(--color-alpha);
+    color: white;
+    width: 20px;
+    position: absolute;
+    left:0.5vw;
+    top: 0.5vw;
+    opacity: 0;
+}
+
+.VIpgJd-ZVi9od-l4eHX-hSRGPd , .VIpgJd-ZVi9od-ORHb-OEVmcd  {
+    display: none;
+}
+
+.skiptranslate.goog-te-gadget {
+    color: transparent;
+    font-size: 1px;
+}
