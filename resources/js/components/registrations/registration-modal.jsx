@@ -93,9 +93,12 @@ export function RegistrationModal({ triggerOnly = false }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form submitted:', data);
-        handleOpenChange(false);
-        post('/tickets');
+        post('/tickets', {
+            onSuccess: () => {
+                handleOpenChange(false);
+                setStep(1);
+            },
+        });
     };
 
     const registrationLink = typeof window !== 'undefined'
@@ -218,7 +221,7 @@ export function RegistrationModal({ triggerOnly = false }) {
                                     Next
                                 </Button>
                             ) : (
-                                <Button type="submit" className="bg-[#03329b]">
+                                <Button type="submit" className="bg-[#03329b]" disabled={processing}>
                                     Complete Registration
                                 </Button>
                             )}
