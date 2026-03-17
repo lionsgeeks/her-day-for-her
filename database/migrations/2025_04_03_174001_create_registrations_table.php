@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('dietary_restrictions')->nullable();
             $table->string('ticket_number')->unique();
             $table->string('qr_code');
-            $table->string('status')->default('confirmed');
+            $table->string('status')->default('pending');
             $table->timestamp('attended_at')->nullable();
             $table->timestamps();
         });

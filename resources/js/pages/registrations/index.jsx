@@ -7,15 +7,18 @@ import { ConfirmationModal } from "../../components/confirmation-modal"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Plus, Edit, Trash2, Eye, Download, Mail } from "lucide-react"
+import { Trash2 } from "lucide-react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
-import { Link } from "@inertiajs/react";
+import { Link, router } from "@inertiajs/react";
+import { Check, X } from "lucide-react"
 
-export default function RegistrationsPage({ editions, registrations }) {
+export default function RegistrationsPage({ editions, registrations, latestEditionId }) {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [selectedRegistration, setSelectedRegistration] = useState(null)
-  const [selectedEdition, setSelectedEdition] = useState("all")
+  const [selectedEdition, setSelectedEdition] = useState(
+    latestEditionId != null ? String(latestEditionId) : "all"
+  )
   const [searchQuery, setSearchQuery] = useState("")
   const [filterStatus, setFilterStatus] = useState("all")
 
@@ -65,9 +68,16 @@ export default function RegistrationsPage({ editions, registrations }) {
   // }
 
   const confirmDelete = () => {
-    // Inertia delete request
     router.delete(`/admin/registrations/${selectedRegistration}`)
     setDeleteModalOpen(false)
+  }
+
+  const approveRegistration = (id) => {
+    router.patch(`/admin/registrations/${id}/approve`)
+  }
+
+  const declineRegistration = (id) => {
+    router.patch(`/admin/registrations/${id}/decline`)
   }
 
   const getStatusBadge = (status) => {
@@ -156,7 +166,7 @@ export default function RegistrationsPage({ editions, registrations }) {
                 {/* <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket Type</th> */}
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                {/* <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th> */}
+                <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
@@ -176,31 +186,44 @@ export default function RegistrationsPage({ editions, registrations }) {
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                     {getStatusBadge(registration.status)}
                   </td>
-                  {/* <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+                  <td className="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
                     <div className="flex justify-end gap-2">
-                      <Link href={`/admin/registrations/${registration.id}`}>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                      <Link href={`/admin/registrations/${registration.id}/edit`}>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <Edit className="h-4 w-4" />
-                        </Button>
-                      </Link>
-                      <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                        <Mail className="h-4 w-4" />
-                      </Button>
+                      {registration.status === "pending" && (
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0 text-green-600 hover:text-green-700 hover:bg-green-50"
+                            onClick={() => approveRegistration(registration.id)}
+                            title="Approve"
+                          >
+                            <Check className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-8 w-8 p-0 text-amber-600 hover:text-amber-700 hover:bg-amber-50"
+                            onClick={() => declineRegistration(registration.id)}
+                            title="Decline"
+                          >
+                            <X className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
                       <Button
                         variant="ghost"
                         size="sm"
                         className="h-8 w-8 p-0 text-red-600 hover:text-red-700 hover:bg-red-50"
-                        onClick={() => handleDelete(registration.id)}
+                        onClick={() => {
+                          setSelectedRegistration(registration.id)
+                          setDeleteModalOpen(true)
+                        }}
+                        title="Delete"
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
                     </div>
-                  </td> */}
+                  </td>
                 </tr>
               ))}
             </tbody>

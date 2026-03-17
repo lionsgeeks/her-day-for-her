@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth')->prefix("admin")->group(function () {
     Route::resource('registrations', ParticipantController::class);
+    Route::patch('registrations/{registration}/approve', [ParticipantController::class, 'approve'])->name('registrations.approve');
+    Route::patch('registrations/{registration}/decline', [ParticipantController::class, 'decline'])->name('registrations.decline');
 });
 
 Route::post('/tickets', [RegistrationController::class, 'store'])->name('tickets.store');

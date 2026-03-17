@@ -95,8 +95,11 @@ export function RegistrationModal({ triggerOnly = false }) {
         e.preventDefault();
         post('/tickets', {
             onSuccess: () => {
-                handleOpenChange(false);
-                setStep(1);
+                setStep(4);
+            },
+            onError: (errs) => {
+                // Most common case: duplicate email (already registered)
+                if (errs?.email) setStep(1);
             },
         });
     };
@@ -141,23 +144,32 @@ export function RegistrationModal({ triggerOnly = false }) {
                 <form onSubmit={handleSubmit}>
                     {step === 1 && (
                         <div className="grid gap-4 py-4">
+                            {(errors.email || errors.phone || errors.first_name || errors.last_name) && (
+                                <div className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+                                    {errors.email ?? 'Please fix the highlighted fields and try again.'}
+                                </div>
+                            )}
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label htmlFor="first_name">First name</Label>
                                     <Input id="first_name" name="first_name" value={data.first_name} onChange={handleChange} required />
+                                    {errors.first_name && <p className="text-xs text-red-600">{errors.first_name}</p>}
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="last_name">Last name</Label>
                                     <Input id="last_name" name="last_name" value={data.last_name} onChange={handleChange} required />
+                                    {errors.last_name && <p className="text-xs text-red-600">{errors.last_name}</p>}
                                 </div>
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="email">Email</Label>
                                 <Input id="email" name="email" type="email" value={data.email} onChange={handleChange} required />
+                                {errors.email && <p className="text-xs text-red-600">{errors.email}</p>}
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="phone">Phone number</Label>
                                 <Input id="phone" name="phone" type="tel" value={data.phone} onChange={handleChange} required />
+                                {errors.phone && <p className="text-xs text-red-600">{errors.phone}</p>}
                             </div>
                         </div>
                     )}
@@ -204,7 +216,19 @@ export function RegistrationModal({ triggerOnly = false }) {
                                     />
                                     <Label htmlFor="agree_terms">I agree to the terms and conditions*</Label>
                                 </div>
+                                {errors.agree_terms && <p className="text-xs text-red-600">{errors.agree_terms}</p>}
 
+                            </div>
+                        </div>
+                    )}
+
+                    {step === 4 && (
+                        <div className="grid gap-4 py-4">
+                            <div className="rounded-md border border-green-200 bg-green-50 px-3 py-3 text-sm text-green-800">
+                                <div className="font-semibold mb-1">Registration completed</div>
+                                <div>
+                                    We received your registration. Our team is examining it now. You will receive an invitation email if it’s approved.
+                                </div>
                             </div>
                         </div>
                     )}
@@ -220,9 +244,13 @@ export function RegistrationModal({ triggerOnly = false }) {
                                 <Button type="button" onClick={nextStep}>
                                     Next
                                 </Button>
-                            ) : (
+                            ) : step === 3 ? (
                                 <Button type="submit" className="bg-[#03329b]" disabled={processing}>
                                     Complete Registration
+                                </Button>
+                            ) : (
+                                <Button type="button" onClick={() => handleOpenChange(false)}>
+                                    Close
                                 </Button>
                             )}
                         </div>

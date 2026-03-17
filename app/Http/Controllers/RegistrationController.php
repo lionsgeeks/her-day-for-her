@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\TicketMailer;
+use App\Mail\RegistrationReceivedMailer;
 use App\Models\Edition;
 use App\Models\Registration;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -47,11 +48,22 @@ class RegistrationController extends Controller
     public function store(Request $request)
     {
         Log::info('DATA RECEIVED FROM TICKETS FORM:', $request->all());
-        //* validate request
+
+        $edition = Edition::latest()->first();
+        if (!$edition) {
+            return back()->withErrors(['email' => 'No active edition available for registration.']);
+        }
+
+        //* validate request — email unique only for this edition
         $registration = $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:registrations,email',
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+                Rule::unique('registrations', 'email')->where('edition_id', $edition->id),
+            ],
             'phone' => 'required|string|max:20',
             'company' => 'nullable|string|max:255',
             'job_title' => 'nullable|string|max:255',
@@ -80,7 +92,6 @@ class RegistrationController extends Controller
         Storage::disk('public')->put($qrCodePath, $qrCode);
 
         //* store data in registration table
-        $edition = Edition::latest()->first();
         $ticket = Registration::create([
             "first_name" => $request->first_name,
             "last_name" => $request->last_name,
@@ -92,23 +103,16 @@ class RegistrationController extends Controller
             "dietary_restrictions" => $request->dietary_restrictions,
             "ticket_number" => $ticket_number,
             "qr_code" => $qrCodePath,
+            "status" => "pending",
         ]);
 
         Log::info('DATA STORED IN DATABASE:', $ticket->toArray());
 
-        //* send ticket via mail to registered user
-        $qrCodePath = $ticket->qr_code;
-        //* trying to download the pdf and send it to email as an attachement
-        $base64 = base64_encode($qrCode);
-        $qrCode = 'data:image/svg+xml;base64,' . $base64;
-        //* Generate PDF
-        // dd($ticket->ticket_number);
-        $pdf = Pdf::loadView('ticket.ticket-pdf', compact('ticket', 'qrCode'));
-        $pdfFileName = "tickets/ticket-{$ticket->ticket_number}.pdf";
-        Storage::disk('public')->put($pdfFileName, $pdf->output());
-        // dd($pdfPath);
-        Mail::to('chafikidrissisara@gmail.com')->send(new TicketMailer($ticket->first_name, $ticket->last_name, $ticket->email, $ticket->company, $ticket->job_title, $qrCodePath, $ticket->ticket_number, $edition, $pdfFileName));
-        return redirect()->route('tickets.show', $ticket->id);
+        // Send "received / under review" email to registrant
+        Mail::to($ticket->email)->send(new RegistrationReceivedMailer($ticket, $edition));
+
+        // Stay on the same page (frontend shows success in modal)
+        return back()->with('registration_received', true);
     }
 
     /**
