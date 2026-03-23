@@ -47,7 +47,7 @@
 
           <p style="margin: 0;">
             Warm regards,<br />
-            <span style="font-weight:700; color:{{ $alpha }};">Her Day For Her Team</span>
+            <span style="font-weight:700; color:{{ $alpha }};">Jadara Foundation Team</span>
           </p>
 
           <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #e5e7eb;">
