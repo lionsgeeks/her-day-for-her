@@ -53,7 +53,8 @@ export default function RegistrationsPage({ editions, registrations, latestEditi
       .toLowerCase()
       .includes(searchQuery.toLowerCase()) ||
     (registration.email || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
-    (registration.company || '').toLowerCase().includes(searchQuery.toLowerCase())
+    (registration.company || '').toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (registration.type || '').toLowerCase().includes(searchQuery.toLowerCase())
   )
   .filter(registration => 
     filterStatus === "all" || 
@@ -163,7 +164,7 @@ export default function RegistrationsPage({ editions, registrations, latestEditi
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Company</th>
-                {/* <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket Type</th> */}
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                 <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                 <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
@@ -177,9 +178,7 @@ export default function RegistrationsPage({ editions, registrations, latestEditi
                   </td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{registration.email}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{registration.company || '-'}</td>
-                  {/* <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
-                    {getTicketTypeBadge(registration.ticket_type)}
-                  </td> */}
+                  <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">{registration.type || '—'}</td>
                   <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500">
                     {new Date(registration.created_at).toLocaleDateString()}
                   </td>

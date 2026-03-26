@@ -17,6 +17,15 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegistrationController extends Controller
 {
+    /** @var list<string> */
+    public const REGISTRATION_TYPES = [
+        'Partenaire',
+        'Bénévole',
+        'Presse',
+        'Amis de Jadara',
+        'Invités',
+    ];
+
     /**
      * Display a listing of the resource.
      */
@@ -65,6 +74,7 @@ class RegistrationController extends Controller
                 Rule::unique('registrations', 'email')->where('edition_id', $edition->id),
             ],
             'phone' => 'required|string|max:20',
+            'type' => ['required', 'string', Rule::in(self::REGISTRATION_TYPES)],
             'company' => 'nullable|string|max:255',
             'job_title' => 'nullable|string|max:255',
             'dietary_restrictions' => 'nullable|string',
@@ -98,6 +108,7 @@ class RegistrationController extends Controller
             "email" => $request->email,
             "phone" => $request->phone,
             "edition_id" => $edition->id, // to be replaced with edition->id
+            "type" => $request->type,
             "company" => $request->company,
             "job_title" => $request->job_title,
             "dietary_restrictions" => $request->dietary_restrictions,

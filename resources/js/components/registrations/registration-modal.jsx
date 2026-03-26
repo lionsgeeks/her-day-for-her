@@ -5,8 +5,18 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useForm } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
+
+/** Must match `RegistrationController::REGISTRATION_TYPES` */
+export const REGISTRATION_TYPES = [
+    'Partenaire',
+    'Bénévole',
+    'Presse',
+    'Amis de Jadara',
+    'Invités',
+];
 
 export const REGISTER_HASH = '#register';
 
@@ -67,6 +77,7 @@ export function RegistrationModal({ triggerOnly = false }) {
         last_name: '',
         email: '',
         phone: '',
+        type: '',
         company: '',
         job_title: '',
         dietary_restrictions: 'none',
@@ -98,8 +109,8 @@ export function RegistrationModal({ triggerOnly = false }) {
                 setStep(4);
             },
             onError: (errs) => {
-                // Most common case: duplicate email (already registered)
                 if (errs?.email) setStep(1);
+                else if (errs?.type) setStep(2);
             },
         });
     };
@@ -177,6 +188,25 @@ export function RegistrationModal({ triggerOnly = false }) {
                     {step === 2 && (
                         <div className="grid gap-4 py-4">
                             <div className="space-y-2">
+                                <Label htmlFor="type">Type</Label>
+                                <Select
+                                    value={data.type || undefined}
+                                    onValueChange={(value) => setData('type', value)}
+                                >
+                                    <SelectTrigger id="type" className="w-full">
+                                        <SelectValue placeholder="Sélectionner un type" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {REGISTRATION_TYPES.map((t) => (
+                                            <SelectItem key={t} value={t}>
+                                                {t}
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                                {errors.type && <p className="text-xs text-red-600">{errors.type}</p>}
+                            </div>
+                            <div className="space-y-2">
                                 <Label htmlFor="company">Company/Organization</Label>
                                 <Input id="company" name="company" value={data.company} onChange={handleChange} />
                             </div>
@@ -200,6 +230,8 @@ export function RegistrationModal({ triggerOnly = false }) {
                                     <div>{data.email}</div>
                                     <div className="font-medium">Phone:</div>
                                     <div>{data.phone}</div>
+                                    <div className="font-medium">Type:</div>
+                                    <div>{data.type || '—'}</div>
                                     <div className="font-medium">Company:</div>
                                     <div>{data.company || 'N/A'}</div>
                                     <div className="font-medium">Job Title:</div>

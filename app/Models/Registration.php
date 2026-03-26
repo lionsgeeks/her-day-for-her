@@ -13,6 +13,7 @@ class Registration extends Model
         'email',
         'phone',
         'edition_id',
+        'type',
         'company',
         'job_title',
         'dietary_restrictions',
