@@ -3,7 +3,12 @@ import { motion } from "framer-motion"
 import { Star, Heart, Sparkles } from "lucide-react"
 
 
-export default function SpeakerCard({ name, role, image, topic, index }) {
+function isLinkedInUrl(url) {
+    if (!url || typeof url !== 'string') return false
+    return url.trim().toLowerCase().includes('linkedin')
+}
+
+export default function SpeakerCard({ name, role, image, linkedin, index }) {
     // Generate a random color scheme for each speaker card
     const colorSchemes = [
         {
@@ -30,41 +35,54 @@ export default function SpeakerCard({ name, role, image, topic, index }) {
     ]
     const iconIndex = name.length % icons.length
 
+    const cardInner = (
+        <Card className="overflow-hidden bg-red-600 transition-all min-h-[50vh] p-0 hover:shadow-lg rounded-2xl border-2 border-white">
+            <CardContent className="p-0">
+                <div className="relative h-64 w-full">
+                    <img src={image} className="h-full w-full object-cover rounded-t-xl" alt={name} />
+
+                    {/* Colorful overlay on hover */}
+                    <div
+                        className={`absolute inset-0 bg-gradient-to-t  transition-opacity flex items-end p-6`}
+                    >
+                    </div>
+                </div>
+
+                <div className={`p-4 border-t-4 h-[20vh] overflow-y-auto ${colorScheme.border} bg-white`}>
+                    {/* <div className={`w-1/3 h-1 mt-2 rounded-full ${colorScheme.accent} opacity-50`}></div> */}
+                    <h3 className={`font-bold text-lg ${colorScheme.text}`}>{name}</h3>
+                    <p className="text-sm text-muted-foreground">{role}</p>
+
+                    {/* Decorative bar */}
+                </div>
+            </CardContent>
+        </Card>
+    )
+
+    const hoverMotion = {
+        y: -10,
+        rotate: Math.random() > 0.5 ? 2 : -2,
+        transition: { duration: 0.3 },
+    }
+
+    if (isLinkedInUrl(linkedin)) {
+        return (
+            <motion.a
+                href={linkedin.trim()}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={hoverMotion}
+                className="block cursor-pointer"
+            >
+                {cardInner}
+            </motion.a>
+        )
+    }
+
     return (
-        <motion.a
-        href={topic ? topic : "#"}
-        target="_blank"
-        key={index}
-            whileHover={{
-                y: -10,
-                rotate: Math.random() > 0.5 ? 2 : -2,
-                transition: { duration: 0.3 },
-            }}
-            className=""
-        >
-            <Card className="overflow-hidden bg-red-600 transition-all min-h-[50vh] p-0 hover:shadow-lg rounded-2xl border-2 border-white">
-                <CardContent className="p-0">
-                    <div className="relative h-64 w-full">
-                        <img src={image} className="h-full w-full object-cover rounded-t-xl" alt={name} />
-
-                        {/* Colorful overlay on hover */}
-                        <div
-                            className={`absolute inset-0 bg-gradient-to-t  transition-opacity flex items-end p-6`}
-                        >
-                 
-                        </div>
-                    </div>
-
-                    <div className={`p-4 border-t-4 h-[20vh] overflow-y-auto ${colorScheme.border} bg-white`}>
-                        {/* <div className={`w-1/3 h-1 mt-2 rounded-full ${colorScheme.accent} opacity-50`}></div> */}
-                        <h3 className={`font-bold text-lg ${colorScheme.text}`}>{name}</h3>
-                        <p className="text-sm text-muted-foreground">{role}</p>
-
-                        {/* Decorative bar */}
-                    </div>
-                </CardContent>
-            </Card>
-        </motion.a>
+        <motion.div whileHover={hoverMotion} className="block">
+            {cardInner}
+        </motion.div>
     )
 }
 

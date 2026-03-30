@@ -98,7 +98,7 @@ export default function HeroContentPage() {
 
             <div className="space-y-2">
               <Label htmlFor="location">Location</Label>
-              <Input maxLength={"40"} id="location" name="location" value={data.content.location} onChange={handleChange} required />
+              <Input maxLength={"100"} id="location" name="location" value={data.content.location} onChange={handleChange} required />
             </div>
 
             <div className="space-y-2">

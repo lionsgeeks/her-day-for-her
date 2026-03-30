@@ -184,7 +184,7 @@
                 <div class="md:col-span-2 space-y-4">
                     <div>
                         <h2 class="text-2xl font-bold">Professional Pass</h2>
-                        <p class="text-muted">Her Day for Her Conference 2025</p>
+                        <p class="text-muted">Her Day for Her Conference 2026</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-4">
@@ -211,7 +211,7 @@
                     <div class="flex flex-col sm:flex-row gap-4 pt-2">
                         <div class="flex items-center gap-2">
                             <span style="color: #fd5f90;">📅</span>
-                            <span>June 15-17, 2025</span>
+                            <span>June 15-17, 2026</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <span style="color: #fd5f90;">📍</span>

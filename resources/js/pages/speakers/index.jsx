@@ -288,13 +288,16 @@ export default function SpeakersPage() {
                                 {/* Speaker LinkedIn */}
                                 <div className="space-y-2">
                                     <label htmlFor="speaker-linkedin" className="font-medium flex items-center gap-2">
-                                        <LinkIcon size={18} /> Speaker LinkedIn
+                                        <LinkIcon size={18} /> Speaker LinkedIn <span className="text-muted-foreground font-normal">(optional)</span>
                                     </label>
-                                    <Input id="speaker-linkedin" placeholder="Enter LinkedIn profile URL"
+                                    <Input
+                                        id="speaker-linkedin"
+                                        placeholder="https://www.linkedin.com/in/…"
                                         onChange={(e) => { setData('linked', e.target.value) }}
                                         value={data.linked}
-                                        
-                                        type="url"
+                                        type="text"
+                                        inputMode="url"
+                                        autoComplete="url"
                                     />
                                 </div>
                             </div>

@@ -49,7 +49,7 @@ class SpeakerController extends Controller
         $request->validate([
             'name' => 'required',
             'position' => 'required',
-            'linked' => 'required',
+            'linked' => 'nullable|string|max:2048',
             'editions' => 'required',
         ]);
 
@@ -65,7 +65,7 @@ class SpeakerController extends Controller
         $speaker->update([
             'name' => $request->name,
             'position' => $request->position,
-            'linkedin' => $request->linked,
+            'linkedin' => $request->filled('linked') ? $request->linked : null,
             'image' => $fileName ?? $request->image,
         ]);
 

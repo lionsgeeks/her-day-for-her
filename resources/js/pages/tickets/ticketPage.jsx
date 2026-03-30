@@ -24,7 +24,7 @@ export default function TicketPage({ registration, editionYear, editionName, edi
                             </div>
                             <div className="text-right">
                                 <div className="text-sm opacity-80">Ticket #</div>
-                                <div className="font-bold">HDH2025-12345</div>
+                                <div className="font-bold">HDH2026-12345</div>
                             </div>
                         </div>
                     </div>

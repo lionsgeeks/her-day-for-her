@@ -139,7 +139,7 @@ export function RegistrationModal({ triggerOnly = false }) {
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
-                    <DialogTitle>Register for Her Day for Her 2025</DialogTitle>
+                    <DialogTitle>Register for Her Day for Her 2026</DialogTitle>
                     <DialogDescription>
                         {step === 1 && 'Please provide your personal information.'}
                         {step === 2 && 'Select your ticket type and additional information.'}

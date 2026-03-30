@@ -63,7 +63,7 @@ export default function SpeakersSection({ speakers }) {
                                     name={speaker.name}
                                     role={speaker.position}
                                     image={'/storage/' + speaker.image}
-                                    topic={speaker.linkedin}
+                                    linkedin={speaker.linkedin}
                                     index={index}
                                 />
                             </motion.div>
