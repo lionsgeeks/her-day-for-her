@@ -58,7 +58,7 @@ export default function SpeakersSection({ speakers }) {
                     {/* when speakers are added to database use this */}
                     {
                         speakers.map((speaker, index) => (
-                            <motion.div key={index} variants={speakerVariants}>
+                            <motion.div key={index} variants={speakerVariants} className="h-full min-h-0">
                                 <SpeakerCard
                                     name={speaker.name}
                                     role={speaker.position}

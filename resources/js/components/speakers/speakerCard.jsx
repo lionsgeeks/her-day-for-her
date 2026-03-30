@@ -1,6 +1,5 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { motion } from "framer-motion"
-import { Star, Heart, Sparkles } from "lucide-react"
 
 
 function isLinkedInUrl(url) {
@@ -24,31 +23,22 @@ export default function SpeakerCard({ name, role, image, linkedin, index }) {
         { bg: "from-fun-orange to-fun-red", accent: "bg-fun-yellow", text: "text-fun-yellow", border: "border-fun-yellow" },
     ]
 
-    // get a random color based on index
     const colorScheme = colorSchemes[index % 6]
 
-    // Random icon for each speaker
-    const icons = [
-        <Star key="star" className="h-4 w-4" />,
-        <Heart key="heart" className="h-4 w-4" />,
-        <Sparkles key="sparkles" className="h-4 w-4" />,
-    ]
-    const iconIndex = name.length % icons.length
-
     const cardInner = (
-        <Card className="overflow-hidden bg-red-600 transition-all min-h-[50vh] p-0 hover:shadow-lg rounded-2xl border-2 border-white">
-            <CardContent className="p-0">
-                <div className="relative h-64 w-full">
-                    <img src={image} className="h-full w-full object-cover rounded-t-xl" alt={name} />
-
-                    {/* Colorful overlay on hover */}
-                    <div
-                        className={`absolute inset-0 bg-gradient-to-t  transition-opacity flex items-end p-6`}
-                    >
-                    </div>
+        <Card className="flex h-full min-h-0 flex-col overflow-hidden bg-red-600 p-0 transition-all hover:shadow-lg rounded-2xl border-2 border-white">
+            <CardContent className="flex min-h-0 flex-1 flex-col p-0">
+                {/* Fixed aspect ratio so every photo crops the same way — no vertical “stair” misalignment */}
+                <div className="relative w-full shrink-0 overflow-hidden rounded-t-xl aspect-[3/4]">
+                    <img
+                        src={image}
+                        className="absolute inset-0 h-full w-full object-cover object-center"
+                        alt={name}
+                        loading="lazy"
+                    />
                 </div>
 
-                <div className={`p-4 border-t-4 h-[20vh] overflow-y-auto ${colorScheme.border} bg-white`}>
+                <div className={`flex min-h-[7.5rem] flex-1 flex-col justify-start gap-1 border-t-4 p-4 ${colorScheme.border} bg-white`}>
                     {/* <div className={`w-1/3 h-1 mt-2 rounded-full ${colorScheme.accent} opacity-50`}></div> */}
                     <h3 className={`font-bold text-lg ${colorScheme.text}`}>{name}</h3>
                     <p className="text-sm text-muted-foreground">{role}</p>
@@ -61,7 +51,7 @@ export default function SpeakerCard({ name, role, image, linkedin, index }) {
 
     const hoverMotion = {
         y: -10,
-        rotate: Math.random() > 0.5 ? 2 : -2,
+        rotate: index % 2 === 0 ? 2 : -2,
         transition: { duration: 0.3 },
     }
 
@@ -72,7 +62,7 @@ export default function SpeakerCard({ name, role, image, linkedin, index }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={hoverMotion}
-                className="block cursor-pointer"
+                className="flex h-full min-h-0 cursor-pointer flex-col"
             >
                 {cardInner}
             </motion.a>
@@ -80,7 +70,7 @@ export default function SpeakerCard({ name, role, image, linkedin, index }) {
     }
 
     return (
-        <motion.div whileHover={hoverMotion} className="block">
+        <motion.div whileHover={hoverMotion} className="flex h-full min-h-0 flex-col">
             {cardInner}
         </motion.div>
     )
