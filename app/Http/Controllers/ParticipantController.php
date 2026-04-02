@@ -24,7 +24,7 @@ class ParticipantController extends Controller
 $latestEdition = Edition::orderBy('id', 'desc')->first();
 
         return Inertia::render('registrations/index', [
-            'registrations' => Registration::with('edition')->get(),
+            'registrations' => Registration::with('edition')->orderByDesc('created_at')->orderByDesc('id')->get(),
             'editions' => Edition::orderBy('id', 'desc')->get(),
             'latestEditionId' => $latestEdition?->id,
         ]);

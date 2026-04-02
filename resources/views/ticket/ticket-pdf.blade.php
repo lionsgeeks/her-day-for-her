@@ -181,7 +181,7 @@
     @php
         $edition = $ticket->edition ?? null;
         /** Lieu officiel de l'événement (affichage billet PDF) */
-        $lieu = 'La médiathèque de la fondation de la mosquée Hassan II';
+        $lieu = $edition->venue ?? '';
         $dateFr = '';
         if ($edition && $edition->date) {
             $raw = \Carbon\Carbon::parse($edition->date)->locale('fr')->isoFormat('dddd D MMMM YYYY');
