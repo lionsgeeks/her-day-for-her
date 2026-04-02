@@ -2,8 +2,8 @@
 
 namespace App\Mail;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
@@ -14,20 +14,29 @@ class TicketMailer extends Mailable
 {
     use Queueable, SerializesModels;
 
-    /**
-     * Create a new message instance.
-     */
     public $first_name;
+
     public $last_name;
+
     public $email;
+
     public $company;
+
     public $job_title;
+
     public $qrCodePath;
+
     public $ticket_number;
+
     public $edition;
+
     public $pdfFileName;
 
+    public string $dateFr;
 
+    public string $eventTime;
+
+    public string $venue;
 
     public function __construct(
         $first_name,
@@ -50,40 +59,41 @@ class TicketMailer extends Mailable
         $this->edition = $edition;
         $this->pdfFileName = $pdfFileName;
 
+        $this->venue = $edition->venue ?? '';
+
+        if ($edition->date) {
+            $raw = Carbon::parse($edition->date)->locale('fr')->isoFormat('dddd D MMMM YYYY');
+            $this->dateFr = mb_strtoupper(mb_substr($raw, 0, 1, 'UTF-8'), 'UTF-8').mb_substr($raw, 1, null, 'UTF-8');
+        } else {
+            $this->dateFr = '';
+        }
+
+        $this->eventTime = $edition->event_time ?? '14h00';
     }
 
-    /**
-     * Get the message envelope.
-     */
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Ticket for Her Day for Her Conference',
+            subject: 'Confirmation d\'inscription — Her Day for Her',
         );
     }
 
-    /**
-     * Get the message content definition.
-     */
     public function content(): Content
     {
         return new Content(
-            view: 'mail.ticketMaile'
+            view: 'mail.registration-confirmed',
         );
     }
 
     /**
-     * Get the attachments for the message.
-     *
      * @return array<int, \Illuminate\Mail\Mailables\Attachment>
      */
     public function attachments(): array
     {
-
         return [
             Attachment::fromStorageDisk('public', $this->pdfFileName)
-                ->as('ticket-pdf.pdf')
-                ->withMime('application/pdf')
+                ->as('billet-her-day-for-her.pdf')
+                ->withMime('application/pdf'),
         ];
     }
 }

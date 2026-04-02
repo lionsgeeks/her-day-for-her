@@ -20,6 +20,7 @@ export default function CreateEditionPage() {
         // theme: '',
         description: '',
         date: '',
+        event_time: '',
         // endDate: '',
         google_map_url: '',
         email: '',
@@ -62,6 +63,7 @@ export default function CreateEditionPage() {
                     // theme: '',
                     description: '',
                     date: '',
+                    event_time: '',
                     // endDate: '',
                     google_map_url: '',
                     attendees: '',
@@ -185,7 +187,18 @@ export default function CreateEditionPage() {
 
                         <div className="space-y-2">
                             <Label htmlFor="date">Date</Label>
-                            <Input id="date" name="date" type="date" value={data.startDate} onChange={handleChange} required />
+                            <Input id="date" name="date" type="date" value={data.date} onChange={handleChange} required />
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="event_time">Heure de l&apos;événement (optionnel)</Label>
+                            <Input
+                                id="event_time"
+                                name="event_time"
+                                type="text"
+                                value={data.event_time}
+                                onChange={handleChange}
+                                placeholder="ex. 14h00"
+                            />
                         </div>
                     </div>
 

@@ -12,6 +12,7 @@ class Edition extends Model
         'year',
         'description',
         'date',
+        'event_time',
         'google_map_url',
         'email',
         'phone',
