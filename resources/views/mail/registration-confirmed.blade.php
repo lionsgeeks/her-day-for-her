@@ -24,7 +24,7 @@
 
             <div style="padding: 22px 24px;">
                 <p style="margin: 0 0 16px;">
-                    Bonjour {{ $ticket->first_name }} {{ $ticket->last_name }},
+                    Bonjour {{ $first_name }} {{ $last_name }},
                 </p>
 
                 <p style="margin: 0 0 16px;">
