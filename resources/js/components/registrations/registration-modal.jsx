@@ -130,12 +130,12 @@ export function RegistrationModal({ triggerOnly = false }) {
     return (
         <Dialog open={open} onOpenChange={handleOpenChange}>
             <DialogTrigger asChild>
-                <Button  size="lg" className="bg-beta/70  text-white hover:bg-alpha/80 hover:cursor-pointer">
-                    {/* <a target='_blank'  href=' https://www.billetteries.ma/billetterie/her-day-for-her'>
+                {/* <Button  size="lg" className="bg-beta/70  text-white hover:bg-alpha/80 hover:cursor-pointer">
+                    <a target='_blank'  href=' https://www.billetteries.ma/billetterie/her-day-for-her'>
                     Get Your Tickets
-                    </a> */}
+                    </a>
                     Get Your Tickets
-                </Button>
+                </Button> */}
             </DialogTrigger>
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
