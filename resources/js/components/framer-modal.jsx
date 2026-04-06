@@ -31,7 +31,7 @@ export default function FramerModal({
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
-                    className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center"
+                    className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-black/50 p-3 sm:items-center sm:p-6"
                     onClick={onClose}
                 >
                     <motion.div
@@ -39,7 +39,7 @@ export default function FramerModal({
                         animate={{ scale: 1, opacity: 1, y: 0 }}
                         exit={{ scale: 0.9, opacity: 0, y: 20 }}
                         transition={{ type: "spring", damping: 25 }}
-                        className="bg-white rounded-lg shadow-xl overflow-hidden"
+                        className="my-2 max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-hidden rounded-lg bg-white shadow-xl sm:my-0 sm:max-h-[calc(100dvh-3rem)]"
                         onClick={(e) => e.stopPropagation()}
                     >
                         <div className="relative">

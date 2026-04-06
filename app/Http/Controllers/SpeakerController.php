@@ -23,9 +23,9 @@ class SpeakerController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required',
-            'position' => 'required',
-            // 'linked' => 'url',
+            'name' => 'required|string',
+            'position' => 'required|string',
+            'linkedin' => 'url|nullable',
             'image' => 'required|image|mimes:png,jpg,jpeg',
             'editions' => 'required',
         ]);
@@ -33,11 +33,10 @@ class SpeakerController extends Controller
         $file = $request->file('image');
         $fileName = $file->store('images/speakers', 'public');
 
-
         $speaker = Speaker::create([
             'name' => $request->name,
             'position' => $request->position,
-            'linkedin' => $request->linked || null,
+            'linkedin' => $request->linkedin,
             'image' => $fileName,
         ]);
 
@@ -49,7 +48,7 @@ class SpeakerController extends Controller
         $request->validate([
             'name' => 'required',
             'position' => 'required',
-            'linked' => 'nullable|string|max:2048',
+            'linkedin' => 'nullable|string|max:2048',
             'editions' => 'required',
         ]);
 
@@ -65,7 +64,7 @@ class SpeakerController extends Controller
         $speaker->update([
             'name' => $request->name,
             'position' => $request->position,
-            'linkedin' => $request->filled('linked') ? $request->linked : null,
+            'linkedin' => $request->filled('linkedin') ? $request->linkedin : null,
             'image' => $fileName ?? $request->image,
         ]);
 

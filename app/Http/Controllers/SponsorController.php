@@ -19,11 +19,12 @@ class SponsorController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request);
+        dd($request);
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'logo' => 'required|image|max:2048',
         ]);
+        dd($validated);
         $logoPath = null;
         if ($request->hasFile('logo')) {
             $logoPath = $request->file('logo')->store('sponsors', 'public');

@@ -15,13 +15,14 @@ Route::get('/', function () {
     $hero = Content::where("section", "hero")->first();
     $about = Content::where("section", "about")->first();
     $edition = Edition::where("is_active", 1)->with('sponsors.images')->first();
-    // dd($edition);
-    $speakers = $edition->speakers()->get();
+    $speakers = $edition?->speakers()->get() ?? collect([]);
+
     // Sort the events by their starting time..TODO take into consideration multiple days
-    $timelineEvents = Timeline::where('edition_id', $edition->id)->get()->sortBy(function ($timeline) {
+    $timelineEvents = Timeline::where('edition_id', $edition?->id)->get()->sortBy(function ($timeline) {
         return \Carbon\Carbon::createFromFormat('H:i', $timeline->startTime);
-    })->values()->toArray();
+    })->values()->toArray() ?? [];
     $galleries = Image::where('imageable_type', 'App\Models\Gallery')->take(9)->get()->shuffle();
+
     return Inertia::render('welcome', [
         'speakers' => $speakers,
         'timelineEvents' => $timelineEvents,

@@ -63,7 +63,7 @@ class EditionController extends Controller
             'email' => $validated['email'],
             'phone' => $validated['phone'],
             'city' => $validated['city'],
-            'attendees' => $validated['attendees'],
+            // 'attendees' => $validated['attendees'],
             'country' => $validated['country'],
             'venue' => $validated['venue'],
             'is_active' => $validated['isActive'],

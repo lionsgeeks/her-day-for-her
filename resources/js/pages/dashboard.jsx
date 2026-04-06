@@ -60,11 +60,11 @@ export default function Dashboard() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 <StatCard
                     title="Registrations"
-                    value={selectedEdition.registrations ? selectedEdition.registrations.length : 0}
+                    value={selectedEdition?.registrations ? selectedEdition.registrations.length : 0}
                     icon={<UserPlus className="h-6 w-6" />}
                 />
-                <StatCard title="Speakers" value={selectedEdition.speakers ? selectedEdition.speakers.length : 0} icon={<Megaphone className="h-6 w-6" />} />
-                <StatCard title="Sponsors" value={selectedEdition.sponsors ? selectedEdition.sponsors.length : 0} icon={<Building className="h-6 w-6" />} />
+                <StatCard title="Speakers" value={selectedEdition?.speakers ? selectedEdition.speakers.length : 0} icon={<Megaphone className="h-6 w-6" />} />
+                <StatCard title="Sponsors" value={selectedEdition?.sponsors ? selectedEdition.sponsors.length : 0} icon={<Building className="h-6 w-6" />} />
                 <StatCard
                     title="Messages"
                     value={messages.length}
