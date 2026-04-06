@@ -27,7 +27,7 @@ export default function HeroSection() {
                     transition={{ duration: 0.8, delay: 0.2 }}
                     className="w-full max-w-3xl space-y-4 text-white md:space-y-6"
                 >
-                    <Badge className="bg-white text-[#03329b]">{heroContent.date}</Badge>
+                    {/* <Badge className="bg-white text-[#03329b]">{heroContent.date}</Badge> */}
                     <motion.h1
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}

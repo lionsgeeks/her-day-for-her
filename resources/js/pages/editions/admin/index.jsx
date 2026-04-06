@@ -14,15 +14,12 @@ import { useState } from 'react';
 export default function EditionsPage() {
     const { editions } = usePage().props;
     const { delete: destroy } = useForm();
-    console.log(editions);
+
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [selectedEdition, setSelectedEdition] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
-    const filteredEditions = editions.filter(
-        (edition) =>
-            searchQuery === '' ||
-            edition.name.toLowerCase().includes(searchQuery.toLowerCase())    );
+    const filteredEditions = editions.filter((edition) => searchQuery === '' || edition.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const handleDelete = (id) => {
         setSelectedEdition(id);
@@ -34,11 +31,12 @@ export default function EditionsPage() {
         destroy(route('editions.destroy', { edition: selectedEdition }));
         // Then update your local state or refetch data
     };
-    const breadcrumbs = [{
-        title: 'Editions',
-        href: '/admin/editions'
-    }]
-
+    const breadcrumbs = [
+        {
+            title: 'Editions',
+            href: '/admin/editions',
+        },
+    ];
 
     const formatDate = (dateString) => {
         const date = new Date(dateString);
@@ -47,9 +45,9 @@ export default function EditionsPage() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title='Editions'/>
+            <Head title="Editions" />
             <AdminHeader
-                title="Editions Management"
+                title={`${editions.length} Editions`}
                 description="Manage your conference editions"
                 action={{
                     label: 'Add Edition',
@@ -76,9 +74,7 @@ export default function EditionsPage() {
                                     <h3 className="text-xl font-bold text-gray-900">{edition.name}</h3>
                                     <div className="mt-1 flex items-center gap-2">
                                         <Calendar className="h-4 w-4 text-gray-500" />
-                                        <span className="text-sm text-gray-600">
-                                            {formatDate(edition.date)}
-                                        </span>
+                                        <span className="text-sm text-gray-600">{formatDate(edition.date)}</span>
                                     </div>
                                     <div className="mt-1 flex items-center gap-2">
                                         <MapPin className="h-4 w-4 text-gray-500" />

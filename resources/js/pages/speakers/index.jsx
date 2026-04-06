@@ -110,7 +110,7 @@ export default function SpeakersPage() {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <AdminHeader
-                title="Speakers Management"
+                title={`${speakers.length} Speakers`}
                 description="Manage your conference speakers"
                 action={{
                     label: 'Add Speaker',
@@ -330,7 +330,7 @@ export default function SpeakersPage() {
                                         name="image"
                                         type="file"
                                         accept="image/*"
-                                        className="border-slate-300 bg-white file:mr-4 file:rounded file:border-0 file:bg-orange-100 file:px-3 file:py-1 file:text-xs file:font-semibold file:text-orange-700 hover:file:bg-orange-200"
+                                        className="border-slate-300 bg-white file:mr-4 file:rounded file:border-0 file:bg-[#ff006314] file:px-3 file:py-1 file:text-xs file:font-semibold file:text-[var(--color-beta)] hover:file:bg-[#ff006326]"
                                         onChange={(e) => setData('image', e.target.files[0])}
                                     />
                                     <InputError message={errors.image} />

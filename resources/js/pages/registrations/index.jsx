@@ -111,7 +111,7 @@ export default function RegistrationsPage({ editions, registrations, latestEditi
   return (
     <AppLayout>
       <AdminHeader
-        title="Registrations Management"
+        title="Registrations"
         description="Manage your conference registrations"
        
       />

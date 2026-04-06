@@ -39,6 +39,8 @@ class TimelineController extends Controller
             'endTime' => $request->endTime,
             'description' => $request->description ?? null,
         ]);
+
+        return back();
     }
 
     public function update(Request $request, Timeline $timeline)
@@ -59,10 +61,14 @@ class TimelineController extends Controller
             'endTime' => $request->endTime,
             'description' => $request->description ?? null,
         ]);
+
+        return back();
     }
 
     public function destroy(Timeline $timeline)
     {
         $timeline->delete();
+
+        return back();
     }
 }
