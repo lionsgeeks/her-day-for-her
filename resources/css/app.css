@@ -144,6 +144,9 @@
     background-color: var(--color-beta);
 }
 
+button {
+    @apply cursor-pointer;
+}
 
 
 /* Keyframes */
