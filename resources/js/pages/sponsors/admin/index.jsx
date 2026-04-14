@@ -1,24 +1,26 @@
 import AdminHeader from '@/components/admin-header';
 import ConfirmationModal from '@/components/confirmationModal';
+import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { Head, useForm, usePage } from '@inertiajs/react';
-import { Plus, Trash2 } from 'lucide-react';
+import { Edit, Plus, Trash2, Upload } from 'lucide-react';
 import { useState } from 'react';
 import FramerModal from '../../../components/framer-modal';
 
 export default function SponsorsPage() {
     const { sponsors, editions } = usePage().props;
-    console.log('sponsors', sponsors);
     const {
         data,
         setData,
         post,
-        progress,
+        errors,
+        processing,
+        clearErrors,
         delete: destroy,
     } = useForm({
         logo: null,
@@ -27,36 +29,61 @@ export default function SponsorsPage() {
     });
     const [deleteModalOpen, setDeleteModalOpen] = useState(false);
     const [selectedSponsor, setSelectedSponsor] = useState(null);
+    const [sponsorToDelete, setSponsorToDelete] = useState(null);
     const [selectedEdition, setSelectedEdition] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
     const [formModal, setFormModal] = useState(false);
-    console.log('edition', selectedEdition);
-    // Mock data - in a real app, this would come from your API
 
     const filteredSponsors = sponsors
-        .filter((sponsor) => selectedEdition === 'all' || sponsor.editions.some((edition) => edition.year === selectedEdition))
+        .filter((sponsor) => selectedEdition === 'all' || sponsor.editions.some((edition) => String(edition.year) === selectedEdition))
         .filter((sponsor) => searchQuery === '' || sponsor.name.toLowerCase().includes(searchQuery.toLowerCase()));
 
     const handleDelete = (id) => {
-        setSelectedSponsor(id);
+        setSponsorToDelete(id);
         setDeleteModalOpen(true);
     };
 
-    const confirmDelete = () => {
-        destroy(route('sponsors.destroy', { sponsor: selectedSponsor }));
+    const handleEdit = (sponsor) => {
+        clearErrors();
+        setSelectedSponsor(sponsor.id);
+        setData({
+            name: sponsor.name,
+            logo: sponsor.images[0]?.path ?? sponsor.logo ?? null,
+            editions: sponsor.editions.map((edition) => edition.id),
+        });
+        setFormModal(true);
     };
+
+    const confirmDelete = () => {
+        destroy(route('sponsors.destroy', { sponsor: sponsorToDelete }));
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('sponsors.store'), {
-            onFinish: () => {
+        const requestOptions = {
+            preserveScroll: true,
+            onSuccess: () => {
                 setFormModal(false);
+                setSelectedSponsor(null);
                 setData({
                     logo: null,
                     name: '',
                     editions: [],
                 });
             },
-        });
+        };
+
+        if (selectedSponsor) {
+            post(
+                route('sponsors.update', {
+                    _method: 'put',
+                    sponsor: selectedSponsor,
+                }),
+                requestOptions,
+            );
+        } else {
+            post(route('sponsors.store'), requestOptions);
+        }
     };
 
     const handleEditionChange = (edition, checked) => {
@@ -76,11 +103,20 @@ export default function SponsorsPage() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Sponsors" />
             <AdminHeader
-                title="Sponsors Management"
+                title={`${sponsors.length} Sponsors`}
                 description="Manage your sponsors"
                 action={{
                     label: 'Add Sponsor',
-                    onClick: () => setFormModal(true),
+                    onClick: () => {
+                        clearErrors();
+                        setSelectedSponsor(null);
+                        setData({
+                            logo: null,
+                            name: '',
+                            editions: [],
+                        });
+                        setFormModal(true);
+                    },
                     icon: <Plus className="h-4 w-4" />,
                 }}
             />
@@ -105,43 +141,46 @@ export default function SponsorsPage() {
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3 lg:grid-cols-4">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {filteredSponsors?.map((sponsor) => (
-                    <Card key={sponsor.id} className="overflow-hidden">
-                        <div className="flex flex-col items-center p-4">
-                            <div className="relative mb-4 overflow-hidden rounded-lg">
-                                <img
-                                    src={`/storage/${sponsor.images[0]?.path}`}
-                                    alt={sponsor.name}
-                                    fill
-                                    className="aspect-square w-full object-cover"
-                                />
+                    <Card
+                        key={sponsor.id}
+                        className="group relative overflow-hidden rounded-2xl border border-slate-200/80 bg-white p-0 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                    >
+                        <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-r from-[#0505511f] via-[#ff006326] to-[#05055114]" />
+                        <div className="relative flex h-full flex-col p-5">
+                            <div className="relative mb-4 h-24 w-24 overflow-hidden rounded-xl border-2 border-white shadow-md">
+                                <img src={`/storage/${sponsor.images[0]?.path}`} alt={sponsor.name} className="aspect-square w-full object-cover" />
                             </div>
-                            <h3 className="mb-2 text-center text-lg font-bold">{sponsor.name}</h3>
-                            {/* <div className="mb-4 flex flex-wrap justify-center gap-1">
-                                {sponsor.editions.map((edition) => (
-                                    <Badge key={edition} variant="outline" className="border-[#03329b]/30 bg-[#03329b]/10 text-[#03329b]">
-                                        {edition}
-                                    </Badge>
-                                ))}
-                            </div> */}
-                            <div className="mt-auto flex gap-2">
-                                {/* <Link href={`/admin/sponsors/${sponsor.id}`}>
-                                    <Button variant="outline" size="sm" className="flex items-center">
-                                        <Eye className="mr-1 h-4 w-4" />
-                                        View
-                                    </Button>
-                                </Link>
-                                <Link href={`/admin/sponsors/${sponsor.id}/edit`}>
-                                    <Button variant="outline" size="sm" className="flex items-center">
-                                        <Edit className="mr-1 h-4 w-4" />
-                                        Edit
-                                    </Button>
-                                </Link> */}
+                            <h3 className="line-clamp-1 text-lg font-semibold tracking-tight text-slate-900">{sponsor.name}</h3>
+                            <div className="mt-4 flex flex-wrap gap-2">
+                                {sponsor.editions.length > 0 ? (
+                                    sponsor.editions.map((edition) => (
+                                        <span
+                                            key={edition.id}
+                                            className="inline-flex items-center rounded-full border border-[#ff00633b] bg-[#ff006314] px-2.5 py-1 text-xs font-medium text-[var(--color-beta)]"
+                                        >
+                                            {edition.year}
+                                        </span>
+                                    ))
+                                ) : (
+                                    <span className="text-xs text-slate-400">No editions assigned</span>
+                                )}
+                            </div>
+                            <div className="mt-5 flex gap-2 border-t border-slate-100 pt-4">
                                 <Button
                                     variant="outline"
                                     size="sm"
-                                    className="flex items-center border-red-200 text-red-600 hover:bg-red-50"
+                                    className="w-full cursor-pointer border-slate-300 text-slate-700 hover:bg-slate-50"
+                                    onClick={() => handleEdit(sponsor)}
+                                >
+                                    <Edit className="mr-1 h-4 w-4" />
+                                    Edit
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="w-full cursor-pointer border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
                                     onClick={() => handleDelete(sponsor.id)}
                                 >
                                     <Trash2 className="mr-1 h-4 w-4" />
@@ -161,89 +200,119 @@ export default function SponsorsPage() {
             )}
 
             <FramerModal isOpen={formModal} onClose={() => setFormModal(false)}>
-                <form onSubmit={handleSubmit} className="p-5">
-                    {/* Speaker Image */}
-                    <div className="md:flex- mb-6 flex flex-col gap-6 lg:px-5">
-                        <div className="flex-1">
-                            <h3 className="invisible mb-2 text-lg font-semibold">Sponsor Logo</h3>
-                            <div className="flex items-center space-x-2">
-                                <label
-                                    htmlFor="logo"
-                                    className="bg-alpha cursor-pointer rounded-lg px-4 py-2 font-semibold text-white transition duration-200 hover:bg-blue-800"
-                                >
-                                    Upload Logo
-                                </label>
-                                <input
-                                    id="logo"
-                                    name="logo"
-                                    type="file"
-                                    accept="image/*"
-                                    className="hidden"
-                                    onChange={(e) => setData('logo', e.target.files[0])}
-                                />
-                                <span className="text-sm text-gray-600">{data.logo ? data.logo.name : 'No file chosen'}</span>
+                <Card className="flex max-h-[calc(100dvh-1.5rem)] flex-col gap-0 overflow-hidden border-0 p-0 shadow-2xl sm:max-h-[calc(100dvh-3rem)]">
+                    <CardHeader className="relative overflow-hidden border-b px-6 py-5">
+                        <div className="relative flex items-center justify-between gap-4">
+                            <div>
+                                <h2 className="mt-1 text-xl font-semibold text-slate-900">
+                                    {selectedSponsor ? 'Update Sponsor' : 'Create New Sponsor'}
+                                </h2>
+                                <p className="mt-1 text-sm text-slate-600">Add sponsor name, logo, and conference editions.</p>
                             </div>
                         </div>
-                        {data.logo && (
-                            <div className="relative mx-auto h-32 w-32 flex-shrink-0 overflow-hidden rounded-lg md:mx-0">
-                                <img src={URL.createObjectURL(data.logo)} className="aspect-square object-cover" alt="speaker_person" />
-                            </div>
-                        )}
-                    </div>
+                    </CardHeader>
 
-                    <div className="flex flex-col gap-3">
-                        {/* Speaker Name */}
-                        <div className="flex flex-col items-start gap-2">
-                            <label htmlFor="sponsorName">Sponsor Name:</label>
-                            <Input
-                                type="text"
-                                name="sponsorName"
-                                id="sponsorName"
-                                className="w-full rounded border-2 p-1"
-                                placeholder="Sponsor Name"
-                                value={data.name}
-                                onChange={(e) => {
-                                    setData('name', e.target.value);
-                                }}
-                            />
-                        </div>
-                    </div>
-                    <div className="space-y-3">
-                        <label className="font-medium">Conference Editions</label>
-                        <div className="mt-2 grid grid-cols-2 gap-4">
-                            {editions.map((edition) => (
-                                <div key={edition.id} className="flex items-center space-x-2">
-                                    <Checkbox
-                                        id={`edition-${edition.id}`}
-                                        checked={data.editions.includes(edition.id)}
-                                        onCheckedChange={(checked) => handleEditionChange(edition.id, checked)}
-                                    />
-                                    <label
-                                        htmlFor={`edition-${edition.id}`}
-                                        className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                    >
-                                        {edition.year} Edition
+                    <form onSubmit={handleSubmit} className="flex min-h-0 flex-1 flex-col">
+                        <CardContent className="min-h-0 flex-1 space-y-6 overflow-y-auto bg-slate-50/60 px-6 py-6">
+                            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+                                <h3 className="mb-4 text-sm font-semibold tracking-wide text-slate-700 uppercase">Sponsor Name</h3>
+                                <div className="space-y-2">
+                                    <label htmlFor="sponsorName" className="text-sm font-medium text-slate-700">
+                                        Name
                                     </label>
+                                    <Input
+                                        type="text"
+                                        name="sponsorName"
+                                        id="sponsorName"
+                                        className="w-full border-slate-300 bg-white"
+                                        placeholder="Sponsor Name"
+                                        value={data.name}
+                                        onChange={(e) => {
+                                            setData('name', e.target.value);
+                                        }}
+                                    />
+                                    <InputError message={errors.name} />
                                 </div>
-                            ))}
-                        </div>
-                    </div>
+                            </div>
 
-                    <div className="mt-6 flex justify-end gap-3">
-                        <button
-                            type="button"
-                            variant="outline"
-                            onClick={() => {
-                                setFormModal(false);
-                            }}
-                        >
-                            Cancel
-                        </button>
-                        <Button type="submit" className="bg-alpha">
-                            Confirm
-                        </Button>
-                    </div>
-                </form>
+                            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+                                <div className="mb-3 flex justify-between">
+                                    <div>
+                                        <h3 className="text-sm font-semibold tracking-wide text-slate-700 uppercase">Sponsor Logo</h3>
+                                        <label htmlFor="logo" className="mt-2 flex items-center gap-2 text-sm font-medium text-slate-700">
+                                            <Upload size={16} /> Upload logo
+                                        </label>
+                                    </div>
+
+                                    {data.logo && (
+                                        <div className="relative size-12 overflow-hidden rounded-xl border border-slate-200">
+                                            <img
+                                                src={typeof data.logo === 'string' ? `/storage/${data.logo}` : URL.createObjectURL(data.logo)}
+                                                className="h-full w-full object-cover"
+                                                alt="sponsor_logo_preview"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Input
+                                        id="logo"
+                                        name="logo"
+                                        type="file"
+                                        accept="image/*"
+                                        className="border-slate-300 bg-white file:mr-4 file:rounded file:border-0 file:bg-[#ff006314] file:px-3 file:py-1 file:text-xs file:font-semibold file:text-[var(--color-beta)] hover:file:bg-[#ff006326]"
+                                        onChange={(e) => setData('logo', e.target.files[0])}
+                                    />
+                                    <InputError message={errors.logo} />
+                                </div>
+                            </div>
+
+                            <div className="rounded-2xl border bg-white p-4 shadow-sm">
+                                <h3 className="mb-3 text-sm font-semibold tracking-wide text-slate-700 uppercase">Conference Editions</h3>
+                                <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                                    {editions.map((edition) => (
+                                        <label
+                                            key={edition.id}
+                                            htmlFor={`edition-${edition.id}`}
+                                            className="flex cursor-pointer items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 transition-colors hover:bg-slate-50"
+                                        >
+                                            <Checkbox
+                                                id={`edition-${edition.id}`}
+                                                checked={data.editions.includes(edition.id)}
+                                                onCheckedChange={(checked) => handleEditionChange(edition.id, checked)}
+                                            />
+                                            <span className="text-sm font-medium text-slate-700">{edition.year} Edition</span>
+                                        </label>
+                                    ))}
+                                </div>
+                                <InputError className="mt-2" message={errors.editions} />
+                            </div>
+                        </CardContent>
+
+                        <CardFooter className="flex flex-col-reverse gap-3 border-t bg-white px-6 py-4 sm:flex-row sm:justify-end">
+                            <Button
+                                variant="outline"
+                                type="button"
+                                className="w-full sm:w-auto"
+                                onClick={() => {
+                                    clearErrors();
+                                    setSelectedSponsor(null);
+                                    setFormModal(false);
+                                }}
+                            >
+                                Cancel
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={processing}
+                                className="w-full bg-[var(--color-alpha)] text-white hover:bg-[#040442] sm:w-auto"
+                            >
+                                {processing ? 'Saving...' : selectedSponsor ? 'Update Sponsor' : 'Create Sponsor'}
+                            </Button>
+                        </CardFooter>
+                    </form>
+                </Card>
             </FramerModal>
 
             <ConfirmationModal
@@ -251,7 +320,7 @@ export default function SponsorsPage() {
                 onClose={() => setDeleteModalOpen(false)}
                 onConfirm={confirmDelete}
                 title="Delete Sponsor"
-                message="Are you sure you want to delete this speaker? This action cannot be undone."
+                message="Are you sure you want to delete this sponsor? This action cannot be undone."
                 confirmText="Delete"
                 type="danger"
             />

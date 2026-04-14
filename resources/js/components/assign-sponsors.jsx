@@ -33,14 +33,11 @@ const AssignSponsors = ({ sponsors, selectedSponsors, setSelectedSponsors }) => 
     };
 
     const filteredSponsors = sponsors?.filter((sponsor) => sponsor.name.toLowerCase().includes(searchQuery.toLowerCase()));
+
     return (
         <div>
-            <Card className="p-6">
+            <Card className="p-0 border-0 shadow-none bg-transparent!">
                 <div className="space-y-6">
-                    <div className="flex flex-col justify-between gap-4 md:flex-row">
-                        <h3 className="text-lg font-semibold">Assign Sponsors</h3>
-                    </div>
-
                     <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                         <div className="space-y-4">
                             <div className="space-y-2">
@@ -67,7 +64,6 @@ const AssignSponsors = ({ sponsors, selectedSponsors, setSelectedSponsors }) => 
                                                     </div>
                                                     <div>
                                                         <p className="text-sm font-medium">{sponsor.name}</p>
-                                                        {/* <div className="mt-1">{getTierBadge(sponsor.tier)}</div> */}
                                                     </div>
                                                 </div>
                                                 <Button

@@ -51,6 +51,8 @@ class GalleryController extends Controller
             ]);
         }
 
+        return back();
+
     }
 
 
@@ -62,6 +64,8 @@ class GalleryController extends Controller
         }
         $gallery->images()->delete();
         $gallery->delete();
+
+        return back();
     }
 
 
@@ -69,5 +73,7 @@ class GalleryController extends Controller
     {
         Storage::disk('public')->delete($image->path);
         $image->delete();
+
+        return back();
     }
 }
